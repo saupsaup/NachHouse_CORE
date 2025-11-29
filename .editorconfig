@@ -1,0 +1,16 @@
+root = true
+
+[*]
+indent_style = tab
+indent_size = 3
+insert_final_newline = true
+end_of_line = lf
+charset = utf-8
+
+[*.json]
+indent_style = tab
+indent_size = 3
+
+[*.jsonc]
+indent_style = tab
+indent_size = 3

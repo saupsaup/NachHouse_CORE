@@ -1,0 +1,13 @@
+V200 V21.0.0		_NH_V21_YYYYMMDD.mlb		                                              07.10.2025             
+--------------------------------------------------------------------------------
+* 	z menu sa vyvola cmd:=61 / touch alebo cmd:=62 / press
+*	webmaker	- natahuje onrazzky 123_PNG.PNG,	ale odkaz zostava 123.PNG
+*	nove usporiadanie aresarov 	
+*	delete old files
+*	manualne z menu Nh-save Mem->RBx->Disk(USB)
+*	zmenena pripona NH2\{VER}\FRM\_NhLang.TXT ->  _NhLang.NH2
+*	opravene zle zobrazovanie textov - pridavalo znak naviaz a rozbilo formatovanie
+*	upravovany FUNCTION_BLOCK _Nh_File_RW
+*	
+
+**UROBIT**

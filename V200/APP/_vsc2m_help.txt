@@ -1,0 +1,42 @@
+VSC2Mosaic is command line utility used for synchronizing actions between concurently running Mosaic IDE and VS Code editor
+Usage: VSC2Mosaic.exe [current_project_folder] VSC_command [IP_address:port] [Plc_exe_option] [TTR_file]
+Where:
+  current_project_folder is path to the project directory, it may be '.' if you are standing in it
+    if ommited then current working directory is used
+
+  VSC2_Command is one of this commands:
+   Following commands are executed using 'plc.exe' utility:
+    - connect          Connect service
+    - ident            Ident service
+    - readn            ReadN service
+    - writeb           WriteB service
+    - getsw            GetSW service
+    - geterr           GetErr service
+    - epsaux           EPSAux service
+    - file-trans       FileTrans service
+    - halt             Set PLC to Halt
+    - run              Set PLC to Run
+    - restart          Restart PLC
+    - reset            Reset PLC
+    - download-file    Download file
+    - upload-file      Upload file
+    - upload-ttr       Upload TTR
+    - download-config  Download IOS_CFG.XML file
+    - list-files       List files in directory
+    - psw-info         Password info
+   Following command works only if Mosaic IDE is running project from workplace directory:
+    - CLRMESSAGE       Clear Mosaic's message window
+    - MESSAGE <msg_sent_to>  Send message (enclosed by double quotation marks) to the Mosaic's message window
+    - DISCONNECT       Mosaic disconnects communication with PLC (thus releasing communication channel for other programs)
+    - CONNECT          Mosaic starts communication with PLC
+    - RECONNECT        Mosaic redeems communication to the state preceding DISCONNECT/CONNECT
+    - DEBUG            Mosaic goes to debug mode (program may be compiled and sent by Mosaic)
+
+  IP_address:port is IP address and port on which PLC is communicating
+    if ommited then aIP address and port are read from project's .plc file
+
+  Plc_exe_option is ...
+
+  TTR_file - name (including full or relative path if not in current project workplace directory)
+   of .ttr file to upload to PLC by 'upload-ttr' command
+   if omitted and 'upload-ttr' command is specified it read pro project's .pckg file

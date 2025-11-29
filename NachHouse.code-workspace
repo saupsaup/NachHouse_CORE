@@ -1,0 +1,293 @@
+{
+  "folders": [
+    { "path": "../CORE" },
+    { "path": "V200" },
+//    { "path": "V201" },
+//    { "path": "../PROJECTS" },
+//    { "path": "../SCRIPTS" }
+  ],
+
+  "settings": {
+    // ============================================================
+    // ⭐ FAVORITES
+    // ============================================================
+    "favorites.groups": [
+      "Default",
+      "CORE/V201/APP",
+      "CORE/200/APP"
+    ],
+    "favorites.currentGroup": "CORE/200/APP",
+
+    // ============================================================
+    // 🔖 NUMBERED BOOKMARKS
+    // ============================================================
+    "numberedBookmarks.experimental.enableNewStickyEngine": true,
+    "numberedBookmarks.keepBookmarksOnLineDelete": true,
+    "numberedBookmarks.showLineNumbers": true,
+    "numberedBookmarks.showInExplorer": true,
+    "numberedBookmarks.navigateThroughAllFiles": "replace",
+    "numberedBookmarks.saveBookmarksInProject": true,
+    "editor.stickyScroll.enabled": true,
+    "editor.stickyScroll.showOutline": true,
+    "editor.stickyScroll.maxLineCount": 4,
+
+    // ============================================================
+    // 🧱 EDITOR – odsadenie, formátovanie, asociácie
+    // ============================================================
+    "files.associations": { },
+
+    "files.encoding": "utf8",
+
+    "[plaintext]": {
+      "files.encoding": "windows1250"
+    },
+
+    "search.seedWithSelection": "always",
+    "editor.find.seedSearchStringFromSelection": "selection",
+    "search.globalFindClipboard": true,
+
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true
+    },
+
+    "editor.fontSize": 14,
+    "editor.suggestOnTriggerCharacters": true,
+    "editor.snippetSuggestions": "top",
+    "editor.tabCompletion": "on",
+    "editor.suggest.showWords": true,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.wordBasedSuggestions": "off",
+
+    "editor.insertSpaces": false,
+    "editor.tabSize": 3,
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": false,
+
+    "[json]": {
+      "editor.insertSpaces": false,
+      "editor.tabSize": 2
+    },
+    "[jsonc]": {
+      "editor.insertSpaces": false,
+      "editor.tabSize": 2
+    },
+
+    // ============================================================
+    // 👁️ EXPLORER & SEARCH
+    // ============================================================
+    "explorer.excludeGitIgnore": true,
+
+    "search.include": [
+      "**/*.st",
+      "**/*.ST"
+    ],
+
+    "search.exclude": {
+      "**/NachHouse.code-workspace": true,
+      "**/.git/**": true,
+      "**/node_modules/**": true,
+      "**/.DS_Store": true,
+      "**/.Trash/**": true,
+      "**/Thumbs.db": true
+    },
+
+    "search.useIgnoreFiles": true,
+    "search.useGlobalIgnoreFiles": true,
+    "search.followSymlinks": false,
+
+    "files.exclude": {
+      // nič špeciálne neskrývame z .git / .vscode / .gitignore
+      // nech sú normálne viditeľné:
+      "**/.git/**": false,      // <- ak by si ich chcel úplne schovať
+      "**/.vscode/**": false,   // <- úplne skryť všetky .vscode
+
+      "**/*.cfg": true,
+      "**/*.mpr_": true,
+      "**/*.mpr": true,
+      "**/*.mcf": true,
+      "**/*.mos": true,
+      "**/*.nex": true,
+      "**/*.plc": true,
+      "**/*.sym": true,
+      "**/*.OEM": true,
+      "**/*.dsk": true,
+      "**/*.bak": true,
+      "**/*.st.bak": true,
+      "**/Backup/**": true,
+      "**/Sysgen/**": true,
+      "**/DATA_SIM/**": true,
+      "**/Datalogger/**": true,
+      "**/FOXTROT/**": true,
+      "**/GPMaker/**": true,
+      "**/GraphMaker/**": true,
+      "**/IOConfigurator/**": true,
+      "**/KEYB2Maker/**": true,
+      "**/LocalLib/**": true,
+      "**/PanelMaker/**": true,
+      "**/PIDMaker/**": true,
+      "**/PLCnet/**": true,
+      "**/Root/**": true,
+      "**/SendBackup/**": true,
+      "**/SendRoot/**": true,
+      "**/WebMaker/**": true,
+      "**/200_Lib/**": true,
+      "**/201_Lib/**": true,
+
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/.Trash/**": true
+    },
+
+    "explorer.compactFolders": false,
+
+    "files.watcherExclude": {
+      "**/.git/**": true,
+      "**/node_modules/**": true,
+      "**/.Trash/**": true
+    },
+
+    // ============================================================
+    // ⭐ MATERIAL ICON THEME (ikony + mierne sivé)
+    // ============================================================
+		
+		"material-icon-theme.opacity": 0.45,
+		"material-icon-theme.activeIconPack": "none",
+		"material-icon-theme.saturation": 0.3,
+		"material-icon-theme.folders.color": "#888888",
+
+		"material-icon-theme.files.associations": {
+    ".vscode": "folder",
+    "*.gitignore": "config",
+    "*.gitattributes": "config",
+    ".git": "folder"
+},
+
+
+
+
+    // ============================================================
+    // ⭐ FAVORITES – zdroje
+    // ============================================================
+    "favorites.resources": [
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/APP.ST",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_SYS.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_TYP.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_CFG.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_GLB.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_SYS_WEB.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_LOG.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_FRM.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_NOTIFY.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Het.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_DALI.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_WRK.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_IMP_CFG.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Web_LIB.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Web_SHW.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Frm_LIB.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Frm_BRW.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Frm_SCR.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Frm_HOM.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Web_HOM.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Web_BRW.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_MNU.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_DEV.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_WEB.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Ini.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_UTIL.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/cust.st",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/prgMain.ST",
+				"group": "CORE/200/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/NachHouse.code-workspace",
+				"group": "CORE/200/APP"
+			}
+		],
+    "favorites.sortOrder": "MANUAL"
+  }
+}

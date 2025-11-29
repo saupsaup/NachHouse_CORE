@@ -1,0 +1,44 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // ... tvoje existujúce tasky (V200 build atď.)
+
+    {
+      // ===============================================
+      // 🔒 Skryť .gitignore a .vscode configy
+      // ===============================================
+      "label": "nh Tools: Hide config files",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "${workspaceFolder}/scripts/hide_configs.sh"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+
+    {
+      // ===============================================
+      // 🔓 Odkryť .gitignore a .vscode configy
+      // ===============================================
+      "label": "nh Tools: Unhide config files",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "${workspaceFolder}/../scripts/unhide_configs.sh"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
