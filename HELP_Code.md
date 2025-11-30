@@ -1,4 +1,11 @@
 # Help k VS Code
+
+AAAAC3NzaC1lZDI1NTE5AAAAIIzA7qwZxF2cccSrLrTGFlVpb++ZVbFz9Oen5dbsL7vs
+ssh -i ~/.ssh/winvm_key pambm3@192.168.33.103 "echo OK"
+
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIzA7qwZxF2cccSrLrTGFlVpb++ZVbFz9Oen5dbsL7vs pambm3@Laptop-uzivatela-PAmbM3.local
+
+
 ```bash
 # Označiť .sh súbor ako spustiteľný
 chmod +x hide_configs.sh
@@ -135,3 +142,63 @@ NachHouse/
 │
 └─ ARCHIVE/         – staré projekty
 
+
+
+
+
+
+{
+ "version": "2.0.0",
+ "tasks": [
+		{
+			// =====================================================
+      // 🔵 BUILD APP (V200)
+      // =====================================================
+      "label": "V21: Build APP",			
+			"type": "process",
+			"command": "C:\\Program Files (x86)\\Teco\\Mosaic 2025.1\\Application\\MosaicL.exe",
+			"args": [
+				"-ttr",
+				"-lnk",
+				"-sg+",
+				"-sr-",
+				"-log-",
+				"-pub",
+				"-olc-",
+				"-psw-",
+				"-plcpsw-",
+				"-sc-",
+				"-sl-",
+				"-exml-",
+				"-epub-",
+				"-eexp+",
+				//"${workspaceFolderBasename}APP.mak"
+				"APP.mak"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/APP"
+			},
+			"problemMatcher": {
+				"owner": "st",
+				"fileLocation": [
+					"relative",
+					"${workspaceFolder}"
+				],
+				"pattern": {
+					"regexp": "^\\[.+:(.*)\\]\\s*(.*)\\s+\\((\\d+),\\s*(\\d+)\\):\\s*(.*)$",
+					"severity": 1,
+					"file": 2,
+					"line": 3,
+					"column": 4,
+					"message": 5
+				}
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+
+	
+ ]
+}
