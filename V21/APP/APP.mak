@@ -1,4 +1,4 @@
-;# Varov·nÌ: Tento soubor je spravov·n v˝vojov˝m prostredÌm Mosaic.
+Ôªø;# Varov√°n√≠: Tento soubor je spravov√°n v√Ωvojov√Ωm prostred√≠m Mosaic.
 ;# Nedoporucuje se upravovat ho rucne!
 
 #program APP , V2.1.0.0
@@ -13,10 +13,10 @@
 ;</History>
 ;**************************************
 #useoption CPM = 11             ; Typ CPM: I
-#useoption AlarmTime = 200      ; prvnÌ v˝straha [ms]
-#useoption MaxCycleTime = 1200  ; maxim·lnÌ cyklus [ms]
-#useoption MinCycleTime = 0     ; minim·lnÌ cyklus [ms]
-#useoption RestartOnError = 1   ; 1 minutu po tvrdÈ chybe bude PLC restartov·n
+#useoption AlarmTime = 200      ; prvn√≠ v√Ωstraha [ms]
+#useoption MaxCycleTime = 1200  ; maxim√°ln√≠ cyklus [ms]
+#useoption MinCycleTime = 0     ; minim√°ln√≠ cyklus [ms]
+#useoption RestartOnError = 1   ; 1 minutu po tvrd√© chybe bude PLC restartov√°n
 
 #uselib "LocalLib\StdLib_V22_20180619.mlb"
 #uselib "LocalLib\SysLib_V52_20241212.mlb"

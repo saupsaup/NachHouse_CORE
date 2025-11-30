@@ -507,7 +507,6 @@ PROGRAM prgMain
 				RandomU(seed := _NhSeed, init:=true);
 			  	
 //				rb	:= SetValueToRamBox(ramBoxAddress:=0, length:=_NH_RAM, value := 0);
-
 //				_Nh_CUST_RESTART();                          											// nejake vlasne veci po restarte
 
 				IF IS_COLD_RESTART_PLC 		THEN	yTx0:='COLD';
@@ -517,16 +516,11 @@ PROGRAM prgMain
 				END_IF;
 
 				SYSTEM_S.F_EDGE_1DAY 	:= true;												// simulate new day for refresh day in room/het	
-            aSys.Ini 					:= 251;
+            aSys.Ini 					:= 241;
 
 
     	251: 	// 2.cyc After restart - create dir OK
-
-				rb:=_NhSysLogMsg(write:=1,eRowBefore:=1,msg:=' *** '+yTx0+' RESTART ***   DBx: '+UINT_TO_STRING(SizeOfDataBox())+' kB, RBx: '+UINT_TO_STRING( SizeOfRamBox() )+BOOL_TO_STRINGF(SYSTEM_S.USB_DISK_READY, ' kB; USB:%b{Y^N}')+'   *** ');				rb:=_NhSysLogMsg(eRowAfter:=1,NoTime:=1,msg:=DT_TO_STRINGF(_NhLastPowerOffState.LastDt, '%TYY.MM.DD-hh:mm:ss.zzz ') +',Ini:='+USINT_TO_STRING(_NhLastPowerOffState.ini) );
-//				_Nh_Log_Dbx_ADD(ev:='AL1',src:='PIR',key:='Pir-1',val:='On',subj:=1,rom:=101);
             aSys.Ini 				:= 241;
-
-//            aSys.Ini 				:= 255;
 
 	 	252:    // test
             ;

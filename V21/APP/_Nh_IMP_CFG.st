@@ -124,7 +124,7 @@ FUNCTION_BLOCK _Nh_Import_CIB	// kopia vsetkych, alebo modifikovanych CFG/PAR/VA
 				_Nh1RowTxt(logRst:=1);
 				yTx1		:=  _Nh_EXP;
            	fbFileRWa(init:=true,exec:=true,line:=true, adrVar:=PTR_TO_UDINT(ADR(yTx0)),fileName:=yTx1);
-				IF fbFileRWa.errID > 0 THEN
+				IF fbFileRWa.ou.errID > 0 THEN
 					Go	:= 99;         			
 				ELSE
 					busy	:= true;	grp:=0;
@@ -211,7 +211,7 @@ FUNCTION_BLOCK _Nh_Import_CIB	// kopia vsetkych, alebo modifikovanych CFG/PAR/VA
 				grp:=grp+1;          											// pocitadlo cyklov
 				WHILE Go=11 DO	
 					fbFileRWa(fileName:=yTx1);
-					IF fbFileRWa.done OR fbFileRWa.errID > 0	THEN
+					IF fbFileRWa.ou.done OR fbFileRWa.ou.errID > 0	THEN
 						yTx2	:= CONCAT('.End Import.',TIME_TO_STRINGF(_NhGetTimeCyc(),' %Ts.zzz '),
 													 'cyc:',  INT_TO_STRINGF(grp,'%5u '),
 													 'rec:',  INT_TO_STRINGF(x,'%5u ' ),
@@ -220,7 +220,7 @@ FUNCTION_BLOCK _Nh_Import_CIB	// kopia vsetkych, alebo modifikovanych CFG/PAR/VA
 						_Nh1RowTxt(logRst:=1);
 						fbLine.LineS:=0;
 						Go := 15;		
-					ELSIF fbFileRWa.row THEN
+					ELSIF fbFileRWa.ou.found THEN
 						j := FIND(yTx0,' AT %');
             		IF j > 0 THEN                                                     // len veta, ktora ma adresu
 //							yTx2 	:= CONCAT(UDINT_TO_STRINGF(aSys.RWtoFileCycle,'%10u '), TIME_TO_STRING(SUB_DT_DT(GetRtc(),aSys.NhDT)),'  ',yTx0) ;

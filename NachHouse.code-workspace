@@ -1,7 +1,7 @@
 {
   "folders": [
-    { "path": "../CORE" },
-    { "path": "V200" },
+//    { "path": "../CORE" },
+    { "path": "V21/APP" },
 //    { "path": "V201" },
 //    { "path": "../PROJECTS" },
 //    { "path": "../SCRIPTS" }

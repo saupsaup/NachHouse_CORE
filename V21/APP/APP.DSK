@@ -3,10 +3,10 @@ Version="xPRO","4.3.00"
 [/desktop]
 
 [dockinfo]
-centralpc=178778636,1,0,0
-leftpane=192699624,0,0,1,323,0
-bottompane=192706896,0,123
-rightpane=192701200,0,167,1
+centralpc=192786992,1,0,0
+leftpane=192778404,0,0,1,323,0
+bottompane=192785552,1,123
+rightpane=192779980,0,167,1
 [/dockinfo]
 
 [closedtextpaneleditors]
@@ -28,13 +28,14 @@ fifwhere=0
 fifsubdirs=0
 fif2ndmsg=1
 fif2ndmsg=1
-findhistory=".NH2"
+findhistory="_Nh_Line_RW"
 replacehistory=""
 dirhistory=""
 maskhistory=""
 [/txtextsyneditor]
 
 [closedtextsyneditors]
+txsyned="_Nh_TYP.st",1,1,1,1,1,1,4162692155,31216944,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 txsyned="APP.mcf",4,49,1,1,1,1,2265932409,31219902,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 txsyned="..\..\V200\APP\_Nh_Web_HOM.st",35,14,1,1,1,1,3289475840,31204353,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 txsyned="..\..\V200\APP\_Nh_LOG.st",565,3,1,1,1,1,455143317,31219877,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -66,7 +67,6 @@ txsyned="M:\NACHHOUSE_BACKUP\DEV_OK\DEV_V200\200_LIB\_Nh_GLB.st",1,1,1,1,1,1,0,0
 txsyned="M:\NACHHOUSE_BACKUP\DEV_OK\DEV_V200\200_LIB\_Nh_Frm_LIB.st",1,36,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 txsyned="M:\NACHHOUSE_BACKUP\DEV_OK\DEV_V200\200_LIB\_Nh_SYS.st",1,33,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 txsyned="M:\NACHHOUSE_BACKUP\DEV_OK\DEV_V200\200_LIB\prgMain.ST",107,76,1,1,1,1,1506076271,31218581,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-txsyned="M:\NAchHouse_Backup\Dev_Ok\Dev_V200\200_Lib\LocalLib\_Nh2_V00_20251119.mlb",1,1,1,1,1,1,2453047922,31218771,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 [/closedtextsyneditors]
 
 [finddialog]
@@ -84,7 +84,7 @@ sprompt=0
 iecoperands=1
 ieccomments=1
 implicitseltext=1
-findhistory=".NH2","ff:","xx:","FileReadRbx( hFile := hnd","_NhFnObr",".PNG","__NH_EXP2","__NH_EXP","__NH_PSN","105:","_076","USR_NH","S.S2_2","ix ","_Nh_List_Dir_PLC","NH_LOG_EVN"
+findhistory="_Nh_Line_RW",".NH2","ff:","xx:","FileReadRbx( hFile := hnd","_NhFnObr",".PNG","__NH_EXP2","__NH_EXP","__NH_PSN","105:","_076","USR_NH","S.S2_2","ix ","_Nh_List_Dir_PLC"
 fifmatchcase=0
 fifwholewords=0
 fifoutinstr=0
@@ -127,7 +127,7 @@ findhistory="aSys.aSys.LogDBx.",".Dtgr","aSys.DiskInfo[","_Nh_Ini_Create","fbFil
 [/replacedialog]
 
 [plcdiskdlg]
-lastdir="//WWW/NH2/"
+lastdir="//RAM/FRM/"
 showdetails=1
 [/plcdiskdlg]
 
@@ -137,15 +137,15 @@ nodeplus="PlcSw"
 [/prjmngr]
 
 [msgwin2]
-window=192706896,1,0,0,93,1407,42,510,93,1189,0,0,2
+window=192785552,1,0,0,93,1250,42,510,93,1189,0,0,2
 [/msgwin2]
 
 [msgwin1]
-window=192706896,1,0,0,93,1407,42,510,93,1189,0,0,1
+window=192785552,1,0,0,93,1250,42,510,93,1189,0,0,1
 [/msgwin1]
 
 [breakswin]
-window=192706896,1,0,0,93,1407,42,510,93,1189,0,0,0
+window=192785552,1,0,0,93,1250,42,510,93,1189,0,0,0
 hdrwidth0=200
 hdrwidth1=30
 hdrwidth2=80
@@ -183,7 +183,7 @@ font="Courier New",1,0,10,-13,-2147483640,0,0
 [/memwin2]
 
 [watch2win]
-window=178778636,1,0,0,851,1080,221,522,93,1189,0,0,1
+window=192786992,1,0,0,768,923,221,522,93,1189,0,0,1
 hdrnamew=310,132,0
 font="Courier New",10
 hiresreadability=0
@@ -197,11 +197,11 @@ mem1w=188
 mem1visible=0
 mem2w=190
 mem2visible=0
-storednames="fb_Nh_Copy_Dir","ff","cc","bb","aa","zz","fRW","fb_Nh_Cfg_Backup","xx","yy","fb_Nh_ToFromFile","aSys","fb_RbxToFile","aWeb.A[1].tch","aWht.t","aWht"
+storednames="SYSTEM_S","fb_Nh_Create_DIR","aSys.DiskHed.disk","_NH2_VER","_NH_VER","fb_Nh_Copy_Dir","ff","cc","bb","aa","zz","fRW","fb_Nh_Cfg_Backup","xx","yy","fb_Nh_ToFromFile"
 [/watch2win]
 
 [weblc]
-lastfile="NONAME1.txt"
+lastfile=""
 listwidth=121
 findhistory=""
 replacehistory=""
@@ -212,45 +212,40 @@ window=0,0,15,43,618,1174,221,9,694,1189,0,0,-1
 [/evalmodifdlg]
 
 [paneltexted]
-editor="XClip-Panel",1,0,1,1,1,1,5164606,1700400,331740256,1700792,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-window=0,0,254,132,313,483,313,381,313,483,0,0,-1
+editor="XClip-Panel",1,0,1,1,1,1,5164606,1700400,333265548,1700792,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+window=0,0,-1897,138,313,483,313,381,313,483,0,0,-1
 font="Lucida Console",11
 [/paneltexted]
 
 [ctrlswin]
-window=192699624,1,0,0,851,315,775,9,694,315,0,0,0
+window=192778404,1,0,0,768,315,775,9,694,315,0,0,0
 [/ctrlswin]
 
 [prjfileswin]
-window=192699624,1,0,0,851,315,775,9,694,315,0,0,1
+window=192778404,1,0,0,768,315,775,9,694,315,0,0,1
 filesheight=492
-relatedheight=314
-relatedcnt=4
-relfile0="Sysgen\APP.map"
-relfile1="APP.exp"
-relfile2="Sysgen\APP.mapx"
-relfile3="Sysgen\APP.mapy"
+relatedheight=231
+relatedcnt=3
+relfile0="APP.exp"
+relfile1="SendRoot\iFoxtrot.pub"
+relfile2="SendRoot\TecoApi.pub"
 [/prjfileswin]
 
 [configvscode]
-newutf8=0
+newutf8=1
 utf8bom=1
 [/configvscode]
 
 [Datalogger]
-window=178778636,0,0,0,430,1080,221,9,694,1189,0,0,0
+window=192786992,0,0,0,619,1215,221,9,694,1189,0,0,0
 [/Datalogger]
 
 [CFC_Editors]
 [/CFC_Editors]
 
 [IOConfigurator]
-window=192699624,1,0,0,851,315,714,323,694,315,0,1,4
+window=192778404,1,0,0,768,315,714,323,694,315,0,1,4
 [/IOConfigurator]
-
-[PM_r0_p0_CP_2000]
-window=178778636,1,0,0,851,1080,848,190,881,1088,0,0,2
-[/PM_r0_p0_CP_2000]
 
 [PanelSIM_1]
 window=0,0,18,43,196,352,196,352,196,352,0,0,-1
@@ -261,22 +256,12 @@ window=0,0,695,273,317,233,317,233,317,233,0,0,-1
 [/FormRegMngr1]
 
 [FormDesign1]
-window=0,0,644,140,454,1009,454,617,454,1009,0,0,-1
+window=192786992,1,0,0,768,923,841,1394,454,1009,0,1,4
 [/FormDesign1]
 
 [textsyneditor]
-editor="prgMain.ST",1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
-window=178778636,1,0,0,851,1080,881,1415,881,917,0,0,3
-localparams=0,1,1,1,1,30,0,80,1,3,0,0,1
-font="Consolas",11
-relay=0,0,0,0,0,"",0,0
-inspectorctx="Main"
-debugparams=1,1,1,1,0,1
-[/textsyneditor]
-
-[textsyneditor]
-editor="_Nh_SYS.st",1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
-window=178778636,1,0,0,851,1080,881,1415,881,1088,0,0,4
+editor="prgMain.ST",1,0,0,423,85,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
+window=192786992,1,0,0,768,923,841,1394,881,917,0,0,2
 localparams=0,1,1,1,1,30,0,80,1,3,0,0,1
 font="Consolas",11
 relay=0,0,0,0,0,"",0,0
@@ -285,12 +270,22 @@ debugparams=1,1,1,1,0,1
 [/textsyneditor]
 
 [textsyneditor]
-editor="_Nh_TYP.st",1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
-window=178778636,1,0,0,851,1080,881,1415,881,1088,0,0,5
+editor="_Nh_SYS.st",1,1,0,1447,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
+window=192786992,1,0,0,768,923,841,1394,881,1088,0,0,3
 localparams=0,1,1,1,1,30,0,80,1,3,0,0,1
 font="Consolas",11
 relay=0,0,0,0,0,"",0,0
 inspectorctx=""
+debugparams=1,1,1,1,0,1
+[/textsyneditor]
+
+[textsyneditor]
+editor="_Nh_IMP_CFG.st",1,0,0,208,85,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
+window=192786992,1,0,0,768,923,798,931,798,931,0,0,5
+localparams=0,1,1,1,1,30,0,80,1,3,0,0,1
+font="Consolas",11
+relay=0,0,0,0,0,"",0,0
+inspectorctx="fb_Nh_Import_CIB : _Nh_Import_CIB{1}Main"
 debugparams=1,1,1,1,0,1
 [/textsyneditor]
 
