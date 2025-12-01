@@ -446,11 +446,13 @@ TYPE
    NH_PI14 {HIDDEN}: ARRAY[1..14] OF INT;
 
 	NH_OUT_ERR : STRUCT 	// unviversal output struct Done...ErrID.. actSize...cyc
+     	exec : 		BOOL:=TRUE; 		// start (auxiliary init variable)
+     	busy : 		BOOL:=TRUE; 		// in progress
      	done : 		BOOL; 				// all done (busy=FALSE)
      	found : 		BOOL; 				// partially done (busy=TRUE)
-     	busy : 		BOOL:=TRUE; 		// in progress
+		init :		BOOL;					// just opening files and returning (auxiliary variable)
 		err : 		BOOL;					// any error
-		errOwn : 	BOOL; 				// NachHouse Err msessge fom _NhLang (errID=row)
+		errTyp : 	SINT:=-1; 			// -1=NoEntry, 0=sys,1=NachHouse,2=NschHouse+sys
 		errID : 		UDINT;				// if empty, then err.errID := GetLastErr();
      	actSize :	UDINT; 				// really written
 		cyc :			UINT;					// how many cycles takes procedure
@@ -993,6 +995,35 @@ VAR_GLOBAL
 	xDevOkA		{HIDDEN}: PTR_TO NH_DEV_OKA;
 END_VAR
 
+FUNCTION _Nh_Get_PathName {HIDDEN}: BOOL	// edit fN : extract pathName  or fileName from fN and return save to fN 
+	VAR_INPUT
+		file : 	BOOL; 		
+	END_VAR
+	VAR_IN_OUT
+		fN :	 	STRING;
+	END_VAR
+	VAR_TEMP
+		p :	INT;
+      s :   STRING[1];
+	END_VAR
+	_Nh_Get_PathName := TRUE;
+	p := LEN(fN);
+	WHILE p > 1 DO
+		IF file THEN
+			fN := MID(fN,p-1,2);			
+			IF FIND(fN,'/') = 0 THEN	
+				EXIT;		
+			END_IF;	
+		ELSE
+         s:= MID(fN,1,p);
+         IF s = '/' THEN	
+   			EXIT;		
+         END_IF;
+		END_IF;				
+		p := p - 1; 
+	END_WHILE;
+END_FUNCTION
+
 FUNCTION {HIDDEN} _Nh_N12: UINT // podla podmienky vrati o1, alebo o2
    VAR_INPUT
       in: BOOL;
@@ -1256,7 +1287,7 @@ FUNCTION _NhSysLogMsg: BOOL // nacita 1.riadok zo suboru yTx1 do yTx2, alebo zap
 		lenMsg:		USINT; 			// length of message	
 		msg:	 		STRING[255]; 	// message to log without datetime
 		maxSize:		UINT:=1000;		// maxSize [kB]	
-		openfH:		HANDLE := INVALID_HANDLE_VALUE;		
+		openfH:		HANDLE;	// := INVALID_HANDLE_VALUE;		
 	END_VAR
 	VAR_TEMP
 		fH: 			HANDLE;
@@ -1517,6 +1548,7 @@ FUNCTION _NhFopen {HIDDEN}: BOOL // otvori subor, do fS zapise velkost a do fP n
 		rb	:=	_NhSysLogMsg(msg:='! _NhFopen Err: "'+yTx0+'";fN:{'+fN+'};mode:'+_NhTF_MODE_S(mode),debug:=true); // mode:'+mode);
    END_IF;
 END_FUNCTION
+
 FUNCTION _NhFdelete {HIDDEN}: BOOL // deletes the file if it exists, first closes it if it is open - without errors
 	VAR_INPUT
 		open: 	BOOL; 		// at the end open
@@ -1801,7 +1833,7 @@ FUNCTION _Nh_Log_PATH: BOOL 	// all paths for files, rename, copy, log
 								yTx3 	:= CONCAT(aSys.DiskHed.Disk[1].path, _NH2_VER, '/FRM/');		// source copy SYS/VER/FRM/
 								yTx4 	:= yTx1; 																	// dest RAM/FRM/
 							2:	// copy log file
-      						yTx1 	:= CONCAT(yTx1, '_CopyDir.log');										// log file for copy dir/file
+      						yTx1 	:= CONCAT(aSys.DiskHed.Disk[4].path, '_nh_copy.log');										// log file for copy dir/file
 							3:	yTx1	:= CONCAT(yTx1,'_NhLang.NH2');										// lang translate file	
 						END_CASE;
 
@@ -1952,25 +1984,47 @@ FUNCTION _Nh_Ou_Err {HIDDEN} : BOOL	// if err, find the err text, compose a mess
 		sysLog :		BOOL:=TRUE;			// write to syslog
 		msgFirst :	BOOL:=TRUE;			// msg+yTx0	or yTx0+msg
 		noTime : 	BOOL:=TRUE;			// without timestamp
+		errTyp :		SINT:=-1;			// -1: no Entry Error, 0=Sys, 1=NachHouse, 2=Sys+Nh
+		ErrID :		UDINT;				
+
 	END_VAR
 	VAR_IN_OUT
 		ou :			NH_OUT_ERR;			 	
 		msg :			STRING;		     // additional message
 	END_VAR	
+	VAR_TEMP
+		wrk :			STRING[30]; 			
+	END_VAR 
 	_Nh_Ou_Err	:= ou.err;
+	IF errTyp > -1 THEN
+		ou.err		:= TRUE;
+		ou.errTyp 	:= errTyp;
+		ou.errID 	:= errID;		
+	END_IF;	
+
 	IF ou.err THEN												// any error
-   	IF ou.errID = 0 THEN									// ststem err and not get
+
+		ou.busy := FALSE;		///!!!
+
+		IF errTxt = FALSE	THEN	
+			yTx0 := '';		
+   	ELSIF ou.errTyp=2 THEN								// Own+Sys
+			rb 	:= _Nh_Lang(id:=UDINT_TO_INT(ou.errID),wht:=1,txt:=ADR(yTx0) );		// 1.Get text from _NhLang
+			wrk	:= yTx0;																					// save
+      	ou.errID := GetLastErr();		
+			rb 	:= GetLastErrTxt(errCode := ou.errID, errMessage := yTx0);				// 2.Get Sys Text
+			wrk	:= CONCAT(wrk,msg);
+			errTxt:= FALSE;
+		ELSIF ou.errID = 1 THEN									// Nh err
+			rb := _Nh_Lang(id:=UDINT_TO_INT(ou.errID),wht:=1,txt:=ADR(yTx0) );
+		ELSIF ou.errID = 0 THEN									// sys err and not get
       	ou.errID := GetLastErr();
+			rb := GetLastErrTxt(errCode := ou.errID, errMessage := yTx0);
+		ELSE
+			rb := GetLastErrTxt(errCode := ou.errID, errMessage := yTx0);
       END_IF;
 		IF errTxt	THEN									// find err Message
-			IF ou.errOwn THEN
-				rb := _Nh_Lang(id:=UDINT_TO_INT(ou.errID),wht:=1,txt:=ADR(yTx0) );
-         ELSE 
-				rb := GetLastErrTxt(errCode := ou.errID, errMessage := yTx0);
-         END_IF;
-			yTx0	:= CONCAT(' Err.ID{',UDINT_TO_STRING(ou.errID),'} txt{',yTx0,'}; ');
-		ELSE	
-			yTx0 := '';		
+			yTx0	:= CONCAT(wrk,'; errID:{',UDINT_TO_STRING(ou.errID),'} txt:{',yTx0,'}; ');
 		END_IF;
 		IF sysLog	THEN									// write err message, yTx2 = option
 			IF msg = '' THEN
@@ -2187,7 +2241,7 @@ FUNCTION_BLOCK _Nh_File_RW // zapisuje/cita zo suboru do premennej. Premenna moz
 			ou.done	:= TRUE;
 		END_IF;	
 	ELSIF cancel	THEN
-      ou.done := TRUE; ou.ErrID := 1003; ou.ErrOwn := TRUE; init := TRUE;  		// _NhFileRW-user break
+      ou.done := TRUE; ou.ErrID := 1003; ou.errTyp:= 1; init := TRUE;  		// _NhFileRW-user break
    END_IF;
 	ou.cyc := ou.cyc + 1;
 	IF init THEN
@@ -2230,8 +2284,7 @@ FUNCTION_BLOCK _Nh_File_RW // zapisuje/cita zo suboru do premennej. Premenna moz
          ou.Err   := TRUE;
 			ou.errID := GetLastErr();
 			IF ou.errID = 0 THEN
-				ou.errOwn  :=	TRUE;
-				ou.errID	  :=	1004;
+				ou.errTyp  :=	1; ou.errID :=	1004;
 			END_IF;	
 (*
 			rb	:=	_NhSysLogMsg(msg:='! fRW <> cycSize '+UDINT_TO_STRING(fRW)+'<>'+UDINT_TO_STRING(cycSize)+
@@ -3477,25 +3530,19 @@ END_FUNCTION_BLOCK
 FUNCTION_BLOCK _Nh_Copy_DIR // copy file or directory
 	VAR_INPUT
 		go: 		   USINT;			// 1=copy file, 2=copy dir and next case run 
-		IniEnd: 	   USINT;			// when ends set the case of main 
-		IniErr: 	   USINT;			// when error set the case of main
-		IniRun: 	   USINT;			// when start set the case of main
-		copy: 		BOOL := TRUE;	// copy:=false => delete after copy (move)
-		file: 		BOOL := TRUE ;	// file or DIR
-    	exec: 		BOOL; 			// leading edge start new write/read. if a process is running, interrupt it and close the file
-		init: 		BOOL;			   // only open files an prepare for run on the next call
+		srcName :	STRING;
+		dstName :	STRING;
+		copy: 		BOOL;	// copy:=false => delete after copy (move)
+		file: 		BOOL;	// file or DIR
+		append :		BOOl;
+		delDir:		BOOL;
 	END_VAR
    VAR_OUTPUT
 		ou :			NH_OUT_ERR;
      	size :		UDINT; 			// data length {it is entered at the beginning and cannot be changed after that !!!}
-//     	done: 		BOOL; 			// action is done
-//     	busy: 		BOOL; 			// action in progress
-//     	actSize: 	UDINT; 			// really written
-//		cycSize: 	UDINT; 		 	// actualy Size per cycle
-//		cyc: 		   UINT;			// number of cycles 
-		files: 		UINT;
-		allSize: 	UDINT;
-		_NhFileInfo: TFileInfo;
+		sizeAll : 	UDINT;
+		files : 		UINT;
+		fi : 			TFileInfo;
    END_VAR
    VAR
 		hDir: 		HANDLE;
@@ -3507,298 +3554,120 @@ FUNCTION_BLOCK _Nh_Copy_DIR // copy file or directory
    END_VAR
 	ou.done	:= FALSE;
 	CASE Go OF
-     	0: RETURN;
-     	1: // copy file
-			// ytx3,yTx4 contain both source and destination files, including the path
-			ou 		:= _eOuErr;	
-			aSys.Ini	:= IniRun;
-			files		:= 0;
-			allSize	:= 0;
-			file		:= TRUE;
-			IF CPU_CODE >= 2000 THEN
-				IF ForceDirs(fileName := yTx4) = FALSE THEN
-					ou.err:=TRUE; 
-					yTx2 := CONCAT('Dir: {',yTx4,'}');												// add msg
-//					Go		:= 80;
-//					RETURN;
+     	0: 	RETURN;
+     	1: 	// copy file
+				// ytx3,yTx4 contain both source and destination files, including the path
+				file := TRUE; ou := _eOuErr; ou.init := TRUE;
+	
+     	2: 	// Start copy DIR + first file
+				// ytx3,yTx4 contain only the source and destination directories without the file
+				file := FALSE; ou := _eOuErr;	ou.init := TRUE;
+				hDir		:= DirOpen(dirName := yTx1, dirInfo := fi);           // open DIR for read
+				IF hDir = INVALID_HANDLE_VALUE THEN                                     // open error
+					ou.exec := FALSE;
+               yTx1 := CONCAT(':{',yTx1,'}');
+					rb	:= _Nh_Ou_Err(ou:=ou, msg:=yTx1 ,errTyp:=2, ErrID:=1007);
 				END_IF;
-			END_IF;
-			IF ou.err = FALSE THEN
-	         exec		:= TRUE;
-				GoNext 	:=	99;                                                         // next cyccle                                  
-				ou.Done	:= TRUE;
-			END_IF;
-     	2: // Start copy DIR + first file
-			// ytx3,yTx4 contain only the source and destination directories without the file
-			aSys.Ini	:= IniRun;
-			files		:= 0;
-			allSize	:= 0;
-			file		:= FALSE;                                                      // it  is DIR
-			hDir		:= DirOpen(dirName := yTx3, dirInfo := _NhFileInfo);           // open DIR for read
-			IF hDir = INVALID_HANDLE_VALUE THEN                                     // open error
-				ou.err:=TRUE; 
-				yTx2 := CONCAT('Dir: {',yTx3,'}');												// add msg
-
-//				yTx2	:= yTx3;
-//				Go		:= 80;
-//				RETURN;
-			ELSIF FileExists(fileName := yTx4) THEN	                             // test if exist
+    	
+		10: 	// copying 1 file
 				;
-			ELSIF CPU_CODE >= 2000 THEN
-				IF ForceDirs(fileName := yTx4) = FALSE THEN
-					ou.err:=TRUE; 
-					yTx2 := CONCAT('Dir: {',yTx4,'}');												// add msg
-//					yTx2	:= yTx4;
-//					Go		:= 80;
-//					RETURN;
-				END_IF;
-			ELSIF DirCreate(dirName := yTx4) 	THEN	
+    	12: 	// copying 1 file from DIR
 				;
-			ELSE
-				ou.err:=TRUE; 
-				yTx2 := CONCAT('Dir: {',yTx4,'}');												// add msg
-//				yTx2	:= yTx4;                                                       // create text error
-//				Go		:= 80;
-//				RETURN;
-			END_IF;
-			IF ou.err = FALSE THEN
-	         exec		:= TRUE;                                                       // go directly for first file
- 				GoNext	:= 12;                                                         // next cyccle
-			END_IF;
-
-    	12: // Next file in copy DIR
-			IF DirRead(hDir := hDir, dirInfo := _NhFileInfo) = FALSE THEN
-				rb		:= _Nh_Log_Path(wh:=24, frm:=1, wh2:=2);																	// only log DIR {to yTx3}
-				yTx2	:= CONCAT('End of dir. f:', UINT_TO_STRING(files), ' s: ', UDINT_TO_STRING(allSize) ) ;
-	 		   _Nh_Line_RW(mode := 2, fH := hLog, LineLen := 0);
-//				Go		:= 99;
-//				RETURN;
-			ELSE
-				exec	:= TRUE;
-			END_IF;
-
-
-	 	80:	// Error
-yy:=yy+1;
-(*
-			err := TRUE;
-			IF errID = 0 THEN
-	 			errID := GetLastErr();
-			 	GetLastErrTxt(errCode := errID, errMessage := yTx1);
-				yTx2	:= CONCAT('err: ', UDINT_TO_STRING(errID), ' msg: ', yTx1, ' f: ', yTx2);
-			ELSE
-				yTx2	:= CONCAT('err: ', UDINT_TO_STRING(errID), ' 3: ', yTx3, ' 4: ', yTx4);
-			END_IF;
-			rb		:= _Nh_Log_Path(wh:=24, frm:=1, wh2:=2);															// yTx1 	:= CONCAT(aSys.ADR_RAM,'_CopyDir.log');
-			_Nh_Line_RW(mode := 2, fH := hLog, LineLen := 0);
-         Go    := 99;
-			RETURN;
-*)
-	   99:	// End
-zz:=zz+1;
-(*
-			rb		:= _NhFClose(fH := hDir, dir := TRUE);
-     		IF copy = FALSE AND ou.err = FALSE THEN								               // delete source file/dir
-	 			IF file THEN                                                            // delete file       
-					_Nh_Line_RW(mode := 0, fH := hLog, LineNbr := 1);
-   	  			IF file THEN
-						yTx2	:= CONCAT('Delete file: ', yTx2) ;
-					ELSE
-		 				rb 	:= DirDelete(dirName := yTx2);
-						yTx2	:= CONCAT('Delete dir: ', yTx2) ;
-					END_IF;
-					_Nh_Line_RW(mode := 2, fH := hLog, LineLen := 0);
+    	22: 	// Next file in copy DIR
+				IF DirRead(hDir := hDir, dirInfo := fi)  THEN
+					ou := _eOuErr;	ou.exec	:= TRUE;
+				ELSE		
+					ou.done := TRUE;	
+//					rb		:= _Nh_Log_Path(wh:=24, frm:=1, wh2:=2);																	// only log DIR {to yTx3}
+//					yTx2	:= CONCAT('End of dir. f:', UINT_TO_STRING(files), ' s: ', UDINT_TO_STRING(allSize) ) ;
+//		 		   _Nh_Line_RW(mode := 2, fH := hLog, LineLen := 0);
 				END_IF;
-			END_IF;
-     		rb 	 		:= _NhFclose(fH := hSrc);
-     		rb 			:= _NhFclose(fH := hDst);
-     		rb 			:= _NhFclose(fH := hLog);
-			Go 			:= 0;
-			GoNext 		:=	0;
-			ou.find 		:= FALSE;
-			ou.Busy		:= FALSE;
-			ou.Done 		:= TRUE;
-			IF ou.err THEN
-				aSys.Ini	:= IniErr;
-			ELSE
-				aSys.Ini	:= IniEnd;
-			END_IF;
-			RETURN;
- *)
-	   254: ; // TST
-			   RETURN;
+	ELSE 		Go := 0;
+				RETURN;
+	END_CASE;
+   IF ou.exec THEN ou.exec := FALSE; 
+		IF ou.init THEN ou.init := FALSE;
+			files := 0;	sizeAll := 0; 	// busy,exec := true;
+			rb		:= _Nh_Log_Path(wh:=24, frm:=1, wh2:=2);	
+			IF _NhFopen(fN := yTx1, fH := hLog , mode := 1)  THEN 				// open log file
 
-	   255: ; // running;
-
-
-	   ELSE // non-defined
-		   	aSys.Ini	:= IniRun;
-			   Go 		:= 99;
-			   RETURN;
-   END_CASE;
-   IF exec THEN
-      aSys.Ini	:= IniRun;
-		exec := FALSE; ou := _eOuErr;	//done := TRUE; busy := FALSE; errOwn := FALSE; errID := 0; actSize := 0;
-		ou.busy	:= FALSE;
-	   IF Go < 10 THEN																	            // start copy file/Dir
-			IF _NhFdelete(open:=TRUE,mode:=2,fN:=yTx1,fH:=hLog) THEN
-	 			rb:=_NhSysLogMsg(msg:=yTx3+_NH_CRLF+yTx4, openfH:=hLog, noTime:=TRUE, noIni:=TRUE);
-//	 			rb:=_NhSysLogMsg(msg:=yTx4, openfH:=hLog, noTime:=TRUE, noIni:=TRUE);
-			ELSE
-				ou.err:=TRUE; 
-				yTx2 := CONCAT('! Err open log: {',yTx1,'}');												// add msg
-			END_IF;			
-//      	IF _NhFopen(fN := yTx1, fH := hLog , mode := 2) THEN 					// open source file
-(*
-			rb		:= _Nh_Log_Path(wh:=24, frm:=1, wh2:=2);															// LOG copy
-   		yTx2  := yTx3;	_Nh_Line_RW(mode := 1, fH := hLog, new := TRUE, close := TRUE);
-   		yTx2  := yTx4;	_Nh_Line_RW(mode := 2, fH := hLog);
-*)
-//			END_IF;
-		END_IF;
-		IF goNext = 12 THEN
-   		_Nh_Line_RW(mode := 0, fH := hLog, LineNbr := 1);	yTx3	:= CONCAT(yTx2, _NhFileInfo.fileName);
-   		_Nh_Line_RW(mode := 0, fH := hLog, LineNbr := 2);	yTx4	:= CONCAT(yTx2, _NhFileInfo.fileName);
-			yTx2	:= CONCAT(_NhFileInfo.fileName, ' ', UDINT_TO_STRING(_NhFileInfo.fileSize));
-   		_Nh_Line_RW(mode := 2, fH := hLog, LineLen := 0);
-		END_IF;
-      IF _NhFopen(fN := yTx3, fH := hSrc , mode := 0) THEN 					// open source file
-			size	:= FileSize(hFile := hSrc);
-			IF _NhFopen(fN := yTx4, fH := hDst , mode := 1) THEN 				// open dest file
-//				done 		:= FALSE; busy := TRUE; err := FALSE;
-				ou.busy	:= TRUE;
-				adrVar 	:= PTR_TO_UDINT( ADR(mObr) ) ;							// wrk mem used for copy
-			ELSE
-				ou.err:=TRUE; 
-				yTx2 := CONCAT('! Err open Dest copy: {',yTx4,'}');												// add msg
-//				errID	:= 900002;
-			END_IF;
-		ELSE
-			yTx2 := CONCAT('! Err open Source copy: {',yTx3,'}');												// add msg
-//			errID	:= 900001;
-		END_IF;
-		Go 		:= 255;
-		IF init THEN																		// only prepare open files/dirs
-			init	:= FALSE;
-			IF ou.busy THEN
-				RETURN;																		// if not Err
+			ELSE 
+				yTx0	:= CONCAT(':{',yTx1,'}');
+				rb	:= _Nh_Ou_Err(ou:=ou, msg:=yTx0, errTyp:=2, ErrID:=1009);
 			END_IF;
 		END_IF;
+		IF ou.err = FALSE THEN
+			IF go = 1 THEN
+				go :=	10;	
+			ELSE 
+				go := 12;
+				rb := _Nh_Get_PathName(fN:=srcName);
+				rb := _Nh_Get_PathName(fN:=dstName);
+				srcName := CONCAT(srcName,fi.fileName);
+				dstName := CONCAT(dstName,fi.fileName);
+			END_IF;
+			// open src ans dest file
+   	   IF _NhFopen(fN := yTxa, fH := hSrc , mode := 0) THEN 					// open source file
+				size	:= fS; ou.actSize := 0;
+//				IF append
+				IF _NhFopen(fN := yTxb, fH := hDst , mode := 1) = FALSE THEN 				// open dest file
+					yTx0	:= CONCAT(':{',yTxB,'}');
+					rb	:= _Nh_Ou_Err(ou:=ou,msg:=yTx0, errTyp:=2, ErrID:=1006);
+				END_IF;
+			ELSE
+				yTx0	:= CONCAT(':{',yTxA,'}');
+				rb	:= _Nh_Ou_Err(ou:=ou, msg:=yTx0, errTyp:=2, ErrID:=1005);
+			END_IF;
+		END_IF;		
    END_IF;
-   IF ou.busy THEN
+	IF ou.busy THEN 
+		yTx1			:= yTxA;	
       ou.cyc 		:= ou.cyc + 1;
 		ou.cycSize 	:= MIN(size - ou.actSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,SIZEOF(mObr)));
-		fRW 			:= FileRead( hFile := hSrc, adrBuf := adrVar, size := ou.cycSize);
-		fRW 			:= FileWrite(hFile := hDst, adrBuf := adrVar, size := fRW);
+		fRW 			:= FileRead( hFile := hSrc, adrBuf := PTR_TO_UDINT( ADR(mObr)), size := ou.cycSize);
+		fRW 			:= FileWrite(hFile := hDst, adrBuf := PTR_TO_UDINT( ADR(mObr)), size := fRW);
      	ou.actSize 	:= ou.actSize + fRW; // actual read/write size
 		IF ou.actSize = size THEN
-        	ou.found:=TRUE; ou.done := TRUE;
+        	ou.found:=TRUE; 
       ELSIF fRW <> ou.cycSize THEN // the request did not proceed correctly
-			ou.done  := TRUE;
-         ou.Err   := TRUE;
-			ou.errID := GetLastErr();
-			IF ou.errID = 0 THEN
-				ou.errOwn  :=	TRUE;
-				ou.errID	  :=	1004;
-			END_IF;	
-			yTx2 := '';
-//			yTx2 := CONCAT('! Err write open Dest copy: {',yTx4,'}');												// add msg
-
+         yTx0 := CONCAT('fRW: ',UDINT_TO_STRING(fRW),' cycSize: ',UDINT_TO_STRING(fRW));
+			rb	:= _Nh_Ou_Err(ou:=ou, msg:=yTx0, errTyp := 2, ErrID := 1008);
 		END_IF;
 	END_IF;
-   IF ou.err  THEN
-		rb	:= _Nh_Ou_Err(ou:=ou, msg:=yTx2);
-		rb	:= _Nh_Log_Path(wh:=24, frm:=1, wh2:=2);															// yTx1 	:= CONCAT(aSys.ADR_RAM,'_CopyDir.log');
-		_Nh_Line_RW(mode := 2, fH := hLog, LineLen := 0);
-//      Go    	:= 99;
-		ou.found  := FALSE;
-		ou.done	:= TRUE;
-	END_IF;		
-   IF ou.found THEN														// one file  done
-		ou.found	:= FALSE;
-		allSize	:= allSize + ou.actSize;
+   IF ou.err THEN 
+		ou.done := TRUE; ou.found := FALSE;		
+	END_IF;
+   IF ou.found THEN ou.found	:= FALSE;
+		sizeAll 	:= sizeAll + ou.actSize;
 		files		:= files + 1;
       rb 	   := _NhFclose(fH := hSrc);							// source 
       rb 	   := _NhFclose(fH := hDst);							// dest
-		IF copy = FALSE THEN												// delete file
- 			IF file THEN                                                // delete file       
-				_Nh_Line_RW(mode := 0, fH := hLog, LineNbr := 1);
-  	  			IF file THEN
-					yTx2	:= CONCAT('Delete file: ', yTx2) ;
-				ELSE
-	 				rb 	:= DirDelete(dirName := yTx2);
-					yTx2	:= CONCAT('Delete dir: ', yTx2) ;
-				END_IF;
-				_Nh_Line_RW(mode := 2, fH := hLog, LineLen := 0);
+		IF file THEN
+			ou.Done	:= TRUE;
+			IF copy = FALSE THEN												// delete file
+				rb := FileDelete(fileName := yTx2);
 			END_IF;
-			_Nh_Line_RW(mode := 0, fH := hLog, LineNbr := 1);
-			IF file = FALSE THEN
-				yTx2	:= CONCAT(yTx2, _NhFileInfo.fileName);
-			END_IF;
-			rb := FileDelete(fileName := yTx2);
-      END_IF
-		Go 		:= goNext;
-   END_IF;
-   IF ou.done THEN																		// end {go=99}
+		ELSE 
+			go := 22;
+		END_IF;		
+	END_IF;
+   IF ou.done THEN 
      	rb 	 		:= _NhFclose(fH := hSrc);
      	rb 			:= _NhFclose(fH := hDst);
      	rb 			:= _NhFclose(fH := hLog);
 		Go 			:= 0;
-		GoNext 		:=	0;
-		ou.found 	:= FALSE;
 		ou.Busy		:= FALSE;
 		IF ou.err THEN
-			aSys.Ini	:= IniErr;
+//			aSys.Ini	:= IniErr;
 		ELSE
-			aSys.Ini	:= IniEnd;
+//			aSys.Ini	:= IniEnd;
+		END_IF;
+		IF ou.err or copy or file THEN
+			;
+		ELSIF delDir THEN
+//			rb := FileDelete(fileName := yTx2);
 		END_IF;
 	END_IF;
-
-(*
-   IF ou.find THEN														// one file in DIR mode done
-		ou.find	:= FALSE;
-      rb 	   := _NhFclose(fH := hSrc);							// source 
-      rb 	   := _NhFclose(fH := hDst);							// dest
-		allSize	:= allSize + ou.actSize;
-		files		:= files + 1;
-		IF copy = FALSE THEN												// delete file
-			_Nh_Line_RW(mode := 0, fH := hLog, LineNbr := 1);
-			IF file = FALSE THEN
-				yTx2	:= CONCAT(yTx2, _NhFileInfo.fileName);
-			END_IF;
-			rb := FileDelete(fileName := yTx2);
-      END_IF
-		Go 		:= goNext;
-   END_IF;
-   IF ou.done THEN																		// end
-		rb		:= _NhFClose(fH := hDir, dir := TRUE);
-     	IF copy = FALSE AND ou.err = FALSE THEN								// delete source file/dir
-	 			IF file THEN                                                // delete file       
-					_Nh_Line_RW(mode := 0, fH := hLog, LineNbr := 1);
-   	  			IF file THEN
-						yTx2	:= CONCAT('Delete file: ', yTx2) ;
-					ELSE
-		 				rb 	:= DirDelete(dirName := yTx2);
-						yTx2	:= CONCAT('Delete dir: ', yTx2) ;
-					END_IF;
-					_Nh_Line_RW(mode := 2, fH := hLog, LineLen := 0);
-				END_IF;
-		END_IF;
-     	rb 	 		:= _NhFclose(fH := hSrc);
-     	rb 			:= _NhFclose(fH := hDst);
-     	rb 			:= _NhFclose(fH := hLog);
-		Go 			:= 0;
-		GoNext 		:=	0;
-		ou.find 		:= FALSE;
-		ou.Busy		:= FALSE;
-//			ou.Done 		:= TRUE;
-		IF ou.err THEN
-			aSys.Ini	:= IniErr;
-		ELSE
-			aSys.Ini	:= IniEnd;
-		END_IF;
-	END_IF;
-*)
 END_FUNCTION_BLOCK
 
 

@@ -552,7 +552,7 @@ END_FUNCTION
 *)
 
 FUNCTION_BLOCK  _Nh_Cfg_Restart   // copy CFG from RBx/DBx to Mem
-	VAR_INPUTNH_OUT_ERR
+	VAR_INPUT
 		wh			: USINT;						// 0=acfg[cx],1=aPar[cx],2=aVaz[cx]
 		cx			: USINT;                // stored only for more cycles
 		lg			: BOOL := TRUE;			// log activity to file

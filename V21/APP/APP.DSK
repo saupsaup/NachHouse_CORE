@@ -28,7 +28,7 @@ fifwhere=0
 fifsubdirs=0
 fif2ndmsg=1
 fif2ndmsg=1
-findhistory="_Nh_Line_RW"
+findhistory="_NhFopen"
 replacehistory=""
 dirhistory=""
 maskhistory=""
@@ -84,7 +84,7 @@ sprompt=0
 iecoperands=1
 ieccomments=1
 implicitseltext=1
-findhistory="_Nh_Line_RW",".NH2","ff:","xx:","FileReadRbx( hFile := hnd","_NhFnObr",".PNG","__NH_EXP2","__NH_EXP","__NH_PSN","105:","_076","USR_NH","S.S2_2","ix ","_Nh_List_Dir_PLC"
+findhistory="_NhFopen","_Nh_Line_RW",".NH2","ff:","xx:","FileReadRbx( hFile := hnd","_NhFnObr",".PNG","__NH_EXP2","__NH_EXP","__NH_PSN","105:","_076","USR_NH","S.S2_2","ix "
 fifmatchcase=0
 fifwholewords=0
 fifoutinstr=0
@@ -127,7 +127,7 @@ findhistory="aSys.aSys.LogDBx.",".Dtgr","aSys.DiskInfo[","_Nh_Ini_Create","fbFil
 [/replacedialog]
 
 [plcdiskdlg]
-lastdir="//RAM/FRM/"
+lastdir="//RAM/"
 showdetails=1
 [/plcdiskdlg]
 
@@ -137,15 +137,15 @@ nodeplus="PlcSw"
 [/prjmngr]
 
 [msgwin2]
-window=192785552,1,0,0,93,1250,42,510,93,1189,0,0,2
+window=192785552,1,0,0,93,1605,42,510,93,1189,0,0,2
 [/msgwin2]
 
 [msgwin1]
-window=192785552,1,0,0,93,1250,42,510,93,1189,0,0,1
+window=192785552,1,0,0,93,1605,42,510,93,1189,0,0,1
 [/msgwin1]
 
 [breakswin]
-window=192785552,1,0,0,93,1250,42,510,93,1189,0,0,0
+window=192785552,1,0,0,93,1605,42,510,93,1189,0,0,0
 hdrwidth0=200
 hdrwidth1=30
 hdrwidth2=80
@@ -183,11 +183,11 @@ font="Courier New",1,0,10,-13,-2147483640,0,0
 [/memwin2]
 
 [watch2win]
-window=192786992,1,0,0,768,923,221,522,93,1189,0,0,1
+window=192786992,1,0,0,768,1278,221,522,93,1189,0,0,1
 hdrnamew=310,132,0
 font="Courier New",10
 hiresreadability=0
-defbank="SYS"
+defbank="Copy"
 toolbvis=1
 alignnumbers=0
 showanalyserr=1
@@ -197,7 +197,7 @@ mem1w=188
 mem1visible=0
 mem2w=190
 mem2visible=0
-storednames="SYSTEM_S","fb_Nh_Create_DIR","aSys.DiskHed.disk","_NH2_VER","_NH_VER","fb_Nh_Copy_Dir","ff","cc","bb","aa","zz","fRW","fb_Nh_Cfg_Backup","xx","yy","fb_Nh_ToFromFile"
+storednames="fb_Nh_Copy_DIR","SYSTEM_S","fb_Nh_Create_DIR","aSys.DiskHed.disk","_NH2_VER","_NH_VER","ff","cc","bb","aa","zz","fRW","fb_Nh_Cfg_Backup","xx","yy","fb_Nh_ToFromFile"
 [/watch2win]
 
 [weblc]
@@ -212,8 +212,8 @@ window=0,0,15,43,618,1174,221,9,694,1189,0,0,-1
 [/evalmodifdlg]
 
 [paneltexted]
-editor="XClip-Panel",1,0,1,1,1,1,5164606,1700400,333265548,1700792,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-window=0,0,-1897,138,313,483,313,381,313,483,0,0,-1
+editor="XClip-Panel",1,0,1,1,1,1,5164606,1701300,333265548,1701692,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+window=0,0,-1662,135,313,483,313,381,313,483,0,0,-1
 font="Lucida Console",11
 [/paneltexted]
 
@@ -256,12 +256,12 @@ window=0,0,695,273,317,233,317,233,317,233,0,0,-1
 [/FormRegMngr1]
 
 [FormDesign1]
-window=192786992,1,0,0,768,923,841,1394,454,1009,0,1,4
+window=192786992,1,0,0,768,1278,841,1394,454,1009,0,1,4
 [/FormDesign1]
 
 [textsyneditor]
 editor="prgMain.ST",1,0,0,423,85,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
-window=192786992,1,0,0,768,923,841,1394,881,917,0,0,2
+window=192786992,1,0,0,768,1278,841,1394,881,917,0,0,2
 localparams=0,1,1,1,1,30,0,80,1,3,0,0,1
 font="Consolas",11
 relay=0,0,0,0,0,"",0,0
@@ -270,22 +270,32 @@ debugparams=1,1,1,1,0,1
 [/textsyneditor]
 
 [textsyneditor]
-editor="_Nh_SYS.st",1,1,0,1447,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
-window=192786992,1,0,0,768,923,841,1394,881,1088,0,0,3
+editor="_Nh_SYS.st",1,1,0,3638,52,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
+window=192786992,1,0,0,768,1278,841,1394,881,1088,0,0,3
 localparams=0,1,1,1,1,30,0,80,1,3,0,0,1
 font="Consolas",11
 relay=0,0,0,0,0,"",0,0
-inspectorctx=""
+inspectorctx="_NhFclose{1}_Nh_Line_RW{1}_Nh_Log_PATH{1}_Nh_Log_Evn_ADD{1}_NhTchObjOK{1}_NhTchObj{1}fbWebControl : _NhWebControl{1}Main"
 debugparams=1,1,1,1,0,1
 [/textsyneditor]
 
 [textsyneditor]
 editor="_Nh_IMP_CFG.st",1,0,0,208,85,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
-window=192786992,1,0,0,768,923,798,931,798,931,0,0,5
+window=192786992,1,0,0,768,1278,798,931,798,931,0,0,5
 localparams=0,1,1,1,1,30,0,80,1,3,0,0,1
 font="Consolas",11
 relay=0,0,0,0,0,"",0,0
 inspectorctx="fb_Nh_Import_CIB : _Nh_Import_CIB{1}Main"
+debugparams=1,1,1,1,0,1
+[/textsyneditor]
+
+[textsyneditor]
+editor="_Nh_LOG.st",1,0,0,555,11,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
+window=192786992,1,0,0,768,1278,798,931,798,931,0,0,6
+localparams=0,1,1,1,1,30,0,80,1,3,0,0,1
+font="Consolas",11
+relay=0,0,0,0,0,"",0,0
+inspectorctx="fb_Nh_Cfg_Restart : _Nh_Cfg_Restart{1}Main"
 debugparams=1,1,1,1,0,1
 [/textsyneditor]
 

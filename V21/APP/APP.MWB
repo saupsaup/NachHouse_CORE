@@ -96,3 +96,12 @@ watchobjEx2=0,"fb_Nh_Create_DIR|{+}"
 watchobj2="fb_Nh_Create_DIR",1,0,0,""
 [/Watch2Bank4]
 
+[Watch2Bank5]
+bankname="Copy"
+shortcut=6
+watchcnt=1
+bindfile=""
+watchobjEx0=0,"fb_Nh_Copy_DIR|"
+watchobj0="fb_Nh_Copy_DIR",1,0,0,""
+[/Watch2Bank5]
+
