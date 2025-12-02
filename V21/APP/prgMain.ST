@@ -435,9 +435,6 @@ PROGRAM prgMain
 
 		238:    ;	//Error section 230
 		239:    ;	//Error section 230
-				;
-
-
 
 	 	240:    // aktualne formulare -> NH2/200/FRM
             { $ IFDEF __NH_FRM }
@@ -453,22 +450,23 @@ PROGRAM prgMain
 					aSys.ini := 241;
             { $ END_IF }
 
-		241:   // COPY NH2/200/FRM/*.* -> RAM/FRM/
+		241:  // COPY NH2/200/FRM/*.* -> RAM/FRM/
          	IF aSys.DiskHed.Disk[4].Exist THEN												// RAM exist, go copy
-   				_Nh_Log_Path(wh:=24, frm:=1, wh2:=1);                                  // yTx3,yTx4
-//	     			yTx2 		:= CONCAT('START Copy {',yTx3,'}->{',yTx4,'}');													// START Create Dir
-					rb:=_NhSysLogMsg(msg:='START Copy {'+yTx3+'}->{'+yTx4+'}');
-//              	rb      	:= _Nh1RowTxt(logRst := 1);
-              	fb_Nh_Copy_Dir(init:=TRUE,Go:= 2,IniRun:=255,IniEnd:=242,IniErr:=249);
+   				_Nh_Log_Path(wh:=24, frm:=1, wh2:=1);                             // yTx1,yTx2
+              	fb_Nh_Copy_Dir(Go:= 2, srcName:=yTx1, dstName:=yTx2);
+              	aSys.Ini := 242;
             ELSE
               	aSys.Ini := 230;
             END_IF;
-	 	242:    // End Copy
-				yTx2		:= CONCAT('END   Copy  f: ',UINT_TO_STRING(fb_Nh_Copy_Dir.files),' s: ',UDINT_TO_STRING(fb_Nh_Copy_Dir.allSize) )  ;
-    			rb			:= _Nh1RowTxt(logRst := 1);
-      		aSys.Ini := 230;
-	 	249: 	// Err Copy Dir
-				;
+	 	242:  // End Copy
+            IF fb_Nh_Copy_Dir.ou.err THEN
+               aSys.Ini := 249;
+            ELSIF fb_Nh_Copy_Dir.ou.Done THEN
+         		aSys.Ini := 230;
+            END_IF;
+	 	243:  ;// End Copy
+	 	249: 	;// Err Copy Dir
+
 	 	250: 	// restart
   				//          aSys.prgChange    		:= PROGRAMISCHANGED();
 				rb:=_NhCloseAllFiles();                                         	
@@ -500,7 +498,7 @@ PROGRAM prgMain
      				aPar[i].ofs   := aPar[i-1].ofs + aPar[i-1].siz ;
      			END_FOR;
 				RandomU(seed := _NhSeed, init:=true);
-//				rb	:= SetValueToRamBox(ramBoxAddress:=0, length:=_NH_RAM, value := 0);
+				rb	:= SetValueToRamBox(ramBoxAddress:=0, length:=_NH_RAM, value := 0);
 //				_Nh_CUST_RESTART();                          											// nejake vlasne veci po restarte
 				IF IS_COLD_RESTART_PLC 		THEN	yTx0:='COLD';
 				ELSIF IS_HOT_RESTART_PLC   THEN  yTx0:='HOT';

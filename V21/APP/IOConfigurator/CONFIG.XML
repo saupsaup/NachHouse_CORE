@@ -201,8 +201,43 @@
         <Interface Class="CIB" SubClass="1" alias="CIB sbernice" rackOffset="0" busID="1030" Icon="cib_interface">
           <Peripheries/>
         </Interface>
-        <Interface Class="CIB" SubClass="2" alias="CIB sbernice" rackOffset="0" busID="1032" Icon="cib_interface">
-          <Peripheries/>
+        <Interface Class="CIB" SubClass="2" alias="CIB sbernice" rackOffset="0" busID="1032" Icon="cib_interface" expanded="true">
+          <Peripheries>
+            <Device xmlns="http://www.tecomat.com" physAddr="1873" enabled="true" sw="2.1" hw="0.3 5.0" tfw="2.1" sn="S4 0003" fast="1" rack="4146" position="0" default="false" statLoc="r16_p2_CIB_DIAG.STAT[0]" validStat="87" errLoc="r16_p2_CIB_DIAG.ERR[0]">
+              <Info>
+                <ProductCode>4324</ProductCode>
+                <ProductName>C-WS-0001R</ProductName>
+                <VendorID>00000000</VendorID>
+                <DeviceGroup>CFOX</DeviceGroup>
+                <Descriptor>4324_C-WS-0001R.tdd</Descriptor>
+              </Info>
+              <Mount>T1.6SHN</Mount>
+              <Objects xmlns="http://www.tecomat.com">
+                <Data>
+                  <ObjectData name="Devices.DisplayDevice.Enabled">01</ObjectData>
+                  <ObjectData name="Devices.DisplayDevice.DisplayTimeout.Enabled">01</ObjectData>
+                  <ObjectData name="Devices.ThermDevice.Enabled">01</ObjectData>
+                  <ObjectData name="Devices.RHDevice">01</ObjectData>
+                  <ObjectData name="r{RACK}_p{POSITION}_C_WS_0001R_init.Dev[0].leoutdev">E000</ObjectData>
+                  <ObjectData name="r{RACK}_p{POSITION}_C_WS_0001R_init.Dev[1].typdev">80</ObjectData>
+                  <ObjectData name="r{RACK}_p{POSITION}_C_WS_0001R_init.Dev[2].typdev">80</ObjectData>
+                  <ObjectData name="r{RACK}_p{POSITION}_C_WS_0001R_init.ai1type">22</ObjectData>
+                  <ObjectData name="r{RACK}_p{POSITION}_C_WS_0001R_init.ai2type">22</ObjectData>
+                  <ObjectData name="r{RACK}_p{POSITION}_C_WS_0001R_init.initial">01</ObjectData>
+                  <ObjectData name="r{RACK}_p{POSITION}_C_WS_0001R_init.timeout">05</ObjectData>
+                  <ObjectData name="r{RACK}_p{POSITION}_C_WS_0001R_init.tPress">46</ObjectData>
+                </Data>
+                <Aliases/>
+                <Notes/>
+                <Tags xmlns="http://www.tecomat.com"/>
+              </Objects>
+              <SerialChannels/>
+              <Ethernets/>
+              <Piggybacks/>
+              <Interfaces/>
+              <Editor xmlns="http://www.tecomat.com"/>
+            </Device>
+          </Peripheries>
         </Interface>
         <Interface Class="RF2" SubClass="UNDEF" alias="RFox2 sbernice" rackOffset="0" busID="40" Icon="rf2_interface" ChannelRefOnly="true" DevGroupRefOnly="RFM2">
           <Peripheries/>
@@ -222,5 +257,10 @@
         </ExpansionMaps>
       </Editor>
     </Device>
+    <Global>
+      <Editor left="315" top="126" width="1290" height="780" maximized="false">
+        <ProcessData AliasColWidth="120" NoteColWidth="170"/>
+      </Editor>
+    </Global>
   </Configuration>
 </TecoConfiguration>

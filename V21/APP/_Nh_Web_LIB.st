@@ -730,7 +730,7 @@ END_FUNCTION
 
 //   _NhfVaz(vaz := 1, row := false, whf := 2, del := true, all := true);          // zoznam FAV, k HET ou
 
-FUNCTION _NhfVaz   : BOOL      // najst alebo vymazat vetu/vety, pridat 1 vetu vratane parametrov
+FUNCTION _NhfVaz {HIDDEN}: BOOL      // najst alebo vymazat vetu/vety, pridat 1 vetu vratane parametrov
    VAR_INPUT
 //		lst	: BOOL;	
       par   : BOOL := true;   // veta ma parametre (vynimka su FAV, vazby k ZON,HET ... a ine vazby)

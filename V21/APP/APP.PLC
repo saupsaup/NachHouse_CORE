@@ -172,7 +172,7 @@ vartemp=1
 [/compileropts]
 
 [filesystem]
-autofiletransfer=1
+autofiletransfer=0
 sendpux=0
 sendexp=1
 sendpub=0
@@ -185,7 +185,7 @@ ttrpckgpass=""
 ttrpckgpasswarn=1
 ttrpckgpswtxt=1
 ttrpckgolcmapr=0
-ttrpckgolcname=0
+ttrpckgolcname=1
 genpuxver=0
 puxutf8=0
 geniecexp=1
@@ -222,7 +222,7 @@ ShowHWAddrsChecked=1
 SortByLogAddrChecked=0
 SortByHWAddrChecked=1
 SortByNameChecked=0
-SplitterPosition=527
+SplitterPosition=290
 [/IOConfigurator]
 
 [KnxImport]

@@ -168,6 +168,95 @@ TYPE
       CodePage : UINT;
    END_STRUCT;
 
+{$IFNDEF TCIB_CWS0001R_STAT}
+   TCIB_CWS0001R_STAT : STRUCT
+      OUFL : BOOL;
+      VLDL : BOOL;
+      OUFT : BOOL;
+      VLDT : BOOL;
+      OUFR : BOOL;
+      VLDR : BOOL;
+      OUFVR : BOOL;
+      VLDVR : BOOL;
+      OUFVI : BOOL;
+      VLDVI : BOOL;
+      OUF1 : BOOL;
+      VLD1 : BOOL;
+      OUF2 : BOOL;
+      VLD2 : BOOL;
+      dummy14 {HIDDEN} : BOOL;
+      dummy15 {HIDDEN} : BOOL;
+   END_STRUCT;
+{$END_IF}
+
+   TCIB_RFID : ARRAY[0..7] OF BYTE;
+
+{$IFNDEF TCIB_C_WS_0001R_IN}
+   TCIB_C_WS_0001R_IN : STRUCT
+      BUTTONS : USINT;
+      STAT : TCIB_CWS0001R_STAT;
+      LIGHT : USINT;
+      THERM : REAL;
+      RH : USINT;
+      VOC_RAW : REAL;
+      VOC_INDEX : REAL;
+      AI1 : REAL;
+      AI2 : REAL;
+      RF_CODE : TCIB_RFID;
+   END_STRUCT;
+{$END_IF}
+
+   TCIB_C_WS_0001R_LED_FLAT : STRUCT
+      INTENSITY : USINT;
+      WHITE : BOOL;
+      dummy2 {HIDDEN} : BOOL;
+      dummy3 {HIDDEN} : BOOL;
+      dummy4 {HIDDEN} : BOOL;
+      dummy5 {HIDDEN} : BOOL;
+      dummy6 {HIDDEN} : BOOL;
+      dummy7 {HIDDEN} : BOOL;
+      dummy8 {HIDDEN} : BOOL;
+   END_STRUCT;
+
+   TCIB_C_WS_0001R_LED_SPOT : STRUCT
+      INTENSITY : USINT;
+      GREEN1 : BOOL;
+      RED1 : BOOL;
+      GREEN2 : BOOL;
+      RED2 : BOOL;
+      GREEN3 : BOOL;
+      RED3 : BOOL;
+      GREEN4 : BOOL;
+      RED4 : BOOL;
+      GREEN5 : BOOL;
+      RED5 : BOOL;
+      GREEN6 : BOOL;
+      RED6 : BOOL;
+      GREEN7 : BOOL;
+      RED7 : BOOL;
+      GREEN8 : BOOL;
+      RED8 : BOOL;
+   END_STRUCT;
+
+   TCIB_C_WS_0001R_DISPLAY : STRUCT
+      MODE : BYTE;
+      VALUE1 : INT;
+      VALUE1_UNIT : BYTE;
+      VALUE2 : INT;
+      VALUE2_UNIT : BYTE;
+      ICONS : BYTE;
+      TEXT : STRING[16];
+   END_STRUCT;
+
+{$IFNDEF TCIB_C_WS_0001R_OUT}
+   TCIB_C_WS_0001R_OUT : STRUCT
+      MODUL_SETT : BYTE;
+      LED_FLAT : TCIB_C_WS_0001R_LED_FLAT;
+      LED_SPOT : TCIB_C_WS_0001R_LED_SPOT;
+      DISPLAY : TCIB_C_WS_0001R_DISPLAY;
+   END_STRUCT;
+{$END_IF}
+
    TCHStatistic : STRUCT
       STAT : USINT;
       ERR : USINT;
@@ -285,6 +374,8 @@ VAR_GLOBAL_INPUT
    IOP_SX1_ERR AT r0_p0_ITCL_DIAG.ERR[1];
    IOP_SX1_CIB_ERR AT r0_p0_ITCL_DIAG.ERR[1,2];
    IOP_SX1_TCL2_ERR AT r0_p0_ITCL_DIAG.ERR[1,1];
+(* C-WS-0001R *)
+   r4146_p0_IN : TCIB_C_WS_0001R_IN;
 (* ETH1_UNI0 *)
    r0_p0_Statistic_ETH1_UNI0 : TCHStatistic;
    UNI_ETH1_UNI0_IN : TUNI_ETH1_UNI0_IN;
@@ -301,6 +392,8 @@ VAR_GLOBAL_OUTPUT
    (* Aliases *)
    SIR_001 {PUBLIC} AT r16_p6_IO_OUT.DOS.DO1; (* SIR-1;101 *)
    TVE_001 {PUBLIC} AT r16_p6_IO_OUT.DOS.DO0; (* TVE-RE-1 CPU;X02 *)
+(* C-WS-0001R *)
+   r4146_p0_OUT : TCIB_C_WS_0001R_OUT;
 (* ETH1_UNI0 *)
    r0_p0_Control_ETH1_UNI0 : TCHControl2;
    UNI_ETH1_UNI0_OUT : TUNI_ETH1_UNI0_OUT;
