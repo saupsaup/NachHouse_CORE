@@ -435,6 +435,9 @@ PROGRAM prgMain
 
 		238:    ;	//Error section 230
 		239:    ;	//Error section 230
+				;
+
+
 
 	 	240:    // aktualne formulare -> NH2/200/FRM
             { $ IFDEF __NH_FRM }
@@ -467,6 +470,8 @@ PROGRAM prgMain
 	 	243:  ;// End Copy
 	 	249: 	;// Err Copy Dir
 
+	 	249: 	// Err Copy Dir
+				;
 	 	250: 	// restart
   				//          aSys.prgChange    		:= PROGRAMISCHANGED();
 				rb:=_NhCloseAllFiles();                                         	
@@ -568,9 +573,9 @@ PROGRAM prgMain
 
 
 	fb_Nh_Create_DIR();												// test and create directories
-	fb_Nh_Cfg_Backup();      	// save from mRam[] to file, or restore to mRam[] from file
 	fb_Nh_Copy_Dir();
-
+	fb_Nh_Cfg_Backup();      	// save from mRam[] to file, or restore to mRam[] from file
+	
 //	fb_Nh_Log_DBX_RW();		// write log to buffer (DBx,RBx) and read from buffer and send datagram to Pi or Write to USB/LOG
 //	fb_Nh_PLC_DIR();
 	
