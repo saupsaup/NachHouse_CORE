@@ -7,7 +7,9 @@
   "mosaic.shareRoot": "\\\\Mac\\NachHouse",
 	"mosaic.mosaicBin": "C:\\Program Files (x86)\\Teco\\Mosaic 2025.1\\Application",
 
-  "mosaic.makPathWin": "N:\\CORE\\V21\\APP\\APP.mak",
-  "mosaic.projectDir": "N:\\CORE\\V21\\APP",
+// "mosaic.makPathWin": "M:\\\\NachHouseApp\\\\Dev\\\\Dev_V200\\\\200\\\\200.MAK",
+//	"mosaic.makPathWin": "N:\\\\CORE\\\\V21\\\\APP\\\\APP.mak",
+//"mosaic.makPathWin": "APP.MAK",
+  "mosaic.projectDir": "N:\\\\CORE\\\\V21\\\\APP",
 //  "mosaic.projectDir": "\\\\Mac\\Home\\NachHouse\\CORE\\V21\\APP",
 }

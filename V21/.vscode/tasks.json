@@ -6,7 +6,7 @@
       // 🔵 BUILD APP (V200)
       // =====================================================
       "label": "V21: Build APP",			
-			"type": "process",
+			"type": "prlctl",
 			"command": "C:\\Program Files (x86)\\Teco\\Mosaic 2025.1\\Application\\MosaicL.exe",
 			"args": [
 				"-ttr",

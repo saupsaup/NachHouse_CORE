@@ -1,7 +1,9 @@
 {
   "folders": [
-//    { "path": "../CORE" },
-    { "path": "V21/APP" },
+    { "path": "../CORE/V20/APP" },
+		//    { "path": "../CORE" },
+//    { "path": "V20/APP" },
+//    { "path": "V21" },
 //    { "path": "V201" },
 //    { "path": "../PROJECTS" },
 //    { "path": "../SCRIPTS" }
@@ -11,12 +13,16 @@
     // ============================================================
     // ⭐ FAVORITES
     // ============================================================
-    "favorites.groups": [
+		"mosaic.plcHost": "192.168.33.200:61682",
+		"mosaic.vmName": "ae0a527c-1a74-4e39-9845-1622f6a3c782",
+		"mosaic.shareRoot": "\\\\Mac\\NachHouse",
+		"mosaic.mosaicBin": "C:\\Program Files (x86)\\Teco\\Mosaic 2025.1\\Application\\",
+
+		"favorites.groups": [
       "Default",
-      "CORE/V201/APP",
-      "CORE/200/APP"
-    ],
-    "favorites.currentGroup": "CORE/200/APP",
+      "CORE/V20/APP",
+         ],
+    "favorites.currentGroup": "Default",
 
     // ============================================================
     // 🔖 NUMBERED BOOKMARKS
@@ -164,128 +170,243 @@
     ".git": "folder"
 },
 
-
-
-
     // ============================================================
     // ⭐ FAVORITES – zdroje
     // ============================================================
     "favorites.resources": [
-			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/APP.ST",
-				"group": "CORE/200/APP"
+					{
+				"filePath": "APP.ST",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_SYS.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_SYS.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_TYP.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_TYP.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_CFG.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_CFG.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_GLB.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_GLB.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_SYS_WEB.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_SYS_WEB.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_LOG.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_LOG.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_FRM.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_FRM.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_NOTIFY.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_NOTIFY.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Het.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_Het.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_DALI.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_DALI.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_WRK.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_WRK.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_IMP_CFG.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_IMP_CFG.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Web_LIB.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_Web_LIB.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Web_SHW.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_Web_SHW.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Frm_LIB.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_Frm_LIB.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Frm_BRW.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_Frm_BRW.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Frm_SCR.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_Frm_SCR.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Frm_HOM.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_Frm_HOM.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Web_HOM.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_Web_HOM.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Web_BRW.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_Web_BRW.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_MNU.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_MNU.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_DEV.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_DEV.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_WEB.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_WEB.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_Ini.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_Ini.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/_Nh_UTIL.st",
-				"group": "CORE/200/APP"
+				"filePath": "_Nh_UTIL.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/cust.st",
-				"group": "CORE/200/APP"
+				"filePath": "cust.st",
+				"group": "Default"
 			},
 			{
-				"filePath": "/Users/pambm3/NachHouse/CORE/V200/APP/prgMain.ST",
-				"group": "CORE/200/APP"
+				"filePath": "prgMain.ST",
+				"group": "Default"
 			},
 			{
 				"filePath": "/Users/pambm3/NachHouse/CORE/NachHouse.code-workspace",
-				"group": "CORE/200/APP"
+				"group": "Default"
+			},
+
+
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/APP.ST",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_SYS.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_TYP.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_CFG.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_GLB.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_SYS_WEB.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_LOG.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_FRM.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_NOTIFY.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_Het.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_DALI.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_WRK.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_IMP_CFG.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_Web_LIB.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_Web_SHW.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_Frm_LIB.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_Frm_BRW.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_Frm_SCR.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_Frm_HOM.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_Web_HOM.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_Web_BRW.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_MNU.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_DEV.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_WEB.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_Ini.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/_Nh_UTIL.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/cust.st",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/V20/APP/prgMain.ST",
+				"group": "CORE/V20/APP"
+			},
+			{
+				"filePath": "/Users/pambm3/NachHouse/CORE/NachHouse.code-workspace",
+				"group": "CORE/V20/APP"
 			}
 		],
     "favorites.sortOrder": "MANUAL"

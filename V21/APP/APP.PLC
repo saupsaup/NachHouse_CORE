@@ -172,7 +172,7 @@ vartemp=1
 [/compileropts]
 
 [filesystem]
-autofiletransfer=0
+autofiletransfer=1
 sendpux=0
 sendexp=1
 sendpub=0

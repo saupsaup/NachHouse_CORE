@@ -330,7 +330,7 @@ PROGRAM prgMain
 				aSys.ini := 222;
 
 	 	222:    // START Import dev+HW address CIB
-				yTx2 		:= 'START Import CIB';
+				yTx2 		:= '->START Import CIB';
 				_Nh1RowTxt(logRst:=1); //,EmpRow:=1);
 				fb_Nh_Import_CIB(Go:=1);
             { $IFDEF __NH_WRK }
@@ -342,7 +342,7 @@ PROGRAM prgMain
 				IF fb_Nh_Import_CIB.err THEN				
 					aSys.Ini 	:= 217;
 				ELSIF fb_Nh_Import_CIB.done THEN
-					yTx2 	:= 'END Import CIB';
+					yTx2 	:= '->END Import CIB';
 					_Nh1RowTxt(logRst:=1);
 					aSys.Ini 	:= 225;
    			END_IF;
@@ -380,12 +380,15 @@ PROGRAM prgMain
 		
 
 	 	230:    // find CFG (aMem) in RamBox/DataBox/SDC, then copy to RamBox and then RBx->Mem
-			 	IF aSys.NewDBX THEN
+//			 	IF aSys.NewDBX THEN
+			 	IF true THEN
+               aSys.NewDBX    := FALSE;
 					aSys.CfgBckOk	:=	false;
 					aSys.UseRBx	   := aSys.IS_RBx;
 					rb:=_NhSysLogMsg(msg:='NEW Cfg requested !');
 					aSys.Ini			:= 220;
 				ELSE
+(*
 					fb_Nh_Cfg_Backup.IniEnd:=230; fb_Nh_Cfg_Backup.IniErr:=239; fb_Nh_Cfg_Backup.IniRun:=255;	// predbezne
 					IF aSys.IS_RBx  THEN																			// from RamBox
 						IF _NhIsDBxCfgOk(RBx:=true) THEN                      						// v RBx je obraz mem
@@ -394,27 +397,32 @@ PROGRAM prgMain
 							aSys.Ini 	:= 231;				
 						ELSIF aSys.CfgBckOk THEN      															// na zaciatku je 0, potom nastavi
     						yTx2  			:= '...No-RBx,but File.Ok.{File->RBx}';
-							fb_Nh_Cfg_Backup.Go		:= 12; 																		// file->RAM, next back here
+							fb_Nh_Cfg_Backup.Go	:= 2;  fb_Nh_Cfg_Backup.write	:= FALSE;																		// file->RAM, next back here
 						ELSIF _NhIsDBxCfgOk(RBx:=false) THEN                      					// v DBX je obraz mem
     						yTx2  		:= '..DBX-Ok.{DBX->File}';						
-							fb_Nh_Cfg_Backup.Go	:= 3;	   																// DBX->File
+							fb_Nh_Cfg_Backup.Go	:= 3;  fb_Nh_Cfg_Backup.write	:= FALSE;																		// file->RAM, next back here
+//							fb_Nh_Cfg_Backup.Go	:= 3;	   																// DBX->File
 						ELSE
    	 					yTx2  			:= '...No RBx/DBx/File -> {Go empty: NewDBX=true}';						
 							aSys.NewDBX    := true;
 						END_IF;
   					ELSIF aSys.CfgBckOk THEN																	// after
   						yTx2  := '...CPU has no RamBox,but File from DBx.Ok.{now File->Mem}';
-						fb_Nh_Cfg_Backup.Go:=11; fb_Nh_Cfg_Backup.IniEnd:=220;												// file->Mem
+						fb_Nh_Cfg_Backup.Go	:= 2;  fb_Nh_Cfg_Backup.write	:= FALSE; fb_Nh_Cfg_Backup.IniEnd:=220;	
+
+//						fb_Nh_Cfg_Backup.Go:=11; fb_Nh_Cfg_Backup.IniEnd:=220;												// file->Mem
 						aSys.UseRBx	:= false;
 					ELSIF _NhIsDBxCfgOk(RBx:=false) THEN                      						// v DBX je obraz mem
   						yTx2  		:= '..CPU has no RamBox,but DBX-Ok.{DBX->File}';						
-						fb_Nh_Cfg_Backup.Go	:= 3;	   																	// DBX->File, next back here
+						fb_Nh_Cfg_Backup.Go	:= 3;  fb_Nh_Cfg_Backup.write	:= FALSE;
+//						fb_Nh_Cfg_Backup.Go	:= 3;	   																	// DBX->File, next back here
 						aSys.UseRBx	:= true;
 					ELSE
 						yTx2 			:= 'CPU has no RamBox, and NOT DBX. {Go empty: NewDBX=true}';
 						aSys.NewDBX := true;
 					END_IF;
 					rb:=_NhSysLogMsg(msg:=yTx2);
+*)
 				END_IF;					
 //				aSys.Ini := 226;
 
@@ -462,14 +470,13 @@ PROGRAM prgMain
               	aSys.Ini := 230;
             END_IF;
 	 	242:  // End Copy
-            IF fb_Nh_Copy_Dir.ou.err THEN
+            IF fb_Nh_Copy_Dir.io.err THEN
                aSys.Ini := 249;
-            ELSIF fb_Nh_Copy_Dir.ou.Done THEN
-         		aSys.Ini := 230;
+            ELSIF fb_Nh_Copy_Dir.io.Done THEN
+//         		aSys.Ini := 230;
+         		aSys.Ini := 254;
             END_IF;
 	 	243:  ;// End Copy
-	 	249: 	;// Err Copy Dir
-
 	 	249: 	// Err Copy Dir
 				;
 	 	250: 	// restart
@@ -519,7 +526,7 @@ PROGRAM prgMain
 									);
 				rb:=_NhSysLogMsg(noIni:=TRUE,noTime:=TRUE,eRowAfter:=1,msg:=yTx2);
 				SYSTEM_S.F_EDGE_1DAY 	:= true;												// simulate new day for refresh day in room/het	
-            aSys.Ini 					:= 251;
+            aSys.Ini 					:= 241;
 
     	251: 	// 2.cyc After restart - create dir OK
 //				_Nh_Log_Dbx_ADD(ev:='AL1',src:='PIR',key:='Pir-1',val:='On',subj:=1,rom:=101);
@@ -550,12 +557,12 @@ PROGRAM prgMain
 		aSys.RefCycNew				:= true;												// v dalsom cykle nastartuje TypDay
 		// after xxx seconds of error-free operation, make a CFG backup
 	ELSIF  SYSTEM_S.F_EDGE_10SEC  THEN                   									// new min
-		_NhSysUpd(file:=255);															// Mem->RBx, ked bude file > 10 aj RBx->file
+//		_NhSysUpd(file:=255);															// Mem->RBx, ked bude file > 10 aj RBx->file
 	ELSIF aSys.RestartBck = false THEN										// este nebol urobeny backup po restarte		
 		IF  aSys.ini = 0 AND SYSTEM_S.COUNTER_1SEC > 4 THEN     						// 1min after restart, create backup file
-			IF _NhSysUpd(file:=255) THEN												// Mem->RBx, ked bude file > 10 aj RBx->file
-				aSys.RestartBck 	:= true;
-			END_IF;
+//			IF _NhSysUpd(file:=255) THEN												// Mem->RBx, ked bude file > 10 aj RBx->file
+//				aSys.RestartBck 	:= true;
+//			END_IF;
 		END_IF
 	END_IF;
 
@@ -571,10 +578,10 @@ PROGRAM prgMain
 
 
 
-
 	fb_Nh_Create_DIR();												// test and create directories
+	fb_Nh_Backup();      	// save from mRam[] to file, or restore to mRam[] from file
 	fb_Nh_Copy_Dir();
-	fb_Nh_Cfg_Backup();      	// save from mRam[] to file, or restore to mRam[] from file
+
 	
 //	fb_Nh_Log_DBX_RW();		// write log to buffer (DBx,RBx) and read from buffer and send datagram to Pi or Write to USB/LOG
 //	fb_Nh_PLC_DIR();

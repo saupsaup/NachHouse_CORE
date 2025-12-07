@@ -527,7 +527,7 @@ END_WHILE;
 rb    := _Nh1RowTxt(logRst:=1, adTime:=3);
 *)	
 	
-	_NhSysUpd(dbx:=2,file:=2);
+	_NhSysUpd(file:=2);
 END_FUNCTION
 
 
@@ -548,7 +548,7 @@ FUNCTION _NhDelVaz   {HIDDEN}   : BOOL           // najst alebo vymazat vetu/vet
    xVaz^          := eVaz;                      // tu staci toto pre zneplatnenie a vycistenie vety
 	aSys.RefCycNew	:= true;
 
-	_NhSysUpd(dbx:=2,file:=2);
+	_NhSysUpd(file:=2);
 
 END_FUNCTION
 

@@ -1,4 +1,5 @@
-﻿VAR_GLOBAL
+﻿aaaa 
+VAR_GLOBAL
 //	yVer	AT mRam[20000]	: NH_DBX_VER;            // verzia sa umiestni dalej do virtualne pamati. Na zaciatku sa pouzije a potom sa prepisuje datami
 //   aDbx	AT mRam[0]	: NH_DBX;
    aCfg 	AT mRam[_Cfg0]	: ARRAY[1.._Nh_CFG] OF NH_CFG_CFG :=  [

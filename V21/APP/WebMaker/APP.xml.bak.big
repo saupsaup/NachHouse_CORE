@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="windows-1250" ?>
-<web version="8.1" propfont="true" foot="" dwMode="0" flat="true" MaxUid="20543" height="1219" width="610" menu="false" title="false" border="false" flatcolor="16771043" top="0" left="0" iniScale="100" maxScale="100" useIniScale="false" useMaxScale="false" userScale="true" webApp="true" bgdupl="true" bgcolor="16777215" icon="" id18="0" author="© Au Media, s.r.o." encoding="windows-1250">
+<web version="8.1" propfont="true" foot="" dwMode="0" flat="true" MaxUid="20554" height="1219" width="610" menu="false" title="false" border="false" flatcolor="16771043" top="0" left="0" iniScale="100" maxScale="100" useIniScale="false" useMaxScale="false" userScale="true" webApp="true" bgdupl="true" bgcolor="16777215" icon="" id18="0" author="© Au Media, s.r.o." encoding="windows-1250">
 	<panels></panels>
 	<Grid Enable="1" X="5" Y="5" />
 	<globalset newdim="1" maxvar="0" />
@@ -1228,11 +1228,11 @@
 		</page>
 	</group>
 	<group caption="Service" level="9" locked="0" altdim="true" notforid="true" width="585" height="800" dwMode="0" useIniScale="false" useMaxScale="false" userScale="true" iniScale="100" maxScale="100" Uid="20572">
-		<page notification="true" caption="PLCDISK" name="PLCDISK.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" ucid="1764093558" width="574" height="567" Uid="20573">
-			<object caption="" X="61" Y="65" xoff="5" yoff="3" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20574">
+		<page notification="true" caption="PLCDISK" name="PLCDISK.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" ucid="1764915277" width="574" height="713" Uid="20573">
+			<object caption="" X="61" Y="57" xoff="0" yoff="2" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20574">
 				<image optcap="" variable="fb_Nh_Create_DIR.exec" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="Start check DIR+Create" X="12" Y="69" xoff="2" yoff="1" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="false" size="18" transparent="true" visneg="false" Uid="20575" hint="fb_Nh_Create_DIR.exec">
+			<object caption="Start check DIR+Create" X="19" Y="57" xoff="6" yoff="2" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="false" size="18" transparent="true" visneg="false" Uid="20575" hint="fb_Nh_Create_DIR.exec">
 				<label />
 			</object>
 			<object caption="" X="7" Y="16" xoff="2" yoff="0" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20576">
@@ -1242,16 +1242,16 @@
 				<label />
 			</object>
 			<object caption="" X="36" Y="16" xoff="0" yoff="0" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20578">
-				<edit variable="aSys.DiskHed.disk[1].Info.TotalNumberOfKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="5" />
+				<edit variable="aSys.DiskHed.disk[1].Info.TotalNumberOfKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="9" />
 			</object>
 			<object caption="" X="22" Y="16" xoff="7" yoff="0" level="9" readonly="false" front="16777215" back="14511872" strong="false" italic="true" size="18" transparent="false" visneg="false" Uid="20579">
-				<edit variable="aSys.DiskHed.disk[1].Info.TotalNumberOfFreeKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="21" />
+				<edit variable="aSys.DiskHed.disk[1].Info.TotalNumberOfFreeKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="25" />
 			</object>
 			<object caption="" X="49" Y="16" xoff="1" yoff="0" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20580">
-				<edit variable="aSys.DiskHed.disk[1].freeSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="9" />
+				<edit variable="aSys.DiskHed.disk[1].freeSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="13" />
 			</object>
 			<object caption="" X="55" Y="16" xoff="3" yoff="0" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20581">
-				<edit variable="aSys.DiskHed.disk[1].minSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="13" />
+				<edit variable="aSys.DiskHed.disk[1].minSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="17" />
 			</object>
 			<object caption="free space" X="22" Y="12" xoff="2" yoff="7" level="0" readonly="false" front="65408" back="16777215" strong="false" italic="false" size="18" transparent="true" visneg="false" Uid="20582" hint="fb_Nh_Create_DIR.exec">
 				<label />
@@ -1275,16 +1275,16 @@
 				<label />
 			</object>
 			<object caption="" X="36" Y="20" xoff="0" yoff="3" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20589">
-				<edit variable="aSys.DiskHed.disk[2].Info.TotalNumberOfKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="6" />
+				<edit variable="aSys.DiskHed.disk[2].Info.TotalNumberOfKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="10" />
 			</object>
 			<object caption="" X="22" Y="20" xoff="7" yoff="3" level="9" readonly="false" front="16777215" back="14511872" strong="false" italic="true" size="18" transparent="false" visneg="false" Uid="20590">
-				<edit variable="aSys.DiskHed.disk[2].Info.TotalNumberOfFreeKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="22" />
+				<edit variable="aSys.DiskHed.disk[2].Info.TotalNumberOfFreeKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="26" />
 			</object>
 			<object caption="" X="49" Y="20" xoff="1" yoff="3" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20591">
-				<edit variable="aSys.DiskHed.disk[2].freeSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="10" />
+				<edit variable="aSys.DiskHed.disk[2].freeSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="14" />
 			</object>
 			<object caption="" X="55" Y="20" xoff="3" yoff="3" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20592">
-				<edit variable="aSys.DiskHed.disk[2].minSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="18" />
+				<edit variable="aSys.DiskHed.disk[2].minSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="22" />
 			</object>
 			<object caption="" X="7" Y="24" xoff="2" yoff="6" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20593">
 				<edit variable="aSys.DiskHed.disk[3].path" type="STRING[20]" intf="0" timf="" align="left" zero="false" prec="-1" size="10" global="true" border="true" width="120" height="28" tabindex="3" />
@@ -1293,16 +1293,16 @@
 				<label />
 			</object>
 			<object caption="" X="36" Y="24" xoff="0" yoff="6" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20595">
-				<edit variable="aSys.DiskHed.disk[3].Info.TotalNumberOfKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="7" />
+				<edit variable="aSys.DiskHed.disk[3].Info.TotalNumberOfKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="11" />
 			</object>
 			<object caption="" X="22" Y="24" xoff="7" yoff="6" level="9" readonly="false" front="16777215" back="14511872" strong="false" italic="true" size="18" transparent="false" visneg="false" Uid="20596">
-				<edit variable="aSys.DiskHed.disk[3].Info.TotalNumberOfFreeKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="23" />
+				<edit variable="aSys.DiskHed.disk[3].Info.TotalNumberOfFreeKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="27" />
 			</object>
 			<object caption="" X="49" Y="24" xoff="1" yoff="6" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20597">
-				<edit variable="aSys.DiskHed.disk[3].freeSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="11" />
+				<edit variable="aSys.DiskHed.disk[3].freeSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="15" />
 			</object>
 			<object caption="" X="55" Y="24" xoff="3" yoff="6" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20598">
-				<edit variable="aSys.DiskHed.disk[3].minSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="19" />
+				<edit variable="aSys.DiskHed.disk[3].minSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="23" />
 			</object>
 			<object caption="" X="7" Y="29" xoff="2" yoff="1" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20599">
 				<edit variable="aSys.DiskHed.disk[4].path" type="STRING[20]" intf="0" timf="" align="left" zero="false" prec="-1" size="10" global="true" border="true" width="120" height="28" tabindex="4" />
@@ -1311,34 +1311,34 @@
 				<label />
 			</object>
 			<object caption="" X="36" Y="29" xoff="0" yoff="1" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20601">
-				<edit variable="aSys.DiskHed.disk[4].Info.TotalNumberOfKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="8" />
+				<edit variable="aSys.DiskHed.disk[4].Info.TotalNumberOfKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="12" />
 			</object>
 			<object caption="" X="22" Y="29" xoff="7" yoff="1" level="9" readonly="false" front="16777215" back="14511872" strong="false" italic="true" size="18" transparent="false" visneg="false" Uid="20602">
-				<edit variable="aSys.DiskHed.disk[4].Info.TotalNumberOfFreeKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="24" />
+				<edit variable="aSys.DiskHed.disk[4].Info.TotalNumberOfFreeKBytes" type="UDINT" intf="0" timf="" align="right" zero="false" prec="-1" size="8" global="true" border="false" width="96" height="26" tabindex="28" />
 			</object>
 			<object caption="" X="49" Y="29" xoff="1" yoff="1" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20603">
-				<edit variable="aSys.DiskHed.disk[4].freeSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="12" />
+				<edit variable="aSys.DiskHed.disk[4].freeSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="16" />
 			</object>
 			<object caption="" X="55" Y="29" xoff="3" yoff="1" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20604">
-				<edit variable="aSys.DiskHed.disk[4].minSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="20" />
+				<edit variable="aSys.DiskHed.disk[4].minSpace" type="USINT" intf="0" timf="" align="right" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="24" />
 			</object>
 			<object caption="[Bytes]" X="56" Y="39" xoff="5" yoff="1" level="0" readonly="false" front="65408" back="16777215" strong="false" italic="false" size="18" transparent="true" visneg="false" Uid="20605" hint="fb_Nh_Create_DIR.exec">
 				<label />
 			</object>
 			<object caption="" X="66" Y="16" xoff="0" yoff="0" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20606">
-				<edit variable="aSys.DiskHed.disk[1].fileDeleted" type="UINT" intf="0" timf="" align="right" zero="false" prec="-1" size="4" global="true" border="true" width="54" height="28" tabindex="14" />
+				<edit variable="aSys.DiskHed.disk[1].fileDeleted" type="UINT" intf="0" timf="" align="right" zero="false" prec="-1" size="4" global="true" border="true" width="54" height="28" tabindex="18" />
 			</object>
 			<object caption="" X="66" Y="20" xoff="0" yoff="3" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20607">
-				<edit variable="aSys.DiskHed.disk[2].fileDeleted" type="UINT" intf="0" timf="" align="right" zero="false" prec="-1" size="4" global="true" border="true" width="54" height="28" tabindex="15" />
+				<edit variable="aSys.DiskHed.disk[2].fileDeleted" type="UINT" intf="0" timf="" align="right" zero="false" prec="-1" size="4" global="true" border="true" width="54" height="28" tabindex="19" />
 			</object>
 			<object caption="" X="66" Y="24" xoff="0" yoff="6" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20608">
-				<edit variable="aSys.DiskHed.disk[3].fileDeleted" type="UINT" intf="0" timf="" align="right" zero="false" prec="-1" size="4" global="true" border="true" width="54" height="28" tabindex="16" />
+				<edit variable="aSys.DiskHed.disk[3].fileDeleted" type="UINT" intf="0" timf="" align="right" zero="false" prec="-1" size="4" global="true" border="true" width="54" height="28" tabindex="20" />
 			</object>
 			<object caption="" X="66" Y="29" xoff="0" yoff="1" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20609">
-				<edit variable="aSys.DiskHed.disk[4].fileDeleted" type="UINT" intf="0" timf="" align="right" zero="false" prec="-1" size="4" global="true" border="true" width="54" height="28" tabindex="17" />
+				<edit variable="aSys.DiskHed.disk[4].fileDeleted" type="UINT" intf="0" timf="" align="right" zero="false" prec="-1" size="4" global="true" border="true" width="54" height="28" tabindex="21" />
 			</object>
 			<object caption="" X="10" Y="40" xoff="3" yoff="3" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20610">
-				<edit variable="fb_Nh_PLC_DIR.go" type="USINT" intf="0" timf="" align="left" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="25" />
+				<edit variable="fb_Nh_PLC_DIR.go" type="USINT" intf="0" timf="" align="left" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="29" />
 			</object>
 			<object caption="go" X="16" Y="40" xoff="5" yoff="3" level="0" readonly="false" front="65408" back="16777215" strong="false" italic="false" size="18" transparent="true" visneg="false" Uid="20611">
 				<label />
@@ -1347,7 +1347,7 @@
 				<label />
 			</object>
 			<object caption="" X="10" Y="45" xoff="3" yoff="3" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20613">
-				<edit variable="fb_Nh_PLC_DIR.dirName" type="STRING[40]" intf="0" timf="" align="left" zero="false" prec="-1" size="30" global="true" border="true" width="340" height="28" tabindex="28" />
+				<edit variable="fb_Nh_PLC_DIR.dirName" type="STRING[40]" intf="0" timf="" align="left" zero="false" prec="-1" size="30" global="true" border="true" width="340" height="28" tabindex="32" />
 			</object>
 			<object caption="Path" X="2" Y="46" xoff="7" yoff="0" level="0" readonly="false" front="65408" back="16777215" strong="false" italic="false" size="18" transparent="true" visneg="false" Uid="20614">
 				<label />
@@ -1368,7 +1368,7 @@
 				<image optcap="" variable="fb_Nh_PLC_DIR.testOnly" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
 			<object caption="" X="54" Y="50" xoff="6" yoff="3" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20620">
-				<edit variable="fb_Nh_PLC_DIR.lifeTime" type="UINT" intf="0" timf="" align="left" zero="false" prec="-1" size="5" global="true" border="true" width="65" height="28" tabindex="27" />
+				<edit variable="fb_Nh_PLC_DIR.lifeTime" type="UINT" intf="0" timf="" align="left" zero="false" prec="-1" size="5" global="true" border="true" width="65" height="28" tabindex="31" />
 			</object>
 			<object caption="" X="17" Y="49" xoff="7" yoff="1" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20621" hint="delEmptyDIR">
 				<image optcap="" variable="fb_Nh_PLC_DIR.EmptyDIR" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
@@ -1377,7 +1377,7 @@
 				<image optcap="" variable="fb_Nh_PLC_DIR.append" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
 			<object caption="" X="54" Y="45" xoff="6" yoff="3" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20623">
-				<edit variable="fb_Nh_PLC_DIR.nCyc" type="UINT" intf="0" timf="" align="left" zero="false" prec="-1" size="5" global="true" border="true" width="65" height="28" tabindex="26" />
+				<edit variable="fb_Nh_PLC_DIR.nCyc" type="UINT" intf="0" timf="" align="left" zero="false" prec="-1" size="5" global="true" border="true" width="65" height="28" tabindex="30" />
 			</object>
 			<object caption="" X="10" Y="49" xoff="3" yoff="1" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20624" hint="noSubdir">
 				<image optcap="" variable="fb_Nh_PLC_DIR.noSubdir" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
@@ -1385,8 +1385,29 @@
 			<object caption="" X="23" Y="49" xoff="4" yoff="1" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20625" hint="checkFile">
 				<image optcap="" variable="fb_Nh_PLC_DIR.checkFile" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="Submit" X="37" Y="61" xoff="7" yoff="5" level="0" readonly="false" front="0" back="15790320" strong="false" italic="false" size="13" transparent="false" visneg="false" Uid="20626">
-				<submit width="136" height="28" border="true" tabindex="29" />
+			<object caption="Submit" X="49" Y="86" xoff="1" yoff="5" level="0" readonly="false" front="0" back="15790320" strong="false" italic="false" size="13" transparent="false" visneg="false" Uid="20626">
+				<submit width="136" height="28" border="true" tabindex="33" />
+			</object>
+			<object caption="" X="34" Y="75" xoff="1" yoff="3" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20547">
+				<edit variable="fb_Nh_Backup.go" type="USINT" intf="0" timf="" align="left" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="5" />
+			</object>
+			<object caption="" X="34" Y="62" xoff="1" yoff="7" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20548">
+				<edit variable="fb_Nh_Backup.IniRun" type="USINT" intf="0" timf="" align="left" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="6" />
+			</object>
+			<object caption="" X="34" Y="66" xoff="1" yoff="5" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20549">
+				<edit variable="fb_Nh_Backup.IniErr" type="USINT" intf="0" timf="" align="left" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="8" />
+			</object>
+			<object caption="" X="34" Y="70" xoff="1" yoff="3" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20550">
+				<edit variable="fb_Nh_Backup.IniEnd" type="USINT" intf="0" timf="" align="left" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="7" />
+			</object>
+			<object caption="" X="9" Y="61" xoff="6" yoff="5" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20551">
+				<imagebtn variable="aSys.UpdFile" value="255" timeout="500" type="USINT" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
+			</object>
+			<object caption="" X="43" Y="66" xoff="4" yoff="5" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20552" hint="noSubdir">
+				<image optcap="" variable="fbRW.io.done" type="" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
+			</object>
+			<object caption="" X="43" Y="61" xoff="4" yoff="5" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20553" hint="noSubdir">
+				<image optcap="" variable="fbRW.io.busy" type="" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
 		</page>
 		<page caption="RBx" name="RAMBOX.XML" background="" bgcolor="3548178" repeat="false" hidden="false" ajax="true" pause="1000" level="0" ucid="1764018688" width="575" height="164" Uid="20681">
