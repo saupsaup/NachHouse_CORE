@@ -16,7 +16,7 @@
 ],
 		},
 		{
-			"label": "Mosaic Compiler",
+			"label": "Mosaic Compile",
 			"type": "shell",
 			"dependsOn": "Map N:",
 			"command": "prlctl",
