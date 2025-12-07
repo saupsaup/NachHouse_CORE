@@ -1,0 +1,10 @@
+{
+	// ============================================================
+	// ⚙️ MOSAIC / VM – verzia V200
+	// ============================================================
+	//	"mosaic.plcHost": "192.168.33.200:61682",
+	//	"mosaic.vmName": "ae0a527c-1a74-4e39-9845-1622f6a3c782",
+	//	"mosaic.shareRoot": "\\\\Mac\\NachHouse",
+	"mosaic.makPathWin": "N:\\CORE\\V20\\APP\\APP.mak",
+	"mosaic.projectDir": "M:\\CORE\\V20\\APP",
+}
