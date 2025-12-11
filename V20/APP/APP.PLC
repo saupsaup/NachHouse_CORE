@@ -82,7 +82,7 @@ mustcompile=0
 [/plcwusb]
 
 [txtextsyneditor]
-GModif=0
+GModif=1
 GMakeBackup=1
 GAutoIndent=1
 GUseTab=1
