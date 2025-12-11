@@ -3,10 +3,10 @@ Version="xPRO","4.3.00"
 [/desktop]
 
 [dockinfo]
-centralpc=178977900,1,0,0
-leftpane=179002788,0,0,1,190,0
-bottompane=179009896,1,240
-rightpane=178977288,0,167,1
+centralpc=178254348,1,0,0
+leftpane=193158376,0,0,1,190,0
+bottompane=193165648,1,240
+rightpane=193159952,1,103,1
 [/dockinfo]
 
 [closedtextpaneleditors]
@@ -35,6 +35,7 @@ maskhistory=""
 [/txtextsyneditor]
 
 [closedtextsyneditors]
+txsyned="SYSGEN\_NH_11_WRK$31.mas",17,1,1,1,1,1,4019856107,31222442,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 txsyned="_Nh_IMP_CFG.st",8,11,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 txsyned="_Nh_Frm_HOM.st",606,149,1,1,1,1,1088127828,31222372,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 txsyned="APP.st",1,1,1,1,1,1,2223811902,31219902,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -66,7 +67,6 @@ txsyned="..\V200\APP\_Nh_GLB.st",996,15,1,1,1,1,3525270550,31219824,0,0,0,0,0,0,
 txsyned="..\V200\APP\_Nh_IMP_CFG.st",228,46,1,1,1,1,2479103449,31219824,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 txsyned="..\V200\APP\_NH_IMP_CFG.ST",126,1,1,1,1,1,2479103449,31219824,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 txsyned="..\V200\APP\_Nh_Web_SHW.st",1861,43,1,1,1,1,2573686009,31218072,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-txsyned="..\V200\APP\_Nh_Ini.st",715,1,1,1,1,1,2592792992,31219076,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 [/closedtextsyneditors]
 
 [finddialog]
@@ -127,7 +127,7 @@ findhistory="aSys.aSys.LogDBx.",".Dtgr","aSys.DiskInfo[","_Nh_Ini_Create","fbFil
 [/replacedialog]
 
 [plcdiskdlg]
-lastdir="//NH2/V20/DBX/2025_12/"
+lastdir="//RAM/FRM/"
 showdetails=1
 [/plcdiskdlg]
 
@@ -138,15 +138,15 @@ nodeplus="PlcSw"
 [/prjmngr]
 
 [msgwin2]
-window=179009896,1,0,0,210,1471,42,510,210,1189,0,0,2
+window=193165648,1,0,0,210,1512,42,510,210,1189,0,0,2
 [/msgwin2]
 
 [msgwin1]
-window=179009896,1,0,0,210,1471,42,510,210,1189,0,0,1
+window=193165648,1,0,0,210,1512,42,510,210,1189,0,0,1
 [/msgwin1]
 
 [breakswin]
-window=179009896,1,0,0,210,1471,42,510,210,1189,0,0,0
+window=193165648,1,0,0,210,1512,42,510,210,1189,0,0,0
 hdrwidth0=200
 hdrwidth1=30
 hdrwidth2=80
@@ -184,11 +184,11 @@ font="Courier New",1,0,10,-13,-2147483640,0,0
 [/memwin2]
 
 [watch2win]
-window=178977900,1,0,0,543,1277,221,522,210,1189,0,0,1
+window=178254348,1,0,0,611,1318,221,522,210,1189,0,0,1
 hdrnamew=310,132,0
 font="Courier New",10
 hiresreadability=0
-defbank="WEB"
+defbank="FRW"
 toolbvis=1
 alignnumbers=0
 showanalyserr=1
@@ -198,11 +198,11 @@ mem1w=188
 mem1visible=0
 mem2w=190
 mem2visible=0
-storednames="aSys.OpenFilesCount","fS","DISABLE_WEB_DEL_BUTTONS","a1b","a1a","cc","bb","aa","uZon","yFrm_252","	yFrm_250	AT mObr			{HIDDEN} : NH_FRM_250;					// import from NH2.exp","yImp","yFrmData","yFrmName","yZon","yRom"
+storednames="yFrm_246","yyFrm_012","yFrm_012","aSys.OpenFilesCount","fS","DISABLE_WEB_DEL_BUTTONS","a1b","a1a","cc","bb","aa","uZon","yFrm_252","	yFrm_250	AT mObr			{HIDDEN} : NH_FRM_250;					// import from NH2.exp","yImp","yFrmData"
 [/watch2win]
 
 [weblc]
-lastfile="NONAME1.txt"
+lastfile=""
 listwidth=121
 findhistory=""
 replacehistory=""
@@ -215,19 +215,19 @@ valobj="1","0"
 [/evalmodifdlg]
 
 [paneltexted]
-editor="XClip-Panel",1,0,1,1,1,1,5164606,1700400,353302532,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-window=0,0,72,136,313,483,313,381,313,483,0,0,-1
+editor="XClip-Panel",1,0,1,1,1,1,5164606,1700876,333903376,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+window=0,0,0,94,313,483,313,381,313,483,0,0,-1
 font="Lucida Console",11
 [/paneltexted]
 
 [ctrlswin]
-window=179002788,1,0,0,543,182,775,9,694,182,0,0,0
+window=193158376,1,0,0,611,182,775,9,694,182,0,0,0
 [/ctrlswin]
 
 [prjfileswin]
-window=179002788,1,0,0,543,182,775,9,694,182,0,0,1
+window=193158376,1,0,0,611,182,775,9,694,182,0,0,1
 filesheight=376
-relatedheight=122
+relatedheight=190
 relatedcnt=7
 relfile0="Sysgen\APP.map"
 relfile1="APP.exp"
@@ -244,14 +244,14 @@ utf8bom=1
 [/configvscode]
 
 [Datalogger]
-window=178977900,0,0,0,660,1088,221,9,694,1189,0,0,0
+window=178254348,0,0,0,654,1448,221,9,694,1189,0,0,0
 [/Datalogger]
 
 [CFC_Editors]
 [/CFC_Editors]
 
 [IOConfigurator]
-window=179002788,1,0,0,543,182,727,291,694,182,0,1,4
+window=193158376,1,0,0,611,182,641,190,694,182,0,1,4
 [/IOConfigurator]
 
 [PanelSIM_1]
@@ -261,6 +261,40 @@ window=0,0,18,43,196,352,196,352,196,352,0,0,-1
 [FormRegMngr1]
 window=0,0,695,273,317,233,317,233,317,233,0,0,-1
 [/FormRegMngr1]
+
+[FormDesign1]
+window=178254348,1,0,0,611,1318,641,1326,641,1326,0,1,4
+[/FormDesign1]
+
+[textsyneditor]
+editor="_Nh_01_SYS.st",1,0,0,1961,71,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
+window=178254348,1,0,0,611,1318,885,1262,885,1262,0,0,2
+localparams=0,1,1,1,1,30,0,80,1,3,0,0,1
+font="Consolas",11
+relay=0,0,0,0,0,"",0,0
+inspectorctx="__INSTANCE___NH_LANG : _NH_LANG{1}__INSTANCE___NHVAL2 : _NHVAL2{1}__INSTANCE___NH_WEB_SHW_107 : _NH_WEB_SHW_107{1}__INSTANCE___NHTCHOBJ : _NHTCHOBJ{1}fbWebControl : _NhWebControl{1}Main"
+debugparams=1,1,1,1,0,1
+[/textsyneditor]
+
+[textsyneditor]
+editor="_Nh_07_FRM.st",1,0,0,1017,43,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
+window=178254348,1,0,0,611,1318,641,1326,641,1326,0,0,3
+localparams=0,1,1,1,1,30,0,80,1,3,0,0,1
+font="Consolas",11
+relay=0,0,0,0,0,"",0,0
+inspectorctx=""
+debugparams=1,0,1,0,0,0
+[/textsyneditor]
+
+[textsyneditor]
+editor="_Nh_15_Frm_LIB.st",1,0,0,1230,83,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1
+window=178254348,1,0,0,611,1318,641,1326,641,1326,0,0,5
+localparams=0,1,1,1,1,30,0,80,1,3,0,0,1
+font="Consolas",11
+relay=0,0,0,0,0,"",0,0
+inspectorctx="_Nh_Brw_Row_DSH{1}_Nh_Frm_Row_BRW{1}_Nh_Web_BRW{1}_Nh_Web_CMD{1}fbWebControl : _NhWebControl{1}Main"
+debugparams=1,0,1,0,0,0
+[/textsyneditor]
 
 [inspectors]
 [/inspectors]

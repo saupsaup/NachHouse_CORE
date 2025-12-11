@@ -381,12 +381,12 @@ PROGRAM prgMain
 
 
 	 	230:   // RESTORE CFG from RamBox/DataBox/SDC, then load to Mem or copy from file to to RamBox and then RBx->Mem
-				fb_Nh_Backup( go:=99, IniEnd:=231, IniRun:=232, IniErr:=233 ); 
+				fb_Nh_Backup( go:=99, IniEnd:=231, IniRun:=255, IniErr:=239 ); 
 				rb := _NhSysLogMsg(msg:='-> Restore CFG-START');
 				aSys.Ini := 231;
 	 	231:  // runing RESTORE
 				aSys.Ini		:= 220;															// DEFAULT next task. (change in file section)
-			 	IF aSys.NewDBX THEN 		aSys.NewDBX := FALSE;
+			 	IF true THEN //RNaSys.NewDBX THEN 		aSys.NewDBX := FALSE;
 					aSys.UseRBx	:= aSys.IS_RBx;
 					yTx2  		:= '-> NEW Cfg requested !';
 //					aSys.Ini		:= 220;
@@ -412,9 +412,6 @@ PROGRAM prgMain
 				END_IF;					
 				rb := _NhSysLogMsg(msg:=yTx2);
 
-	 	232:  ;	// running fb_Nh_Backup
-	 	233:  ;	// error fb_Nh_Backup
-
 		235:    // START 1.Import CFG DBX->Mem
 				yTx2 		:= CONCAT('-> START Load & Convert Old CFG: ',BOOL_TO_STRINGF(aSys.UseRBx,'%b{Rbx^DBX}'),'->Mem.',BOOL_TO_STRINGF(xDbx^.FromDBx128,' DBx128: %b{Y^N}') );
 				_Nh1RowTxt(logRst:=1); //,EmpRow:=1);
@@ -429,6 +426,7 @@ PROGRAM prgMain
    			END_IF;
 
 		238:    ;	//Error section 230
+
 		239:    ;	//Error section 230
 
 	 	240:    // aktualne formulare -> NH2/200/FRM
@@ -461,7 +459,6 @@ PROGRAM prgMain
 //         		aSys.Ini := 254;
             END_IF;
 
-	 	243:  ;// End Copy
 	 	249: 	// Err Copy Dir
 				;
 	 	250: 	// restart
@@ -512,7 +509,7 @@ PROGRAM prgMain
 									);
 				rb:=_NhSysLogMsg(noIni:=TRUE,noTime:=TRUE,eRowAfter:=1,msg:=yTx2);
 				SYSTEM_S.F_EDGE_1DAY 	:= true;												// simulate new day for refresh day in room/het	
-            aSys.Ini 					:= 241;
+            aSys.Ini 					:= 240;
 
             DISABLE_WEB_DEL_BUTTONS := FALSE;
 
@@ -549,9 +546,9 @@ PROGRAM prgMain
 //		_NhSysUpd(file:=255);															// Mem->RBx, ked bude file > 10 aj RBx->file
 	ELSIF aSys.RestartBck = false THEN										// este nebol urobeny backup po restarte		
 		IF  aSys.ini = 0 AND SYSTEM_S.COUNTER_1SEC > 4 THEN     						// 1min after restart, create backup file
-			IF _NhSysUpd(file:=254) THEN												// Mem->RBx, ked bude file > 10 aj RBx->file
+//			IF _NhSysUpd(file:=254) THEN												// Mem->RBx, ked bude file > 10 aj RBx->file
 				aSys.RestartBck 	:= true;
-			END_IF;
+//			END_IF;
 		END_IF
 	END_IF;
 
