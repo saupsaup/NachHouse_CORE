@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="windows-1250" ?>
-<web version="8.1" propfont="true" foot="" dwMode="0" flat="true" MaxUid="20666" height="1219" width="610" menu="false" title="false" border="false" flatcolor="16771043" top="0" left="0" iniScale="100" maxScale="100" useIniScale="false" useMaxScale="false" userScale="true" webApp="true" bgdupl="true" bgcolor="16777215" icon="" id18="0" author="© Au Media, s.r.o." encoding="windows-1250">
+<web version="8.1" propfont="true" foot="" dwMode="0" flat="true" MaxUid="20772" height="1219" width="610" menu="false" title="false" border="false" flatcolor="16771043" top="0" left="0" iniScale="100" maxScale="100" useIniScale="false" useMaxScale="false" userScale="true" webApp="true" bgdupl="true" bgcolor="16777215" icon="" id18="0" author="© Au Media, s.r.o." encoding="windows-1250">
 	<panels></panels>
 	<Grid Enable="1" X="5" Y="5" />
 	<globalset newdim="1" maxvar="0" />
 	<group caption="Index" level="1" locked="0" altdim="false" notforid="true" Uid="20536">
-		<page notification="true" caption="Redir" name="REDIR.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" ucid="1695538966" width="420" height="178" default="true" Uid="20543">
-			<object caption="" X="4" Y="11" xoff="6" yoff="5" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="30" transparent="false" visneg="false" Uid="20534">
+		<page notification="true" caption="Redir" name="REDIR.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" ucid="1695538966" width="420" height="178" Uid="20760">
+			<object caption="" X="4" Y="11" xoff="6" yoff="5" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="30" transparent="false" visneg="false" Uid="20753">
 				<edit variable="targetPage" type="STRING[20]" intf="0" timf="" align="left" zero="false" prec="-1" size="20" global="true" border="true" width="390" height="42" tabindex="1" />
 			</object>
-			<object caption="Submit" X="5" Y="19" xoff="3" yoff="6" level="0" readonly="false" front="0" back="15790320" strong="false" italic="false" size="13" transparent="false" visneg="false" Uid="20535">
+			<object caption="Submit" X="5" Y="19" xoff="3" yoff="6" level="0" readonly="false" front="0" back="15790320" strong="false" italic="false" size="13" transparent="false" visneg="false" Uid="20754">
 				<submit width="136" height="28" border="true" tabindex="2" />
 			</object>
 		</page>
 	</group>
 	<group caption="M" level="1" locked="0" altdim="false" notforid="true" Uid="20544">
-		<page caption="003_NHM" name="003_NHM.XML" background="" bgcolor="3548178" repeat="false" hidden="true" jsonmap="true" ajax="true" pause="100" level="1" ucid="1764018814" width="590" height="1199" Uid="20545">
+		<page caption="003_NHM" name="003_NHM.XML" background="" bgcolor="3548178" repeat="false" hidden="true" jsonmap="true" ajax="true" pause="100" level="1" ucid="1764018814" width="590" height="1199" Uid="20545" default="true">
 			<placeholders>
 				<alias name="web" type="NH_M" description="">aWeb.M[3]</alias>
 				<alias name="can" type="NH_CAN" description="">aWeb.A[3].can</alias>
@@ -1227,26 +1227,41 @@
 			</object>
 		</page>
 	</group>
-	<group caption="Service" level="9" locked="0" altdim="true" notforid="true" width="585" height="800" dwMode="0" useIniScale="false" useMaxScale="false" userScale="true" iniScale="100" maxScale="100" Uid="20572">
-		<page caption="NHS_MENU" name="NHS_MENU.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20618" ucid="1764918145" width="540" height="592">
-			<object caption="PLC disks info / service" X="21" Y="26" xoff="0" yoff="5" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20649" hint="fb_Nh_Create_DIR.exec">
-				<label href="NHS_DISK.XML" />
+	<group caption="Service" level="1" locked="0" altdim="true" notforid="true" width="585" height="800" dwMode="1" useIniScale="false" useMaxScale="false" userScale="true" iniScale="100" maxScale="100" Uid="20572">
+		<page caption="__NHS" name="__NHS.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20618" ucid="1765348906" width="540" height="592">
+			<object caption="PLC disks info / service" X="19" Y="26" xoff="1" yoff="5" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20649" hint="fb_Nh_Create_DIR.exec">
+				<label href="_NHS_DIS.XML" />
 			</object>
 			<object caption="SERVICE MENU" X="25" Y="14" xoff="3" yoff="6" level="0" readonly="false" front="65408" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20651" hint="fb_Nh_Create_DIR.exec">
-				<label href="NHS_DISK.XML" />
-			</object>
-			<object caption="PLC disks info / service" X="21" Y="32" xoff="5" yoff="2" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20652" hint="fb_Nh_Create_DIR.exec">
-				<label href="NHS_DISK.XML" />
+				<label />
 			</object>
 			<object caption="Update from  program package WWW/UPDATE/*.TTR" X="7" Y="72" xoff="7" yoff="2" level="0" readonly="false" front="8421631" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20658" hint="On-line update program from WWW/UPDATE/*.TTR">
-				<label href="NHS_TTR.XML" />
+				<label href="_NHS_TTR.XML" />
+			</object>
+			<object caption="NHSYSLOG" X="52" Y="17" xoff="7" yoff="7" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20684">
+				<label href="_W_LOG.XML" />
+			</object>
+			<object caption="" X="6" Y="12" xoff="5" yoff="2" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20757">
+				<image optcap="" variable="CustomizedLoginPage" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
+			</object>
+			<object caption="" X="46" Y="5" xoff="5" yoff="3" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="21" transparent="false" visneg="false" Uid="20758">
+				<edit variable="targetPage" type="STRING[20]" intf="0" timf="" align="left" zero="false" prec="-1" size="11" global="true" border="true" width="153" height="31" tabindex="1" />
+			</object>
+			<object caption="_NHW_LOG.XML" X="17" Y="42" xoff="7" yoff="7" level="0" readonly="false" front="8453888" back="16777215" strong="false" italic="true" size="23" transparent="true" visneg="false" Uid="20768">
+				<label href="_NHW_LOG.XML" />
+			</object>
+			<object caption="_W_LOG.XML" X="18" Y="49" xoff="4" yoff="6" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="23" transparent="true" visneg="false" Uid="20769">
+				<label href="_W_LOG.XML" />
+			</object>
+			<object caption="_NHS_CFG.XML" X="19" Y="34" xoff="1" yoff="1" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="true" size="23" transparent="true" visneg="false" Uid="20770">
+				<label href="_NHS_CFG.XML" />
 			</object>
 		</page>
-		<page caption="NHS_CFG" name="NHS_CFG.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20650" ucid="1765040611" width="543" height="713">
-			<object caption="Submit" X="49" Y="86" xoff="1" yoff="5" level="0" readonly="false" front="0" back="15790320" strong="false" italic="false" size="13" transparent="false" visneg="false" Uid="20627">
+		<page caption="_NHS_CFG" name="_NHS_CFG.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20650" ucid="1765296135" width="483" height="528">
+			<object caption="Submit" X="37" Y="63" xoff="7" yoff="4" level="0" readonly="false" front="0" back="65280" strong="false" italic="false" size="13" transparent="false" visneg="false" Uid="20627">
 				<submit width="136" height="28" border="true" tabindex="7" />
 			</object>
-			<object caption="" X="63" Y="34" xoff="4" yoff="1" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20628">
+			<object caption="" X="48" Y="26" xoff="4" yoff="0" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20628">
 				<edit variable="fb_Nh_Backup.go" type="USINT" intf="0" timf="" align="left" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="1" />
 			</object>
 			<object caption="" X="20" Y="19" xoff="3" yoff="6" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20629">
@@ -1258,14 +1273,14 @@
 			<object caption="" X="20" Y="28" xoff="3" yoff="4" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20631">
 				<edit variable="fb_Nh_Backup.IniEnd" type="USINT" intf="0" timf="" align="left" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="5" />
 			</object>
-			<object caption="" X="34" Y="18" xoff="1" yoff="4" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20633" hint="Done">
-				<image optcap="" variable="fb_Nh_Backup.fbRW.io.done" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
+			<object caption="" X="34" Y="18" xoff="1" yoff="4" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20633">
+				<image optcap="" variable="fb_Nh_Backup.Done" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="27" Y="18" xoff="2" yoff="4" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20634" hint="Busy">
-				<image optcap="" variable="fb_Nh_Backup.fbRW.io.busy" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
+			<object caption="" X="27" Y="18" xoff="2" yoff="4" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20634">
+				<image optcap="" variable="fb_Nh_Backup.Busy" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="41" Y="18" xoff="5" yoff="4" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20635" hint="error">
-				<image optcap="" variable="fb_Nh_Backup.fbRW.io.err" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
+			<object caption="" X="41" Y="18" xoff="5" yoff="4" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20635">
+				<image optcap="" variable="fb_Nh_Backup.err" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
 			<object caption="" X="48" Y="19" xoff="4" yoff="6" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20636">
 				<edit variable="fb_Nh_Backup.fbRW.io.errID" type="UDINT" intf="0" timf="" align="left" zero="false" prec="-1" size="6" global="true" border="true" width="76" height="28" tabindex="3" />
@@ -1282,14 +1297,11 @@
 			<object caption="Backup CFG to file  GO:" X="21" Y="10" xoff="0" yoff="3" level="0" readonly="false" front="65408" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20641" hint="fb_Nh_Create_DIR.exec">
 				<label />
 			</object>
-			<object caption="&lt;- Menu" X="6" Y="10" xoff="0" yoff="3" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20646" hint="fb_Nh_Create_DIR.exec">
-				<label href="NHS_MENU.XML" />
-			</object>
 			<object caption="ErrID" X="49" Y="16" xoff="1" yoff="0" level="0" readonly="false" front="8421631" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20653" hint="fb_Nh_Create_DIR.exec">
 				<label />
 			</object>
-			<object caption="" X="7" Y="39" xoff="7" yoff="1" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20661">
-				<dropdown global="false" variable="aSys.UpdFile" type="USINT" size="15" border="true" width="175" height="28" tabindex="8">
+			<object caption="" X="7" Y="39" xoff="7" yoff="1" level="1" readonly="false" front="0" back="4259584" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20661">
+				<dropdown global="false" variable="aSys.UpdFile" type="USINT" size="30" border="false" width="338" height="26" tabindex="8">
 					<option value="0">Ziadna akcia</option>
 					<option value="254">Ulozit</option>
 					<option value="255">Obnovit</option>
@@ -1301,8 +1313,8 @@
 			<object caption="Expertne akcie" X="7" Y="45" xoff="7" yoff="3" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20663" hint="fb_Nh_Create_DIR.exec">
 				<label />
 			</object>
-			<object caption="" X="7" Y="48" xoff="7" yoff="4" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20664">
-				<dropdown global="false" variable="fb_Nh_Backup.Go" type="USINT" size="25" border="true" width="285" height="28" tabindex="9">
+			<object caption="" X="7" Y="48" xoff="7" yoff="4" level="1" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20664">
+				<dropdown global="false" variable="fb_Nh_Backup.Go" type="USINT" size="30" border="true" width="340" height="28" tabindex="9">
 					<option value="0">Ziadna akcia</option>
 					<option value="1">Obnovit do pamate</option>
 					<option value="2">Obnovit do RamBoxu</option>
@@ -1312,11 +1324,23 @@
 					<option value="13">Ulozit z  DataBoxu do suboru</option>
 				</dropdown>
 			</object>
-			<object caption="" X="63" Y="38" xoff="4" yoff="4" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20665">
+			<object caption="" X="56" Y="26" xoff="0" yoff="0" level="0" readonly="false" front="16777215" back="16744448" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20665">
 				<edit variable="aSys.UpdFile" type="USINT" intf="0" timf="" align="left" zero="false" prec="-1" size="3" global="true" border="true" width="43" height="28" tabindex="2" />
 			</object>
+			<object caption="&lt;-" X="5" Y="11" xoff="3" yoff="0" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20668" hint="back to main">
+				<label href="__NHS.XML" />
+			</object>
+			<object caption="" X="27" Y="24" xoff="2" yoff="1" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20761" hint="Busy">
+				<image optcap="" variable="fb_Nh_Backup.fbRW.io.busy" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
+			</object>
+			<object caption="" X="41" Y="24" xoff="5" yoff="6" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20762" hint="error">
+				<image optcap="" variable="fb_Nh_Backup.fbRW.io.err" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
+			</object>
+			<object caption="" X="34" Y="24" xoff="1" yoff="1" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20763" hint="Done">
+				<image optcap="" variable="fb_Nh_Backup.fbRW.io.done" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
+			</object>
 		</page>
-		<page caption="NHS_DISK" name="NHS_DISK.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20573" ucid="1764918073" width="574" height="713">
+		<page caption="_NHS_DISK" name="_NHS_DIS.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20573" ucid="1765192013" width="574" height="713">
 			<object caption="" X="61" Y="65" xoff="0" yoff="3" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20574">
 				<image optcap="" variable="fb_Nh_Create_DIR.exec" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
@@ -1449,7 +1473,7 @@
 			<object caption="" X="2" Y="47" xoff="7" yoff="2" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20617">
 				<imagebtn variable="fb_Nh_PLC_DIR.go" value="1" timeout="500" type="USINT" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="32" Y="57" xoff="7" yoff="2" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20618" hint="GoDelete">
+			<object caption="" X="32" Y="57" xoff="7" yoff="2" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20666" hint="GoDelete">
 				<image optcap="" variable="fb_Nh_PLC_DIR.GoDelete" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
 			<object caption="" X="41" Y="57" xoff="5" yoff="2" level="0" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20619" hint="testOnly">
@@ -1476,21 +1500,21 @@
 			<object caption="Submit" X="49" Y="86" xoff="1" yoff="5" level="0" readonly="false" front="0" back="15790320" strong="false" italic="false" size="13" transparent="false" visneg="false" Uid="20626">
 				<submit width="136" height="28" border="true" tabindex="29" />
 			</object>
-			<object caption="&lt;- Menu" X="6" Y="8" xoff="0" yoff="4" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20647" hint="fb_Nh_Create_DIR.exec">
-				<label href="NHS_MENU.XML" />
-			</object>
 			<object caption="PLC disks info / service" X="21" Y="8" xoff="5" yoff="4" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20648" hint="fb_Nh_Create_DIR.exec">
 				<label />
 			</object>
+			<object caption="&lt;-" X="4" Y="8" xoff="6" yoff="4" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20669" hint="back to main">
+				<label href="__NHS.XML" />
+			</object>
 		</page>
-		<page caption="NHS_TTR" name="NHS_TTR.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20681" ucid="1764918102" width="555" height="368">
-			<object caption="" X="3" Y="22" xoff="4" yoff="7" level="0" readonly="false" front="16744448" back="16777215" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20682" hint="Browse update package {.TTR}">
+		<page caption="_NHS_TTR" name="_NHS_TTR.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20681" ucid="1765348874" width="555" height="368">
+			<object caption="" X="3" Y="22" xoff="4" yoff="7" level="0" readonly="false" front="16777215" back="3548178" strong="false" italic="false" size="18" transparent="false" visneg="false" Uid="20682" hint="Select a backup file to recovery">
 				<postfile variable="yTx4" type="STRING[255]" border="true" />
 			</object>
 			<object caption="" X="49" Y="41" xoff="6" yoff="0" level="0" readonly="false" front="8453888" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20683">
 				<imagebtn variable="aSys.ini" value="40" timeout="500" type="USINT" on="OK1_PNG.PNG" off="OK1_PNG.PNG" />
 			</object>
-			<object caption="" X="3" Y="29" xoff="4" yoff="1" level="0" readonly="false" front="3548178" back="16777215" strong="false" italic="false" size="11" transparent="false" visneg="false" Uid="20684">
+			<object caption="" X="3" Y="29" xoff="4" yoff="1" level="0" readonly="false" front="3548178" back="16777215" strong="false" italic="false" size="11" transparent="false" visneg="false" Uid="20705">
 				<edit variable="yTx4" type="STRING[255]" intf="0" timf="" align="left" zero="false" prec="-1" size="75" global="true" border="true" width="535" height="19" tabindex="1" />
 			</object>
 			<object caption="Update from loaded package !!!" X="9" Y="42" xoff="1" yoff="7" level="0" readonly="false" front="8421631" back="16777215" strong="false" italic="false" size="18" transparent="true" visneg="false" Uid="20685">
@@ -1500,14 +1524,28 @@
 				<label />
 			</object>
 			<object caption="&lt;- Menu" X="4" Y="7" xoff="1" yoff="2" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20660" hint="fb_Nh_Create_DIR.exec">
-				<label href="NHS_MENU.XML" />
+				<label href="__NHS.XML" />
 			</object>
 		</page>
 	</group>
-	<group caption="Log" level="2" locked="0" altdim="false" notforid="false" Uid="20686">
-		<page caption="NHSYSLOG" name="NHSYSLOG.XML" background="" bgcolor="3548178" repeat="false" hidden="false" ajax="true" pause="1000" level="0" ucid="1763484941" width="585" height="680" Uid="20687">
-			<object caption="" X="1" Y="9" xoff="0" yoff="6" level="0" readonly="true" front="0" back="15790320" strong="false" italic="false" size="13" transparent="false" visneg="false" Uid="20537">
-				<iframe width="585" height="610" href="" noscroll="0"></iframe>
+	<group caption="NhWeb" level="1" locked="0" altdim="true" notforid="true" width="590" height="1199" dwMode="0" useIniScale="false" useMaxScale="false" userScale="true" iniScale="100" maxScale="100" Uid="20686">
+		<page caption="_NHW_LOG" name="_NHW_LOG.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20687" ucid="1765345967" width="585" height="1195">
+			<object caption="" X="1" Y="1" xoff="0" yoff="0" level="0" readonly="true" front="0" back="15790320" strong="false" italic="false" size="13" transparent="false" visneg="false" Uid="20537">
+				<iframe width="585" height="1195" href="RAM/" noscroll="0"></iframe>
+			</object>
+			<object caption="&lt;-" X="2" Y="2" xoff="2" yoff="2" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20672" hint="back to main">
+				<label href="__NHS.XML" />
+			</object>
+		</page>
+	</group>
+	<group caption="WEB" level="0" locked="0" altdim="true" notforid="true" width="590" height="800" dwMode="0" useIniScale="false" useMaxScale="false" userScale="true" iniScale="100" maxScale="100" Uid="20764">
+		<placeholders></placeholders>
+		<page caption="_W_LOG" name="_W_LOG.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20767" ucid="1765348992" width="590" height="800">
+			<object caption="" X="1" Y="1" xoff="0" yoff="0" level="0" readonly="true" front="0" back="15790320" strong="false" italic="false" size="13" transparent="false" visneg="false" Uid="20765">
+				<iframe width="590" height="800" href="/NH2/" noscroll="0"></iframe>
+			</object>
+			<object caption="&lt;-" X="2" Y="8" xoff="7" yoff="4" level="0" readonly="false" front="16776960" back="16777215" strong="false" italic="true" size="18" transparent="true" visneg="false" Uid="20771" hint="back to main">
+				<label href="__NHS.XML" />
 			</object>
 		</page>
 	</group>
@@ -1533,66 +1571,66 @@
 			<object caption="" X="61" Y="15" xoff="0" yoff="3" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20695">
 				<image optcap="" variable="yUsr.cx.LoginHome" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="61" Y="24" xoff="0" yoff="1" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20696">
+			<object caption="" X="61" Y="24" xoff="0" yoff="1" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20710">
 				<image optcap="" variable="yUsr.cx.DshSet" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="Povolit konfigurátor" X="5" Y="33" xoff="3" yoff="4" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20697">
+			<object caption="Povolit konfigurátor" X="5" Y="33" xoff="3" yoff="4" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20711">
 				<label />
 			</object>
-			<object caption="" X="61" Y="32" xoff="0" yoff="7" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20698">
+			<object caption="" X="61" Y="32" xoff="0" yoff="7" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20712">
 				<image optcap="" variable="yUsr.cx.set" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="Povolené zóny [1=Home ... 11]" X="5" Y="42" xoff="3" yoff="2" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20699">
+			<object caption="Povolené zóny [1=Home ... 11]" X="5" Y="42" xoff="3" yoff="2" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20713">
 				<label />
 			</object>
-			<object caption="" X="4" Y="47" xoff="6" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20700">
+			<object caption="" X="4" Y="47" xoff="6" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20714">
 				<image optcap="" variable="yUsr.cx.ZonList[1]" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="10" Y="47" xoff="3" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20701">
+			<object caption="" X="10" Y="47" xoff="3" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20715">
 				<image optcap="" variable="yUsr.cx.ZonList[2]" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
 			<object caption="" X="16" Y="47" xoff="0" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20702">
 				<image optcap="" variable="yUsr.cx.ZonList[3]" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="21" Y="47" xoff="5" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20703">
+			<object caption="" X="21" Y="47" xoff="5" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20716">
 				<image optcap="" variable="yUsr.cx.ZonList[4]" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="27" Y="47" xoff="2" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20704">
+			<object caption="" X="27" Y="47" xoff="2" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20717">
 				<image optcap="" variable="yUsr.cx.ZonList[5]" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="32" Y="47" xoff="7" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20705">
+			<object caption="" X="32" Y="47" xoff="7" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20718">
 				<image optcap="" variable="yUsr.cx.ZonList[6]" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="38" Y="47" xoff="4" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20706">
+			<object caption="" X="38" Y="47" xoff="4" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20719">
 				<image optcap="" variable="yUsr.cx.ZonList[7]" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="44" Y="47" xoff="1" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20707">
+			<object caption="" X="44" Y="47" xoff="1" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20720">
 				<image optcap="" variable="yUsr.cx.ZonList[8]" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="49" Y="47" xoff="6" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20708">
+			<object caption="" X="49" Y="47" xoff="6" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20721">
 				<image optcap="" variable="yUsr.cx.ZonList[9]" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="55" Y="47" xoff="3" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20709">
+			<object caption="" X="55" Y="47" xoff="3" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20722">
 				<image optcap="" variable="yUsr.cx.ZonList[10]" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="61" Y="47" xoff="0" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20710">
+			<object caption="" X="61" Y="47" xoff="0" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20723">
 				<image optcap="" variable="yUsr.cx.ZonList[11]" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="66" Y="92" xoff="5" yoff="7" level="0" readonly="false" front="0" back="33023" strong="false" italic="false" size="10" transparent="true" visneg="false" Uid="20711">
+			<object caption="" X="66" Y="92" xoff="5" yoff="7" level="0" readonly="false" front="0" back="33023" strong="false" italic="false" size="10" transparent="true" visneg="false" Uid="20724">
 				<submit width="55" height="60" border="false" variable="yUsr.ok.ref" type="BOOL" value="1" tabindex="1" />
 			</object>
 		</page>
-		<page caption="User-USR_NHF" name="USR_NHF.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20712" ucid="1764918035" width="580" height="795">
-			<object caption="" X="5" Y="9" xoff="3" yoff="6" level="1" readonly="false" front="16777215" back="12615680" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20713">
+		<page caption="User-USR_NHF" name="USR_NHF.XML" background="" bgcolor="3548178" repeat="false" hidden="true" ajax="true" pause="1000" level="1" Uid="20725" ucid="1764918035" width="580" height="795">
+			<object caption="" X="5" Y="9" xoff="3" yoff="6" level="1" readonly="false" front="16777215" back="12615680" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20726">
 				<edit variable="{usr}.cf.Name" type="STRING[20]" intf="0" timf="" align="left" zero="false" prec="-1" size="20" global="true" border="false" width="508" height="52" tabindex="1" />
 			</object>
-			<object caption="Meno" X="5" Y="3" xoff="3" yoff="4" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20714">
+			<object caption="Meno" X="5" Y="3" xoff="3" yoff="4" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20727">
 				<label />
 			</object>
-			<object caption="Oprávnenie" X="4" Y="18" xoff="6" yoff="4" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20715">
+			<object caption="Oprávnenie" X="4" Y="18" xoff="6" yoff="4" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20728">
 				<label />
 			</object>
-			<object caption="" X="4" Y="23" xoff="6" yoff="4" level="1" readonly="false" front="3548178" back="8453888" strong="false" italic="true" size="30" transparent="false" visneg="false" Uid="20716">
+			<object caption="" X="4" Y="23" xoff="6" yoff="4" level="1" readonly="false" front="3548178" back="8453888" strong="false" italic="true" size="30" transparent="false" visneg="false" Uid="20729">
 				<dropdown global="false" variable="yUsr.cx.UsrRight" type="USINT" size="15" border="false" width="293" height="40" tabindex="13">
 					<option value="0">Návšteva</option>
 					<option value="1">Uzivatel</option>
@@ -1600,7 +1638,7 @@
 					<option value="3">Admin</option>
 				</dropdown>
 			</object>
-			<object caption="" X="43" Y="23" xoff="4" yoff="4" level="1" readonly="false" front="0" back="8453888" strong="false" italic="false" size="30" transparent="false" visneg="false" Uid="20717">
+			<object caption="" X="43" Y="23" xoff="4" yoff="4" level="1" readonly="false" front="0" back="8453888" strong="false" italic="false" size="30" transparent="false" visneg="false" Uid="20730">
 				<dropdown global="false" variable="yUsr.cx.Sbj" type="USINT" size="10" border="false" width="198" height="40" tabindex="14">
 					<option value="0">Vsetky</option>
 					<option value="5">Byt-1</option>
@@ -1608,64 +1646,64 @@
 					<option value="7">Byt-3</option>
 				</dropdown>
 			</object>
-			<object caption="Subjekt" X="54" Y="18" xoff="1" yoff="4" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20718">
+			<object caption="Subjekt" X="54" Y="18" xoff="1" yoff="4" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20731">
 				<label />
 			</object>
-			<object caption="Pin" X="5" Y="32" xoff="3" yoff="2" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20719">
+			<object caption="Pin" X="5" Y="32" xoff="3" yoff="2" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20732">
 				<label />
 			</object>
-			<object caption="" X="5" Y="37" xoff="3" yoff="2" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20720">
+			<object caption="" X="5" Y="37" xoff="3" yoff="2" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20733">
 				<edit variable="{usr}.cx.KeyPas" type="STRING[6]" intf="0" timf="" align="left" zero="false" prec="-1" size="6" global="true" border="false" width="158" height="52" tabindex="10" />
 			</object>
-			<object caption="" X="30" Y="37" xoff="3" yoff="2" level="1" readonly="true" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20721">
+			<object caption="" X="30" Y="37" xoff="3" yoff="2" level="1" readonly="true" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20734">
 				<edit variable="{usr}.cx.RFID" type="BYTE" intf="0" timf="" align="left" zero="false" prec="-1" size="12" global="true" border="false" width="308" height="52" tabindex="11" />
 			</object>
-			<object caption="RFID" X="30" Y="32" xoff="3" yoff="2" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20722">
+			<object caption="RFID" X="30" Y="32" xoff="3" yoff="2" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20735">
 				<label />
 			</object>
-			<object caption="Telefon" X="5" Y="45" xoff="3" yoff="3" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20723">
+			<object caption="Telefon" X="5" Y="45" xoff="3" yoff="3" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20736">
 				<label />
 			</object>
-			<object caption="" X="5" Y="50" xoff="3" yoff="3" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20724">
+			<object caption="" X="5" Y="50" xoff="3" yoff="3" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20737">
 				<edit variable="{usr}.cx.Gsm" type="STRING[15]" intf="0" timf="" align="left" zero="false" prec="-1" size="15" global="true" border="false" width="383" height="52" tabindex="2" />
 			</object>
-			<object caption="Mail" X="5" Y="58" xoff="3" yoff="4" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20725">
+			<object caption="Mail" X="5" Y="58" xoff="3" yoff="4" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20738">
 				<label />
 			</object>
-			<object caption="" X="5" Y="63" xoff="3" yoff="4" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20726">
+			<object caption="" X="5" Y="63" xoff="3" yoff="4" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20739">
 				<edit variable="{usr}.cx.mail" type="STRING[50]" intf="0" timf="" align="left" zero="false" prec="-1" size="20" global="true" border="false" width="508" height="52" tabindex="3" />
 			</object>
-			<object caption="Auto login z IP adresy" X="6" Y="72" xoff="0" yoff="2" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20727">
+			<object caption="Auto login z IP adresy" X="6" Y="72" xoff="0" yoff="2" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20740">
 				<label />
 			</object>
-			<object caption="" X="6" Y="77" xoff="0" yoff="2" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20728">
+			<object caption="" X="6" Y="77" xoff="0" yoff="2" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20741">
 				<edit variable="{usr}.cx.IP[1].IP" type="STRING[16]" intf="0" timf="" align="left" zero="false" prec="-1" size="15" global="true" border="false" width="383" height="52" tabindex="4" />
 			</object>
-			<object caption="" X="6" Y="84" xoff="0" yoff="6" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20729">
+			<object caption="" X="6" Y="84" xoff="0" yoff="6" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20742">
 				<edit variable="{usr}.cx.IP[2].IP" type="STRING[16]" intf="0" timf="" align="left" zero="false" prec="-1" size="15" global="true" border="false" width="383" height="52" tabindex="8" />
 			</object>
-			<object caption="" X="6" Y="92" xoff="0" yoff="2" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20730">
+			<object caption="" X="6" Y="92" xoff="0" yoff="2" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20743">
 				<edit variable="{usr}.cx.IP[3].IP" type="STRING[16]" intf="0" timf="" align="left" zero="false" prec="-1" size="15" global="true" border="false" width="383" height="52" tabindex="9" />
 			</object>
-			<object caption="" X="55" Y="77" xoff="3" yoff="2" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20731">
+			<object caption="" X="55" Y="77" xoff="3" yoff="2" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20744">
 				<edit variable="{usr}.cx.IP[1].y" type="REAL" intf="0" timf="" align="right" zero="false" prec="2" size="4" global="true" border="false" width="108" height="52" tabindex="5" />
 			</object>
-			<object caption="" X="55" Y="84" xoff="3" yoff="6" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20732">
+			<object caption="" X="55" Y="84" xoff="3" yoff="6" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20745">
 				<edit variable="{usr}.cx.IP[2].y" type="REAL" intf="0" timf="" align="right" zero="false" prec="2" size="4" global="true" border="false" width="108" height="52" tabindex="6" />
 			</object>
-			<object caption="" X="55" Y="92" xoff="3" yoff="2" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20733">
+			<object caption="" X="55" Y="92" xoff="3" yoff="2" level="1" readonly="false" front="0" back="8453888" strong="false" italic="true" size="40" transparent="false" visneg="false" Uid="20746">
 				<edit variable="{usr}.cx.IP[3].y" type="REAL" intf="0" timf="" align="right" zero="false" prec="2" size="4" global="true" border="false" width="108" height="52" tabindex="7" />
 			</object>
-			<object caption="Y-kor." X="57" Y="72" xoff="7" yoff="2" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20734">
+			<object caption="Y-kor." X="57" Y="72" xoff="7" yoff="2" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20747">
 				<label />
 			</object>
-			<object caption="Povolit prihlasenie" X="29" Y="2" xoff="1" yoff="7" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20735">
+			<object caption="Povolit prihlasenie" X="29" Y="2" xoff="1" yoff="7" level="0" readonly="false" front="16777215" back="16777215" strong="false" italic="true" size="28" transparent="true" visneg="false" Uid="20748">
 				<label />
 			</object>
-			<object caption="" X="63" Y="2" xoff="4" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20736">
+			<object caption="" X="63" Y="2" xoff="4" yoff="2" level="1" readonly="false" front="0" back="16777215" strong="false" italic="false" size="13" transparent="true" visneg="false" Uid="20749">
 				<image optcap="" variable="yUsr.cf.blk" type="BOOL" on="OK1_PNG.PNG" off="OK0_PNG.PNG" />
 			</object>
-			<object caption="" X="69" Y="95" xoff="1" yoff="3" level="0" readonly="false" front="0" back="33023" strong="false" italic="false" size="10" transparent="true" visneg="false" Uid="20737">
+			<object caption="" X="69" Y="95" xoff="1" yoff="3" level="0" readonly="false" front="0" back="33023" strong="false" italic="false" size="10" transparent="true" visneg="false" Uid="20750">
 				<submit width="35" height="40" border="false" variable="yUsr.ok.ref" type="BOOL" value="1" tabindex="12" />
 			</object>
 		</page>
@@ -2064,9 +2102,9 @@
 	<security crypt="1" count="10">
 		<user level="1" name="nopass" pass="9121B04EDA66" />
 		<user level="9" name="saup" pass="8C2AB44309D098" />
-		<user level="-1" name="2" pass="CD" />
-		<user level="-1" name="3" pass="CC" />
-		<user level="-1" name="4" pass="CB" />
+		<user level="9" name="" pass="C9945C2B" page="REDIR.XML" />
+		<user level="1" name="" pass="CE9B6732" page="REDIR.XML" />
+		<user level="1" name="" pass="CE9C6A38" page="REDIR.XML" />
 		<user level="-1" name="5" pass="CA" />
 		<user level="-1" name="6" pass="C9" />
 		<user level="-1" name="7" pass="C8" />
@@ -2074,8 +2112,8 @@
 		<user level="-1" name="9" pass="C6" />
 	</security>
 	<autologin count="10">
-		<mac level="0" mac="00:00:00:00:00:00" note="" />
-		<mac level="0" mac="00:00:00:00:00:00" note="" />
+		<mac level="9" mac="01:0E:74:C6:80:DD" note="" />
+		<mac level="9" mac="41:22:EF:58:BE:4A" note="" />
 		<mac level="0" mac="00:00:00:00:00:00" note="" />
 		<mac level="0" mac="00:00:00:00:00:00" note="" />
 		<mac level="0" mac="00:00:00:00:00:00" note="" />

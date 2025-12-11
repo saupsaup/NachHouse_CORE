@@ -1857,15 +1857,6 @@ TYPE
 //		tim_2    : NH_OBJ_4O2;
 	END_STRUCT
 
-
-
-
-
-END_TYPE
-
-
-TYPE
-
    NH_LIST_OBR	     :  STRUCT 		
 
       ok       : ARRAY[0..1]      OF INT := [35,38];                                                                  // 0/1
@@ -1948,14 +1939,21 @@ TYPE
 
  	END_STRUCT;
 
+   NH_FRM_XXX  {HIDDEN}   : STRUCT
+      hed :       NH_FRM_HED;
+      data :      USINT;
+   END_STRUCT
+
 
 END_TYPE
 
 
 VAR_GLOBAL
 	xObrWht						{HIDDEN}	: PTR_TO NH_OBR_WHT;
-   yFrmName AT mObr  		{HIDDEN} : NH_FRM_HED;              // head of template
-	yFrmData	AT mObr[34]		{HIDDEN} : USINT;	//NH_LOG_HEAD;		// data of template
+   yFrm_XXX  AT mObr  		{HIDDEN} : NH_FRM_XXX;              // head of template
+// yFrmHead   AT mObr  		{HIDDEN} : NH_FRM_HED;              // head of template
+//	yFrmData AT mObr[34]		{HIDDEN} : USINT;	//NH_LOG_HEAD;		// data of template
+
 	yFrm_229	AT	mObr			{HIDDEN}	: NH_FRM_229;	// obrazky predvolieb regulatorov
 	yFrm_230	AT	mObr			{HIDDEN}	: NH_FRM_230;	// obrazky DEV
 	yFrm_231	AT	mObr			{HIDDEN}	: NH_FRM_231;	// obrazky pre stav DEV,CAT,...
@@ -3662,13 +3660,13 @@ END_FUNCTION
 
 
 FUNCTION _Nh_FRM_Read_SLIDER {HIDDEN}: BOOL
-	IF yFrmName.sld > 0 THEN                                                     		// mame slider
-		OffSrc := USINT_TO_UDINT(yFrmName.row) * SIZEOF(NH_ROW_O);          				// slider zacina za riadkami browsu
-		OffDst := (yFrmName.siz - SIZEOF(NH_FRM_HED) - OffSrc) / SIZEOF(NH_SLD_DAT) ;	// kolko riadkov realne obsahuju zvysne data
-//		OffDst := USINT_TO_UDINT(yFrmName.sld);
-		memCpyPTR(	source	:= ADR(yFrmData) + offSrc ,											// adresa zaciatku slidera
-						dest		:= PTR_TO_UDINT(ADR( xB^.s[0] )) ,	                     // kopiruje sa do slidera 0
-						length	:= OffDst * SIZEOF(NH_SLD_DAT) );                        // pocet sliderov * velkost slidera {ak bude 0 tak sa nic nekopiruje}
+	IF yFrm_XXX.hed.sld > 0 THEN                                                     		// mame slider
+		OffSrc := USINT_TO_UDINT(yFrm_XXX.hed.row) * SIZEOF(NH_ROW_O);          				// slider zacina za riadkami browsu
+		OffDst := (yFrm_XXX.hed.siz - SIZEOF(NH_FRM_HED) - OffSrc) / SIZEOF(NH_SLD_DAT) ;	// kolko riadkov realne obsahuju zvysne data
+//		OffDst := USINT_TO_UDINT(yFrm_XXX.hed.sld);
+		memCpyPTR(	source	:= ADR(yFrm_XXX.data) + offSrc ,											// adresa zaciatku slidera
+						dest		:= PTR_TO_UDINT(ADR( xB^.s[0] )) ,	                           // kopiruje sa do slidera 0
+						length	:= OffDst * SIZEOF(NH_SLD_DAT) );                               // pocet sliderov * velkost slidera {ak bude 0 tak sa nic nekopiruje}
 	END_IF;
 END_FUNCTION
 
@@ -3676,22 +3674,17 @@ FUNCTION  _NhIsObrOk {HIDDEN}: BOOL (* yTx1:=CONCAT('_',UINT_TO_STRINGF(frm,'%03
 	VAR_INPUT
 		frm	: UINT;
 	END_VAR
-//	yTx0 := CONCAT('_',UINT_TO_STRINGF(frm,'%03u'));
 	rb := _Nh_Log_PATH(wh:=24, frm:=7, obr:=frm); 		//yTx2:='_999", yTx1:='RAM/FRM/_999.FRM'
-// 	If yFrmName.Name = yTx0 THEN
- 	If yFrmName.Name = yTx2 THEN
+ 	If yFrm_XXX.hed.Name = yTx2 THEN
 		_NhIsObrOk := TRUE;
 		RETURN;
 	ELSE
 		_NhIsObrOk := false;	
 	END_IF;
-//	fH 	:= INVALID_HANDLE_VALUE;
-//	yTx0 	:= CONCAT(aSys.DiskHed.Disk[4].path,'FRM/',yTx0,'.FRM');							// RAM/
-//  	IF _NhFOpen(fN:=yTx0, fH:=fH) THEN
   	IF _NhFOpen(fN:=yTx1, fH:=fH) THEN
-     	yFrmName.siz 	:= fS;	
-  		yFrmName.siz 	:= FileRead  (hFile := fH, adrBuf := PTR_TO_UDINT(ADR(mObr)), size := fS );
-		_NhIsObrOk		:= yFrmName.siz = fS;
+     	yFrm_XXX.hed.siz 	:= fS;	
+  		yFrm_XXX.hed.siz 	:= FileRead  (hFile := fH, adrBuf := PTR_TO_UDINT(ADR(mObr)), size := fS );
+		_NhIsObrOk		:= yFrm_XXX.hed.siz = fS;
 		rb					:= _NhFClose(fH:=fH);
 	END_IF;
 END_FUNCTION
@@ -3715,17 +3708,17 @@ FUNCTION _Nh_FRM_Read {HIDDEN}: BOOL
 		_Nh_FRM_Read := false;	
 		RETURN;
 	END_IF;
-	CASE yFrmName.wht OF
+	CASE yFrm_XXX.hed.wht OF
      0 :	// all file for next specific use
 			;
      1 :	// browser
-			offSrc := SIZEOF(NH_ROW_O) * USINT_TO_UDINT( MIN(yFrmName.row,xL^.dsh-1) ); 		// posun na konkretny riadok podla DSH
-			memCpyPTR(	source	:= ADR(yFrmData) + offSrc ,                              		// z konkretneho riadka
+			offSrc := SIZEOF(NH_ROW_O) * USINT_TO_UDINT( MIN(yFrm_XXX.hed.row,xL^.dsh-1) ); 		// posun na konkretny riadok podla DSH
+			memCpyPTR(	source	:= ADR(yFrm_XXX.data) + offSrc ,                              		// z konkretneho riadka
 							dest		:= PTR_TO_UDINT(ADR( xB^.r[row].o )) ,								// do aktualneho riadka
 							length	:= SIZEOF(NH_ROW_O) );                                   	// velkost 10 objektov
-			IF yFrmName.sld > 0 THEN                                                     		// mame slider
-				OffSrc := USINT_TO_UDINT(yFrmName.row) * SIZEOF(NH_ROW_O) + USINT_TO_UDINT(xL^.dsh-1) * SIZEOF(NH_SLD_DAT);          				// slider zacina za riadkami browsu
-				memCpyPTR(	source	:= ADR(yFrmData) +	OffSrc, 													// zaciatok DASH-1
+			IF yFrm_XXX.hed.sld > 0 THEN                                                     		// mame slider
+				OffSrc := USINT_TO_UDINT(yFrm_XXX.hed.row) * SIZEOF(NH_ROW_O) + USINT_TO_UDINT(xL^.dsh-1) * SIZEOF(NH_SLD_DAT);          				// slider zacina za riadkami browsu
+				memCpyPTR(	source	:= ADR(yFrm_XXX.data) +	OffSrc, 													// zaciatok DASH-1
 
 								dest		:= PTR_TO_UDINT(ADR( xB^.s[row] )) ,	                     // kopiruje sa do slidera 0
 								length	:= SIZEOF(NH_SLD_DAT) );                        // pocet sliderov * velkost slidera {ak bude 0 tak sa nic nekopiruje}
@@ -3735,8 +3728,8 @@ FUNCTION _Nh_FRM_Read {HIDDEN}: BOOL
 //			_Nh_FRM_Read_SLIDER();
 
      2 :	// FRM
-     		xRowO := ADR(yFrmData);
-			FOR i := 1 TO yFrmName.row DO
+     		xRowO := ADR(yFrm_XXX.data);
+			FOR i := 1 TO yFrm_XXX.hed.row DO
 				IF xB^.r[i].h.nd = 0 THEN
 					xB^.r[i].h.nd 	:= USINT_TO_INT(i) ;
 				END_IF;
@@ -3746,12 +3739,12 @@ FUNCTION _Nh_FRM_Read {HIDDEN}: BOOL
 			_Nh_FRM_Read_SLIDER();
      3 :	// menu
 			i		:= xM^.lvl;
-			memCpyPTR(	source	:= PTR_TO_UDINT(ADR(yFrmData)) ,
+			memCpyPTR(	source	:= PTR_TO_UDINT(ADR(yFrm_XXX.data)) ,
 							dest		:= PTR_TO_UDINT(ADR(xM^.mnu[i])) ,	
 							length	:= SIZEOF(NH_MNU) );
      4 :	// HOME-PG - ALL
-     		xRowO := ADR(yFrmData);
-			FOR i := 0 TO yFrmName.row  DO
+     		xRowO := ADR(yFrm_XXX.data);
+			FOR i := 0 TO yFrm_XXX.hed.row  DO
 				xB^.r[i].h.nd 	:= USINT_TO_INT(i) ;
 				xB^.r[i].o		:= xRowO^;	
 				xRowO				:= xRowO + SIZEOF(NH_ROW_O);
@@ -3926,7 +3919,7 @@ FUNCTION _Nh_POI_INI_NEW {HIDDEN} : BOOL	// skontroluje vetu POI alebo ju vytvor
 					IF ok1 THEN
 						aCfg[26].new := aCfg[26].new + (11 * USINT_TO_INT( aCfg[cf].NbrPoi ));		// prida rovno 11 viet, resp kolko zostava do 11					
 						aCfg[26].nOk := false;                                         // neoznaci ako OK
-						_Nh_Go_DbxToMem(ram := true);
+						_Nh_Dbx_To_Mem(ram := true);
 						ok2 			:= false;
 						RecPoiReQ 	:=_Nh_POI_INI_REC();				// len v pripade, ze by sa nenasla DEF-veta
 						EXIT;

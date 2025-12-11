@@ -954,7 +954,7 @@ FUNCTION_BLOCK _Nh_Create_HET
 							ok	:= false;
 						END_IF;
 						If ok = false THEN
-							_Nh_Go_DbxToMem(ram := true, dbx := true );
+							_Nh_Dbx_To_Mem(ram := true, dbx := true );
 							EXIT;
 						END_IF;
 					END_IF;

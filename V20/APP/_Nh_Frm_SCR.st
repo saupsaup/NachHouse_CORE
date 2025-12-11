@@ -1609,7 +1609,7 @@
 	END_CASE;
    GC_Begin(GrData := xCan);
 //   FOR ii := 1 to _Nh_FRM_CFG[ xU^.o[  xU^.n ].frm ].rws DO
-   FOR kk := 1 to yFrmName.row	DO
+   FOR kk := 1 to yFrm_XXX.hed.row	DO
       xR    := ADR(xB^.r[ kk ]);
      _Nh_Shw_Obj(row:=kk);
    END_FOR;

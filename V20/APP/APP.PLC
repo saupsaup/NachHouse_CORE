@@ -75,14 +75,14 @@ genrunp=1
 genhltp=1
 mode=2
 plcn=0
-checkprgname=1
+checkprgname=0
 verifyiocfg=0
 onlinechngs=0
 mustcompile=0
 [/plcwusb]
 
 [txtextsyneditor]
-GModif=1
+GModif=0
 GMakeBackup=1
 GAutoIndent=1
 GUseTab=1
@@ -172,7 +172,7 @@ vartemp=1
 [/compileropts]
 
 [filesystem]
-autofiletransfer=1
+autofiletransfer=0
 sendpux=0
 sendexp=1
 sendpub=0

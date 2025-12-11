@@ -643,18 +643,12 @@ FUNCTION _NhName {HIDDEN} : BOOL	    // nacita alebo zapise Name, Name2 d DEV
    END_VAR
    VAR_TEMP
       xDev        : PTR_TO NH_RGB;
-//      xCfg        : PTR_TO NH_CFG_ALL;
    END_VAR
    _NhName  := true;
-
    IF cf = 0 OR nd = 0 THEN
       xName^ := '_NhName: error';
       RETURN;
-//	ELSIF cf = 2 THEN
-//      xName^ := '_NhName: cf:=2 err';
-//      RETURN;
    END_IF;
-
    xDev     := ADR( mRam[ aCfg[cf].Ram + aCfg[cf].siz * INT_TO_UDINT( nd - 1 )]); // + ( USINT_TO_UDINT(aCfg[cf].siz) * INT_TO_UDINT( nd - 1 ) );
    IF write THEN
       IF Name2 THEN
@@ -959,7 +953,7 @@ FUNCTION _NhNewRec {HIDDEN} : BOOL	    // nakopiruje vsetky vety jedneho cfg/par
 END_FUNCTION
 
 
-FUNCTION _Nh_Go_DbxToMem_CFG {HIDDEN} : BOOL	    // nakopiruje vsetky vety jedneho cfg/par/vaz z DBX do RAM a pripadne oznaci ako del, alebo vymaze RAM, aj priada nove vety
+FUNCTION _Nh_Dbx_To_Mem_CFG {HIDDEN} : BOOL	    // nakopiruje vsetky vety jedneho cfg/par/vaz z DBX do RAM a pripadne oznaci ako del, alebo vymaze RAM, aj priada nove vety
    VAR_INPUT
       del   : BOOL;              // oznaci vsetky vety ako DEL
       wh    : USINT;             // 0-cfg,1-par,2-vaz
@@ -968,7 +962,7 @@ FUNCTION _Nh_Go_DbxToMem_CFG {HIDDEN} : BOOL	    // nakopiruje vsetky vety jedne
    VAR_TEMP
       nx    : INT;
    END_VAR
-   _Nh_Go_DbxToMem_CFG  := false;
+   _Nh_Dbx_To_Mem_CFG  := false;
    IF _NhMap(wh  := wh , cx := cx) = false THEN
       RETURN;
    END_IF;
@@ -981,7 +975,7 @@ FUNCTION _Nh_Go_DbxToMem_CFG {HIDDEN} : BOOL	    // nakopiruje vsetky vety jedne
    IF xNh^.Rec > 0 THEN
       // z adresy DBX (aNh.Ram) nakopiruje na volnu adresu RAM (aDbx.vRam) vsetky zaznamy k CFG
       IF aSys.CfgDbxOk THEN
-         _Nh_Go_DbxToMem_CFG  := true;
+         _Nh_Dbx_To_Mem_CFG  := true;
          // nacita sa z povodnej adresy DBX do novej adresy RAM
 			IF aSys.UseRBx THEN												// CP2 pouziva sa RamBox
 				ReadFromRBx( ramBoxAddress  := aDbx.ver.Dbx0 + va ,length := sz * INT_TO_UDINT( xNh^.Rec) , varAddress := PTR_TO_UDINT(ADR(mRam [ aDbx.vRam ])) );
@@ -1006,7 +1000,7 @@ FUNCTION _Nh_Go_DbxToMem_CFG {HIDDEN} : BOOL	    // nakopiruje vsetky vety jedne
 	_NhNewRec(wh := wh);
 END_FUNCTION
 
-FUNCTION _Nh_Go_DbxToMem   {HIDDEN}    : BOOL	    // z DBX (u CP2 z disku RAM) postupne kopiruje bloky zaznamov a prida nove vety ak treba
+FUNCTION _Nh_Dbx_To_Mem   {HIDDEN}    : BOOL	    // z DBX (u CP2 z disku RAM) postupne kopiruje bloky zaznamov a prida nove vety ak treba
    // _NhDbxRam -> _NhDbxCFG -> _NhNewRec -> _NhEmpRec
    //  vyber CFG     1.cfg       + vety        def.data
    // 1. ulozi aktualnu RAM do DBX     _NhRamDBX()         ... ram=true
@@ -1021,27 +1015,26 @@ FUNCTION _Nh_Go_DbxToMem   {HIDDEN}    : BOOL	    // z DBX (u CP2 z disku RAM) p
       cx    : USINT;
    END_VAR
    IF (aSys.CfgRamOk AND ram) OR ForceRamOk THEN                             // ak su v Ram platne data
-      _Nh_Go_MemToDBX();                                                   	 // najskor ulozi RAM do DBX
+      _Nh_Mem_To_DBX();                                                   	 // najskor ulozi RAM do DBX
    END_IF;
-//	aSys.nDbxRam 		:= aSys.nDbxRam + 1;
-   _Nh_Go_DbxToMem	:= true;
-   aDbx.vRam   		:= _Ram0;                                             // zacina sa nanovo
+   _Nh_Dbx_To_Mem	:= true;
+   aDbx.vRam  		:= _Ram0;                                             // zacina sa nanovo
 	_NheRAM();
 //   memsetEx(val := 0, length := _NH_RAM - _Ram0 - 1, dest := VOID( mRam[_Ram0] ) );// vycisti celu ram    !! DOLEZITE
 	IF true THEN
       FOR  cx := 1  TO _Nh_Cfg DO
-         _Nh_Go_DbxToMem_CFG(wh := 0, cx := cx);                                  // nakopiruje data 1cfg a prida prida DEL/vety
+         _Nh_Dbx_To_Mem_CFG(wh := 0, cx := cx);                                  // nakopiruje data 1cfg a prida prida DEL/vety
       END_FOR;
       FOR  cx := 1  TO _Nh_Par DO
-         _Nh_Go_DbxToMem_CFG(wh := 1, cx := cx);                                  // nakopiruje data 1cfg a prida prida DEL/vety
+         _Nh_Dbx_To_Mem_CFG(wh := 1, cx := cx);                                  // nakopiruje data 1cfg a prida prida DEL/vety
       END_FOR;
       FOR  cx := 1  TO _Nh_Vaz DO                                       //// 29.5.24 - opravene - nepridavalo vazby
-         _Nh_Go_DbxToMem_CFG(wh := 2, cx := cx);                                  // nakopiruje data 1cfg a prida prida DEL/vety
+         _Nh_Dbx_To_Mem_CFG(wh := 2, cx := cx);                                  // nakopiruje data 1cfg a prida prida DEL/vety
       END_FOR;
    END_IF;
 	_NhWrkRam();																				// nastavi nove adesy WRK premennych
    IF dbx THEN
-      _Nh_Go_MemToDBX() ;                                                  // na konci este raz ulozi uz novu RAM do DBX
+      _Nh_Mem_To_DBX() ;                                                  // na konci este raz ulozi uz novu RAM do DBX
    END_IF;
 END_FUNCTION
 
@@ -1068,7 +1061,7 @@ FUNCTION _NhGetDelRec  {HIDDEN} : BOOL //  do vstupnehho poitra vlozi cislo najd
    ptrVar^ := _NhFindDel(wh := wh, cx := cf, nx := 0, new := 1, nOk := true);
    IF ptrVar^ = 0 THEN
       ptrVar^ := xNh^.rec + 1;
-      _Nh_Go_DbxToMem(ram := true, dbx := false );          // v 1.iteracii sa neuklada do dbx, lebo este sa budu zapisovat data
+      _Nh_Dbx_To_Mem(ram := true, dbx := false );          // v 1.iteracii sa neuklada do dbx, lebo este sa budu zapisovat data
       _NhGetDelRec := false;
    END_IF;
 (*
@@ -1805,35 +1798,57 @@ END_FUNCTION
 
 FUNCTION _NhIsDBxCfgOk     : BOOL	 // Find CRC in RBx o DBX
 	VAR_INPUT
-		RBx		: BOOL;	// read from RamBox	
-//		mess  	: BOOL := true;
+		noLog :	BOOL;	
+		what 	:	USINT;
 	END_VAR
 	_NhIsDBxCfgOk	:= false;
 	xDbx 	:= ADR(mObr);									// wrk memory
-	rb		:= FALSE;
-	IF RBx THEN												// read from RamBox
-		rb 		:= ReadFromRBx( ramBoxAddress  := 0, length := MIN(SIZEOF(mObr),SIZEOF(aDbx)), varAddress := PTR_TO_UDINT(xDbx) );
-		_LangTXT	:= 'RBx. ';
-	ELSIF aSys.IS_DBx THEN								// read from DataBox
- 		rb 		:= ReadFromDBx( dataBoxAddress := 0, length := SIZEOF(aDbx), varAddress := PTR_TO_UDINT(xDBx) );
-		_LangTXT	:= 'DBX. ';
+	ok		:= FALSE;
+	IF what = 0 THEN
+		IF aSys.IS_RBx THEN		what := 1;
+		ELSIF aSys.IS_DBx THEN	what := 2;						
+		ELSE 							what := 3;	
+		END_IF;					
 	END_IF;
-	IF rb = false THEN
-		_LangTXT			:= CONCAT(_LangTXT,'Error ReadFrom. ');	
-	ELSIF aDbx.ver.CRC = xDbx^.ver.CRC THEN	// RBx or DBx read and CRC ok
-		_NhIsDBxCfgOk	:= TRUE;
-		_LangTXT			:= CONCAT(_LangTXT,'Ok. ');	
-		IF RBx = false THEN
+	CASE what OF
+		1:	// RBx 
+			IF aSys.IS_RBx	= FALSE THEN
+				yTx0	:= ' - No RBx in PLC.';
+			ELSE
+				yTx0	:= 'RBx';
+				ok 		:= ReadFromRBx( ramBoxAddress  := 0, length := MIN(SIZEOF(mObr),SIZEOF(aDbx)), varAddress := PTR_TO_UDINT(xDbx) );
+			END_IF;
+		2:	// DBx
+			IF aSys.IS_DBx	= FALSE THEN
+				yTx0	:= ' - No DBx in PLC.';
+			ELSE
+				yTx0	:= 'DBx';
+		 		ok 		:= ReadFromDBx( dataBoxAddress := 0, length := SIZEOF(aDbx), varAddress := PTR_TO_UDINT(xDBx) );
+			END_IF;
+		3:	// file : 1) if file NH2/dbx.NH2 exists 2) and there is also a backup file {USB/200/2025_10/29_hhmm.DBX} from dbx.NH2
+			rb := _Nh_Log_Path(wh:=21, frm:=2);
+			yTx0	:= CONCAT('file {' , yTx1 , '}->{' , yTx2 , '} ' );
+			IF rb  THEN
+				ok := _NhFread(adrVar:=PTR_TO_UDINT(xDBx), fS:=SIZEOF(aDbx), fH:=fH, fN:=yTx2);
+			ELSE
+				yTx0 := CONCAT(yTx0,' ; any Error');
+			END_IF;	
+	ELSE 	RETURN;
+	END_CASE;
+	IF ok = FALSE THEN																// Error read RBx or DBx or file
+		yTx0 := CONCAT( 'No CFG found :', yTx0 );	
+	ELSIF aDbx.ver.CRC = xDbx^.ver.CRC THEN									// RBx or DBx read and CRC ok
+		yTx0 := CONCAT( yTx0, '-OK. ' );	
+		_NhIsDBxCfgOk := TRUE;
+		IF what = 2 THEN
 			xDbx^.FromDBx128 := SizeOfDataBox() = 128;		// pri prechode z DBX na RBx zaznaci do DBX ze DBX mal je 128k a moze byt
- 			rb 		:= WriteToDBx( dataBoxAddress := 0, length := SIZEOF(aDbx), varAddress := PTR_TO_UDINT(xDbx) );  // zapise spat do DBX oznacit
+ 			rb := WriteToDBx( dataBoxAddress := 0, length := SIZEOF(aDbx), varAddress := PTR_TO_UDINT(xDbx) );  // zapise spat do DBX oznacit
 		END_IF;
 	ELSE
-		_LangTXT			:= CONCAT(_LangTXT,'Different versions. ');	
+		yTx0 := CONCAT( 'Bad CRC: ', yTx0 );	
 	END_IF;
-	rb:=_NhSysLogMsg(msg:='.Search '+_LangTXT+'{'+aDbx.ver.CRC+'}{'+xDbx^.ver.CRC+'}');
-	IF _NhIsDBxCfgOk = false THEN
-		aSys.CfgBckOk := _Nh_Log_Path(wh:=21, frm:=2);		// 1) if file NH2/dbx.mem exists 2) and there is also a backup file {USB/200/2025_10/29_hhmm.DBX} from dbx.mem
-		rb:=_NhSysLogMsg(msg:='..No: '+BOOL_TO_STRINGF(RBx,'%b{Rbx^DBX}')+'. Read: {'+yTx1+'} dbx: {'+yTx2+'}');
+	IF noLog = FALSE THEN
+		rb:=_NhSysLogMsg(msg:=' ..' + yTx0 + '; CRC:{'+aDbx.ver.CRC+'} = {'+xDbx^.ver.CRC+'}');		
 	END_IF;
 END_FUNCTION
 

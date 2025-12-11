@@ -2776,47 +2776,20 @@ TYPE
 										(fn := 348,wh:=348,cm :=  82,x:=xc+45				)        // ROM ->
                            ]);
    END_STRUCT;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  	
-
-
-
-
-
-
-
 END_TYPE
 
 VAR_GLOBAL
+
+	yFrm_252	AT mObr			{HIDDEN} : NH_FRM_252;					// import from NH2.exp
 //	yFrm_500	AT mObr			{HIDDEN} : NH_FRM_500;					// import from NH2.exp
 //	yFrm_250	AT mObr			{HIDDEN} : NH_FRM_250;					// import from NH2.exp
-//	yImp		AT yFrmData		{HIDDEN} : NH_LOG_IMP;					// only struct import
+//	yImp		AT yFrm_XXX.data	{HIDDEN} : NH_LOG_IMP;					// only struct import
 //   xFrmHed           		{HIDDEN} : PTR_TO NH_FRM_SAVE_MAP;  // head for saving
 
 	// ladenie
 
 
 END_VAR
-
-
-
 
 	VAR_GLOBAL
    	xFrmHed           		{HIDDEN} : PTR_TO NH_FRM_SAVE_MAP;  // head for saving

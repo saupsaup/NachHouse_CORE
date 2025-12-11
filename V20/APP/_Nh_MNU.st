@@ -1038,6 +1038,9 @@ FUNCTION  _Nh_Web_CMD_Action       : BOOL  // _NhObrMnu NADEFINUJE HOME SCREEN, 
    VAR_INPUT
       mnu      : USINT;
    END_VAR
+
+//	rb := _NhSysLogMsg(msg:=' 0._Nh_Web_CMD_Action. mnu:'+USINT_TO_STRING(mnu),noTime:=1);
+
    _Nh_Web_CMD_Action      := true;
    IF xM^.htx > 0 THEN                                           // ak je nejaky frame
       _NhWebSave(NoLvl := true);                                 // ulozi ak je co
@@ -1142,6 +1145,9 @@ FUNCTION  _Nh_Web_CMD_Action       : BOOL  // _NhObrMnu NADEFINUJE HOME SCREEN, 
       ;
       END_CASE;
    END_IF;
+
+//	rb := _NhSysLogMsg(msg:=' 2._Nh_Web_CMD_Action. mnu:'+USINT_TO_STRING(mnu),noTime:=1);
+
    xU^.n          := mnu;                       // cislo menu, ktore bude vybrate
    xU^.o[1].fn    :=  0;                                            // zrusi LOGO
    xU^.o[2].fn    :=  0;                                            // zrusi SETUP
@@ -1192,11 +1198,6 @@ END_FUNCTION
 
 
 FUNCTION _Nh_Web_CMD    : BOOL
-   VAR_IN_OUT
-
-//      m           :  NH_M;
-
-   END_VAR
    VAR_TEMP
       ok          : BOOL;
       yz          : SINT;
@@ -1210,18 +1211,14 @@ FUNCTION _Nh_Web_CMD    : BOOL
 
    CASE xA^.tch.cmd OF
       0: ;
-
       1: // potiahnutie dolu
             xM^.wht        := 1;
             cmd := 0;         ///***
 //            xA^.tch.cm     := 1;
-
       2: // potiahnutie hore
             xM^.wht        := 2;
             cmd := 0;         ///***
 //            xA^.tch.cm     := 2;
-
-
       3: // POTIAHNUTIE DOLAVA = DELETE/COPY
             xM^.wht := 0;
             IF xL^.dsh <> 1                  THEN                 // del iba dsh = 1
@@ -1266,13 +1263,13 @@ FUNCTION _Nh_Web_CMD    : BOOL
                   xA^.tch.del := true;
                END_IF;
             END_IF;
-
       4: 	// potiahnutie doprava
             xM^.wht     := -1;
       5: 	// neznamy prikaz - sposoboval rozhodenie obrazovky, posun o lvl dopredu a xL^.obj := 0
             xM^.wht     := -1;
       6: 	// press bez CMD
             xM^.wht     := -1;
+
      	20:	_Nh_Web_CMD_Action(mnu := 0);                                              // HOME screen
      	21:   _Nh_Web_CMD_Action(mnu := 4);                                              // FAV
      	22:	_Nh_Web_CMD_Action(mnu := 5);                                              // ROOMS
@@ -1731,15 +1728,35 @@ FUNCTION _Nh_Web_CMD    : BOOL
             xM^.wht           := 25;
 
      	61: 	// akcia - dotyk v hociakom menu, dalej sa rozhoduje podla obrazka
-				j	:= xA^.tch.obj;
-				CASE xU^.o[j].fn  OF
+
+(*
+				jj	:= xA^.tch.obj;
+				CASE xU^.o[jj].fn  OF
 					0: 
 					1:
 					230:	// save
- 							rb:=_NhSysLogMsg(msg:='user save RBx');
-							_NhSysUpd(file:=255);
+// 							rb:=_NhSysLogMsg(msg:='user save RBx');
+//							_NhSysUpd(file:=254);
+//							_NhSysUpd(file:=254);
+//							aSys.UpdFile := 254;
+							fb_Nh_Backup.go := 12;
 				ELSE
 				END_CASE;
+*)
+			aSys.UpdFile := 254;
+
+//			fb_Nh_Backup.iniRun := 255;
+			fb_Nh_Backup.iniEnd := 0;
+			fb_Nh_Backup.iniErr := 254;
+			fb_Nh_Backup.go := 12;
+			
+			
+			cmd:=0;
+		   xM^.wht     := 0;
+		   xA^.tch.cmd := 0;
+		   xM^.delay   := 0;
+
+			RETURN;
 
 //     	62: 	// akcia - PRESS v hociakom menu, dalej sa rozhoduje podla obrazka
 
@@ -1926,7 +1943,7 @@ FUNCTION _Nh_Web_CMD    : BOOL
                   END_IF;
                   EXIT;
                ELSE
-                  _Nh_Go_DbxToMem(ram := true, dbx := false );          // v 1.iteracii sa neuklada do dbx, lebo este sa budu zapisovat data
+                  _Nh_Dbx_To_Mem(ram := true, dbx := false );          // v 1.iteracii sa neuklada do dbx, lebo este sa budu zapisovat data
                END_IF;
             END_WHILE;
             xM^.wht        := 30;                                    // nova veta ma byt na konci browsu
@@ -2120,7 +2137,7 @@ FUNCTION _Nh_Web_CMD    : BOOL
                         _NhxUsr(u := xA^.usr );                                  	// pri vstupe do session namapuje usra, potom uz v programe nikdy
                         EXIT;
                      ELSE
-                        _Nh_Go_DbxToMem(ram := true, dbx := false );          			// v 1.iteracii sa neuklada do dbx, lebo este sa budu zapisovat data
+                        _Nh_Dbx_To_Mem(ram := true, dbx := false );          			// v 1.iteracii sa neuklada do dbx, lebo este sa budu zapisovat data
                      END_IF;
                   END_FOR;
             ELSE
@@ -2700,6 +2717,8 @@ FUNCTION _Nh_Web_CMD    : BOOL
       aWht.t[aWht.n].xMwht  := xM^.wht;
       aWht.n := aWht.n + 1;
    END_IF;
+
+//	IF fb_Nh_Backup.busy AND aSys.restart=FALSE THEN
 
    IF xL^.obj = 205   THEN
       IF _Nh_Shw_FRM() = false THEN

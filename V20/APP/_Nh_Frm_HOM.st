@@ -594,12 +594,12 @@ FUNCTION _Nh_Brw_Idx  {HIDDEN}  : BOOL                      (* VYTVORI ZOZNAM VI
 		            yIdxR.dev 		:= xVaz^.ou;
 //   	   			xDev2^.al.lst  := 1;
 
-(*
+
       		ELSE // 2 = WSB -> DEV
 						IF yes THEN
 							xDev2^.al.vaz  := 1;      		
 						END_IF;
-)
+
 				END_CASE;		
 *)
 				yes	:= yes AND xF^.dev.n[yIdxR.dev.c];

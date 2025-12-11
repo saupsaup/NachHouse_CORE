@@ -4,7 +4,8 @@ VAR_GLOBAL
 	xHw      	{HIDDEN} 	: PTR_TO NH_DEV_HW5;	
 	yFrm_500	AT mObr			{HIDDEN} : NH_FRM_500;					// import from NH2.exp
 	yFrm_250	AT mObr			{HIDDEN} : NH_FRM_250;					// import from NH2.exp
-	yImp		AT yFrmData		{HIDDEN} : NH_LOG_IMP;					// only struct import
+	yFrm_252	AT mObr			{HIDDEN} : NH_FRM_252;					// import from NH2.exp
+	yImp		AT yFrm_XXX.data{HIDDEN} : NH_LOG_IMP;					// only struct import
 END_VAR
 
 FUNCTION _Nh_Import_CIB_Find_ID {HIDDEN}   : BOOL
@@ -93,7 +94,7 @@ FUNCTION _Nh_Import_CIB_To_MEM {HIDDEN}   : BOOL
 		ELSE
 			z:=z+1;
 			aCfg[cf].new := aCfg[cf].new + 1;
-			_Nh_Go_DbxToMem(ForceRamOk:=true);
+			_Nh_Dbx_To_Mem(ForceRamOk:=true);
 		END_IF;
 	END_WHILE;
 	yImp.ok := '1';
@@ -122,16 +123,9 @@ FUNCTION_BLOCK _Nh_Import_CIB	// kopia vsetkych, alebo modifikovanych CFG/PAR/VA
 				_Nh_FRM_Read(frm:=500);   	
 				yTx2	:= CONCAT('.Import from: ',_Nh_EXP);
 				_Nh1RowTxt(logRst:=1);
-				yTx1		:=  _Nh_EXP;
-            fbFileRWa.io := _eIOBusy;
-//           	fbFileRWa(io.what:=11, line:=true, io.seek:=PTR_TO_UDINT(ADR(yTx0)),fN:=yTx1);
-            yTx0 := yTx1;
             fbFileRWa.io  := _eIoBusy;
-           	fbFileRWa(io.go:=1, line:=true, aVar:=PTR_TO_UDINT(ADR(yTx0)));
-
-            fbFileRWa();
-
-
+            yTx0 := _Nh_EXP;		//yTx1;
+           	fbFileRWa(fN:=yTx0, io.go:=1, line:=true, aVar:=PTR_TO_UDINT(ADR(yTx0)),  );
 				IF fbFileRWa.io.errID > 0 THEN
 					Go	:= 99;         			
 				ELSE
@@ -155,7 +149,6 @@ FUNCTION_BLOCK _Nh_Import_CIB	// kopia vsetkych, alebo modifikovanych CFG/PAR/VA
 				WHILE go=16 DO	// _NhMaxRWLimit() //OR _NhMaxTimeCyc()
 					fbLine(write:=false,seek:=fbLine.LineS+1);
 					IF fbLine.done AND yImp.cfg <> 'ROM' THEN
-
 						_Nh_Import_CIB_To_MEM();
 
 //						yTx2	:= CONCAT('...Dev: ',yImp.CFG,'  ',TIME_TO_STRINGF(SUB_DT_DT(GetRtc(),aSys.NhDT),'%Ts.zzz'),'  ',UDINT_TO_STRING(aSys.RWtoFileCycle) );
@@ -217,8 +210,8 @@ FUNCTION_BLOCK _Nh_Import_CIB	// kopia vsetkych, alebo modifikovanych CFG/PAR/VA
 		11:	// prejede /NH2.exp, vytvori z neho /RAM/EXP/cib.CSV	
 //				yTx1		:=  _Nh_EXP;
 				grp:=grp+1;          											// pocitadlo cyklov
-				WHILE Go=11 DO	
-					fbFileRWa();
+				WHILE Go = 11 DO	
+					fbFileRWa(fN:=yTx0);
 					IF fbFileRWa.io.done OR fbFileRWa.io.errID > 0	THEN
 						yTx2	:= CONCAT('.End Import.',TIME_TO_STRINGF(_NhGetTimeCyc(),' %Ts.zzz '),
 													 'cyc:',  INT_TO_STRINGF(grp,'%5u '),

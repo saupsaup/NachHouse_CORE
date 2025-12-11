@@ -504,7 +504,7 @@ END_WHILE;
 
 
    IF NewRec THEN
-      _Nh_Go_DbxToMem(ram := true, dbx := false );                   // popridava nove vety a oznaci ich za platne
+      _Nh_Dbx_To_Mem(ram := true, dbx := false );                   // popridava nove vety a oznaci ich za platne
    END_IF;
 
    IF _NhxVaz(cv := vaz, nd := nv, ok:=true) THEN                               // znova namapuje, lebo pridanim sa vstko rozhasilo

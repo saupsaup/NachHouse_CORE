@@ -263,7 +263,7 @@ FUNCTION _Nh_Ini_PAR_Test {HIDDEN}   : BOOL	    // prejde vsetky DEV, ktore maju
 	  		rb       := _Nh1RowTxt(logRst := 1);
 		END_IF;
 		IF x > 0 THEN				
-			_Nh_Go_DbxToMem(ram := true,dbx := false );                        // zalozi RAM->DBX, z DBX vrati do RAM s pridanim novych uz platnych viet
+			_Nh_Dbx_To_Mem(ram := true,dbx := false );                        // zalozi RAM->DBX, z DBX vrati do RAM s pridanim novych uz platnych viet
 		END_IF;
 
       RETURN;
@@ -337,7 +337,7 @@ FUNCTION _NhIniVAZ  {HIDDEN} : BOOL	    // prejde vazby a ak v IN alebo OUT je D
 					+ ' Dupl: ' + USINT_TO_STRINGF(i,'%3d');
  		rb       := _Nh1RowTxt(logRst := 1);
 		IF x > 0 THEN				
-			_Nh_Go_DbxToMem(RAM := true,dbx := false );                        // zalozi RAM->DBX, z DBX vrati do RAM s pridanim novych uz platnych viet
+			_Nh_Dbx_To_Mem(RAM := true,dbx := false );                        // zalozi RAM->DBX, z DBX vrati do RAM s pridanim novych uz platnych viet
 		END_IF;
 	END_FOR;
 
@@ -378,6 +378,7 @@ FUNCTION _Nh_Ini_Default_CFG_INI {HIDDEN}    : BOOL	    // doplni default CFG, a
 	END_IF;
 END_FUNCTION
 
+
 FUNCTION _Nh_Ini_Default_CFG_DEF {HIDDEN} : BOOL	    // nakopiruje default sablony
 	VAR_INPUT
 		cf		: USINT;
@@ -388,10 +389,23 @@ FUNCTION _Nh_Ini_Default_CFG_DEF {HIDDEN} : BOOL	    // nakopiruje default sablo
 		RETURN;
 	END_IF;
 	// cele preddefinovane sablony
- 	_Nh_FRM_Read(frm:=frm);               // zone
-	MemCpyEx (	length := aCfg[cf].siz * MIN( USINT_TO_UDINT(yFrmName.row), INT_TO_UDINT(aCfg[cf].rec)) ,
-				source := VOID( yFrmData ), dest := VOID( mRam[ aCfg[cf].ram ] ));
+ 	IF _Nh_FRM_Read(frm:=frm) THEN               // zone
+aa:=aa+1;
+		MemCpyEx (	length := aCfg[cf].siz * MIN( USINT_TO_UDINT(yFrm_XXX.hed.row), INT_TO_UDINT(aCfg[cf].rec)) ,
+					source := VOID( yFrm_XXX.data ), dest := VOID( mRam[ aCfg[cf].ram ] ));
+	ELSE 
+bb:=bb+1;
+	END_IF;	
+
 END_FUNCTION
+
+VAR_GLOBAL
+	uZon: 	ARRAY[1..5] OF NH_ROM;
+	a1a,a1b : UDINT;	
+
+
+END_VAR
+
 
 FUNCTION _Nh_Ini_DEFAUL_CFG  {HIDDEN}    : BOOL	    // doplni default CFG, ak este nie je
    VAR_TEMP
@@ -410,6 +424,8 @@ FUNCTION _Nh_Ini_DEFAUL_CFG  {HIDDEN}    : BOOL	    // doplni default CFG, ak es
 	_Nh_Ini_Default_CFG_INI(cf:=25,rec:=1);      							// GLB
 	_Nh_Ini_Default_CFG_INI(cf:=48,rec:=7);      							// ALA
 	_Nh_Ini_Default_CFG_INI(vz:=true, cf:= 1,rec:=USINT_TO_INT(_Nh_USR)*8, ver:=aCfg[20].ver=0 OR aCfg[22].ver=0); // VAZ[1]
+
+
 	{$IFDEF __NH_DALI}
    IF _Nh_DALI_MA > 0 THEN
 		_Nh_Ini_Default_CFG_INI(cf:=42,rec:=USINT_TO_INT(_Nh_DALI_MA), nOk:=0);      				// DLM
@@ -417,18 +433,14 @@ FUNCTION _Nh_Ini_DEFAUL_CFG  {HIDDEN}    : BOOL	    // doplni default CFG, ak es
 		_Nh_Ini_Default_CFG_INI(cf:=44,rec:=USINT_TO_INT(_Nh_DALI_MA)*16);   				// DLG
    END_IF;
 	{$END_IF}
+
 	// nakopirovat sablony
-
-
-
-	_Nh_Go_DbxToMem(dbx := false, ForceRamOk:=true);         	// ulozi MEM->DBX a spat nacita este raz z DBX a prida nove vety
+	_Nh_Dbx_To_Mem(dbx := false, ForceRamOk:=true);         	// ulozi MEM->DBX a spat nacita este raz z DBX a prida nove vety
 	_Nh_Ini_Default_CFG_DEF(cf:= 3,frm:=252);     // ZON
 	_Nh_Ini_Default_CFG_DEF(cf:=20,frm:=251);     // FAV
 	_Nh_Ini_Default_CFG_DEF(cf:=22,frm:=253);     // USR
 //	_Nh_Ini_Default_CFG_DEF(cf:=  ,frm:=254);		// MSG
 	_Nh_Ini_Default_CFG_DEF(cf:=48,frm:=255);		// ALA
-
-
 
    // vytvori sadu HOME-DSH pre kazeho usra
    cf := 1;
@@ -448,7 +460,7 @@ FUNCTION _Nh_Ini_DEFAUL_CFG  {HIDDEN}    : BOOL	    // doplni default CFG, ak es
 				yFrm_250.vz1[ii].in.c := i;
          END_FOR;			
 			MemCpyEx (	length := sp ,
-							source := VOID( yFrmData ), dest := VOID( mRam[ sz ] ));
+							source := VOID( yFrm_XXX.data), dest := VOID( mRam[ sz ] ));
 				
 			sz	:= sz + sp;
 		END_FOR;			
@@ -562,7 +574,7 @@ FUNCTION _Nh_Ini_Default_DEFAUL    : BOOL	    // doplni default CFG, ak este nie
 	{$END_IF}
 
    IF ok THEN
-      _Nh_Go_DbxToMem(dbx := false);                                 // len nacita este raz z DBX a prida nove vety
+      _Nh_Dbx_To_Mem(dbx := false);                                 // len nacita este raz z DBX a prida nove vety
       FOR cf := 1 TO _Nh_CFG DO
          IF aCfg[cf].ini THEN                                     // tu je malo DEFAULT viet
             _NhxPt( c:= cf, n := 1,x:=52);                                     // prva veta
@@ -625,7 +637,7 @@ FUNCTION _Nh_POI_INI {HIDDEN}   : BOOL	    // urobi testy POI, prida nove, vymaz
 		aCfg[26].nOk 	:= false;
 	   yTx2  := CONCAT('..Pridane aCfg[26].new : ',INT_TO_STRING(aCfg[26].new))  ;
 		_Nh1RowTxt(logRst:=1);
-      _Nh_Go_DbxToMem(ram:=true, dbx:=false);                                 		// len nacita este raz z DBX a prida nove vety
+      _Nh_Dbx_To_Mem(ram:=true, dbx:=false);                                 		// len nacita este raz z DBX a prida nove vety
 	ELSE
 	   yTx2  := CONCAT('.._Nh_POI_INI - Ok. Rec: ',INT_TO_STRING(aCfg[26].rec))  ;
 		_Nh1RowTxt(logRst:=1);

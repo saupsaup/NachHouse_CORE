@@ -212,6 +212,9 @@ FUNCTION  _Nh_Log_Evn_ADD  : BOOL
 	END_VAR
 	_Nh_Log_Evn_ADD	:= FALSE;
    yLogEvn       		:= eLogEvn;
+
+RETURN;
+
 (*
 	CASE tsk OF
      0 : ;
@@ -571,9 +574,7 @@ FUNCTION_BLOCK  _Nh_Cfg_Restart   // copy CFG from RBx/DBx to Mem
 	done	:= FALSE;
 	IF init THEN
 		init := false;
-		IF _NhIsDBxCfgOk(RBx:=aSys.UseRBx) = false THEN          	// maps xDbx to wrk mem AT aObr
-
-		END_IF;
+		rb 			:= _NhIsDBxCfgOk(what:=0, noLog:=TRUE);
 		yDbx			:= xDbx^;
 		xCfg			:= xDbx + SIZEOF(aDbx);									// in after xDbx in wrk MEM
 	   aDbx.vRam   := _Ram0;                                                         // volna ram

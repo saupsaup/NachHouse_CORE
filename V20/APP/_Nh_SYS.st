@@ -4,10 +4,11 @@
 // { $DEFINE __NH_METEO_IQWS_4000 }
 // { $DEFINE __NH_FRM }
 
+
 // NUTNTY ZAKLAD
 VAR_GLOBAL CONSTANT
 //	_NH2_SYS_DIR 		{HIDDEN}:	STRING[80] := 'W/IMAGES/;W/JS/;W/JSN/;W/LOGS/;W/NOTIFY/;FRM/';				// no-Delete DIRs
-	_NH2_VER 			{HIDDEN}:	STRING[3] := 'V21';
+	_NH2_VER 			{HIDDEN}:	STRING[3] := 'V20';
 	_NH_ZONES {HIDDEN}: USINT			:= 5; // pocet default Zon
    { $ IF CPU_CODE > 1999 }
 		_NH_CLUSTER		{HIDDEN}: UDINT			:= 4096;
@@ -410,16 +411,16 @@ TYPE
 		RefCyc: USINT;							// cislo cyklu v sekvencii (0->1->2->3->4) od prechodu na novu minutu ->, alebo iny refresh
 		EXP_ROM: BOOL := TRUE; // preberat z exportu aj miestnosti ak sa najdu
 		RefCycNew: BOOL;							// poziadavka na rucne nastartovanie sekvencie
-      chg: BOOL; // priznak modifikacie parametrov od posledneho ulozenia
-      Qf230: BOOL; // impulz pri vypadku napatia
-      Qr230: BOOL; // impulz pri obnoveni napatia
-      QfHDO: BOOL; // impulz pri vypnuti HDO
-      QrHDO: BOOL; // impulz pri zapnuti HDO
-      prgChange: BOOL;
-      CfgRamOk: BOOL; // v RAM sa nachadzaju platne data (z DBX, SDC alebo novovytvorene). Mozu byt aktualnejsie ako v DBX
-      CfgDbxOk: BOOL; // true = v dbx je CFG ok ,
-		CfgBckOk: BOOL; // posledne zistovanie, ci existuje subor na SDC podla dbx.mem
-      ExtPSN: BOOL; // stav komunikacie s Ext PSN
+      chg: 				BOOL; // priznak modifikacie parametrov od posledneho ulozenia
+      Qf230: 			BOOL; // impulz pri vypadku napatia
+      Qr230: 			BOOL; // impulz pri obnoveni napatia
+      QfHDO: 			BOOL; // impulz pri vypnuti HDO
+      QrHDO: 			BOOL; // impulz pri zapnuti HDO
+      prgChange: 		BOOL;
+      CfgRamOk: 		BOOL; // v RAM sa nachadzaju platne data (z DBX, SDC alebo novovytvorene). Mozu byt aktualnejsie ako v DBX
+      CfgDbxOk: 		BOOL; // true = v dbx je CFG ok ,
+//		CfgBckOk: BOOL; // posledne zistovanie, ci existuje subor na SDC podla dbx.mem
+      ExtPSN: 			BOOL; // stav komunikacie s Ext PSN
       Locked: BOOL; //
       Open: BOOL; //
       pass: BOOL;
@@ -1463,9 +1464,10 @@ FUNCTION _NhMaxRWLimit {HIDDEN}: BOOL			// returns if the cycle time up to this 
 	_NhMaxRWLimit	:= aSys.RWtoFileCycle > rw;
 END_FUNCTION
 
-FUNCTION _NhFclose {HIDDEN}: BOOL // otvori/zavrie subor
+
+FUNCTION _NhFclose {HIDDEN}: BOOL // close file/DIR, write fh:=INVALID_HANDLE and fS:=FileSize
 	VAR_INPUT
-		dir: 	BOOL;
+		dir: 	BOOL;				// DIR close
 	END_VAR
    VAR_IN_OUT
       fh: 	HANDLE;
@@ -1475,12 +1477,12 @@ FUNCTION _NhFclose {HIDDEN}: BOOL // otvori/zavrie subor
 		IF dir THEN
 	 		_NhFclose := DirClose (hDir := fH);
 		ELSE
-      	fS := FileSize(hFile := fH); // do GLB sa vlozi velkost suboru
 	 		_NhFclose := FileClose(hFile := fH);
+	   	IF _NhFclose THEN
+   	   	fS := FileSize(hFile := fH); // do GLB sa vlozi velkost suboru
+			END_IF;
 		END_IF;
-   	IF _NhFclose THEN
-			fh := INVALID_HANDLE_VALUE;
-		END_IF;
+		fh := INVALID_HANDLE_VALUE;
 	END_IF;
 END_FUNCTION
 
@@ -1743,7 +1745,7 @@ FUNCTION _Nh_Log_PATH: BOOL 	// all paths for files, rename, copy, log
 		fN	: 		STRING[3]; 	// file name or suffix
    END_VAR
 	VAR_TEMP
-		txt: 		STRING[10];
+//		txt: 		STRING[10];
 	END_VAR
 	_Nh_Log_PATH	:= TRUE;
 	yTx1			:= fN; STRING_TO_LOWER(yTx1);
@@ -1766,16 +1768,10 @@ FUNCTION _Nh_Log_PATH: BOOL 	// all paths for files, rename, copy, log
 			END_IF;
 			RETURN;
 
-
 	 	21:	//NH2
 			yTx1 	:= aSys.DiskHed.Disk[1].path;					
 			yTx2	:= '';
 			CASE frm OF
-(*
-	 	1:	// create path in version after restart {FRM}
-			yTx2 	:= CONCAT(aSys.DiskHed.Disk[1].path, _NH2_VER, '/', fN, '/');
-			yTx1	:= CONCAT(aSys.DiskHed.Disk[1].path, yTx1, '.DIR'); // actual dir for save file rrmmddhh.mem
-*)
 				1:	// source FRM, 
 //					yTx1 	:= CONCAT(yTx1, _NH2_VER, '/FRM/');											
 					yTx2	:= CONCAT(yTx1, _NH2_VER, '/FRM/');
@@ -1935,8 +1931,9 @@ END_FUNCTION
 
 FUNCTION _NhCloseAllFiles {HIDDEN}: BOOL
 	VAR_INPUT
-		open:		BOOL := TRUE;
+//		open:		BOOL := TRUE;
 	END_VAR
+//	aSys.OpenFilesCount		:= aSys.OpenFilesCount + 1;
 	aSys.OpenFilesCount		:= OpenFilesCount();
 	rb 							:= CloseAllFiles();
 	aSys.LogHed.fhEvn 		:= INVALID_HANDLE_VALUE;
@@ -1984,16 +1981,18 @@ FUNCTION _NhOulog {HIDDEN}: BOOL
 		io :		NH_IO_BUSY;
 	END_VAR	
 	_NhOulog := TRUE;
-	rb:=_NhSysLogMsg(msg:=BOOL_TO_STRINGF(io.exec,'%b{X^ }')
+	rb:=_NhSysLogMsg(msg:=ms+'; ' 
+								+BOOL_TO_STRINGF(io.exec,'%b{X^ }')
 								+BOOL_TO_STRINGF(io.busy,'%b{B^ }')
 								+BOOL_TO_STRINGF(io.done,'%b{D^ }')
 								+BOOL_TO_STRINGF(io.err,'%b{E^ }')
 								+BOOL_TO_STRINGF(io.found,'%b{F^ }')
 								+'  Go: '+USINT_TO_STRINGF(go,'%3u')
+//								+' io.Go:'+USINT_TO_STRINGF(io.go,'%3u')
+								+'  Up: '+USINT_TO_STRINGF(aSys.UpdFile,'%3u')
 								+'  Cs: '+UDINT_TO_STRINGF(io.cycSize,'%5u; ')
 								+'  Rs: '+UDINT_TO_STRINGF(io.reqSize,'%5u; ')
-								+'  As: '+UDINT_TO_STRINGF(io.actSize,'%5u; ')
-								+ms
+								+'  As: '+UDINT_TO_STRINGF(io.actSize,'%5u ')
 								,noTime:=1,noIni:=1);
 
 END_FUNCTION
@@ -2181,23 +2180,90 @@ FUNCTION_BLOCK _Nh_File_Line // zapisuje/cita/modifikuje riadok
    END_IF;
 END_FUNCTION_BLOCK
 
+(*
 FUNCTION_BLOCK _Nh_File_RW // zapisuje/cita zo suboru do premennej. Premenna moze byt v MEM,RAM,DBX
-	(*
-	- call 2x, 1.init+open, 2.run
-	- init: go 1 .. 13 , in yTx0:=fN must be !! 
-	 *)
    VAR_INPUT
       io :     	NH_IO_BUSY;
 		aVar :		UDINT;	// adresss  from/to read
       Line : 		BOOL; 	// reads 255b and looks for CRLF and sets position to the next line
       Full :		BOOL; 	// Load the full size of the file detected after opening. Only read from file. {mode:=0}
 		append :		BOOL;
-		syslog :		BOOL;		// TRUE=write error to log and leave the error message in yTx0,  FALSE= not write onle leave in yTx0 
+//		syslog :		BOOL;		// TRUE=write error to log and leave the error message in yTx0,  FALSE= not write onle leave in yTx0 
    END_VAR
+	VAR_IN_OUT
+		fN : 			STRING;
+	END_VAR
    VAR
+		fRW :			UDINT;
       fH : 			HANDLE;
     	mode : 		TF_MODE; 			// 0=F_READ,1=F_WRITE,2=F_APPEND {ak je seek=0 => append na koniec, seek>0..zapise na pozociu seek}
    END_VAR
+	io.done := FALSE; io.found := FALSE;
+	IF io.go = 0 THEN
+		RETURN;	
+	ELSIF io.go < 20 THEN
+		IF io.go < 10 THEN
+			mode := 0;	
+		ELSE
+			mode := 1;				
+		END_IF;
+		io.go := io.go + 100;				
+	END_IF;
+	CASE io.go OF
+		101:	IF line THEN
+               xTx2 	:= UDINT_TO_PTR(aVar);
+  	            fRW 	:= FileRead(hFile := fH, adrBuf := aVar , size := 255); // start at position actSize
+					aSys.RWtoFileCycle := aSys.RWtoFileCycle + fRW ;
+        	      IF fRW > 0 THEN // 1 4 6
+           	      io.cycSize := FIND(xTx2^, _NH_CRLF); 					// 'abcCR...'
+              	   IF io.cycSize > 0 THEN 										// cycSize:=4
+                 	   xTx2^ 		:= LEFT(xTx2^, io.cycSize - 1); 		// 'abc' (4-1=3)
+                    	io.found    := TRUE; 									// Out impulz
+                     io.cycSize  := io.cycSize + 1;						// 'abcCR'		-> next line
+  	                  fRW         := io.cycSize; 							// '...CR'
+     	               rb          := FileSetPos(hFile := fH, offset := io.actSize + fRW ); // next line position 'xyz' ( 4+2{CRLF}=6)
+        	         ELSE
+           	         io.cycSize  := fRW; 										// actual position = next line
+             		END_IF;
+            	END_IF;
+				ELSE fRW := FileRead		(hFile := fH, adrBuf := aVar , size := io.cycSize);
+				END_IF;	
+		111:	fRW := FileWrite		(hFile := fH, adrBuf := aVar , size := io.cycSize);		
+
+		102:	fRW := FileReadRbx	(hFile := fH, adrRbx := aVar , size := io.cycSize);		
+		112:	
+		fRW:=0;
+	rb := _NhSysLogMsg(msg:='1. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW),noTime:=0) ;
+		fRW := FileWriteRbx	(hFile := fH, adrRbx := aVar , size := io.cycSize);		
+	rb := _NhSysLogMsg(msg:='2. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW),noTime:=0) ;
+
+		103:	// file->mObr->DBX
+				io.cycSize 	:= MIN(io.cycSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,SIZEOF(mObr)));
+				fRW := FileRead		(hFile := fH, adrBuf := PTR_TO_UDINT(ADR(mObr)), size := io.cycSize);
+				IF WriteToDBx	(dataBoxAddress := aVar , varAddress := aVar,length := fRW) = FALSE THEN		
+					fRW := 0;		
+				END_IF;		
+		113:	// DBX->mObr->file
+				io.cycSize 	:= MIN(io.cycSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,SIZEOF(mObr)));
+				fRW := 0;
+				IF ReadFromDBx	(dataBoxAddress := aVar , varAddress := PTR_TO_UDINT(ADR(mObr)),length := io.cycSize) THEN		
+					fRW := FileWrite	(hFile := fH, adrBuf := PTR_TO_UDINT(ADR(mObr)), size := io.cycSize);		
+				ELSE
+					rb:=_NhSysLogMsg(msg:='-> ReadFromDBx = false, avar:= ');
+				END_IF;
+		99:	// cancel
+				io.busy := FALSE; io.exec := FALSE; io.done := TRUE;
+	END_CASE;
+	IF io.busy THEN
+		
+
+	END_IF;
+	IF io.done THEN
+		
+
+	END_IF;
+		
+
 	CASE io.go OF
 		0: 	RETURN;
 		// MEM
@@ -2213,37 +2279,43 @@ FUNCTION_BLOCK _Nh_File_RW // zapisuje/cita zo suboru do premennej. Premenna moz
 		101:	IF line THEN
                xTx2 	:= UDINT_TO_PTR(aVar);
   	            fRW 	:= FileRead(hFile := fH, adrBuf := aVar , size := 255); // start at position actSize
-					aSys.RWtoFileCycle := aSys.RWtoFileCycle + fRW / 2;
+					aSys.RWtoFileCycle := aSys.RWtoFileCycle + fRW ;
         	      IF fRW > 0 THEN // 1 4 6
-           	      io.cycSize := FIND(xTx2^, _NH_CRLF); // 'abcCRxyz'
-              	   IF io.cycSize > 0 THEN // cycSize:=4
-                 	   xTx2^ := LEFT(xTx2^, io.cycSize - 1); // 'abc' (4-1=3)
-                    	io.found    := TRUE; // Out impulz
-                     io.cycSize  := io.cycSize + 1;
-  	                  fRW         := io.cycSize; // '...CRxzy'
+           	      io.cycSize := FIND(xTx2^, _NH_CRLF); 					// 'abcCR...'
+              	   IF io.cycSize > 0 THEN 										// cycSize:=4
+                 	   xTx2^ 		:= LEFT(xTx2^, io.cycSize - 1); 		// 'abc' (4-1=3)
+                    	io.found    := TRUE; 									// Out impulz
+                     io.cycSize  := io.cycSize + 1;						// 'abcCR'		-> next line
+  	                  fRW         := io.cycSize; 							// '...CR'
      	               rb          := FileSetPos(hFile := fH, offset := io.actSize + fRW ); // next line position 'xyz' ( 4+2{CRLF}=6)
         	         ELSE
-           	         io.cycSize  := fRW; // actual position = next line
+           	         io.cycSize  := fRW; 										// actual position = next line
              		END_IF;
             	END_IF;
-				ELSE fRW := FileRead		(hFile := fH, adrBuf := aVar + io.actSize, size := io.cycSize);
+				ELSE fRW := FileRead		(hFile := fH, adrBuf := aVar , size := io.cycSize);
 				END_IF;	
-		111:	fRW := FileWrite		(hFile := fH, adrBuf := aVar + io.actSize, size := io.cycSize);		
+		111:	fRW := FileWrite		(hFile := fH, adrBuf := aVar , size := io.cycSize);		
 
-		102:	fRW := FileReadRbx	(hFile := fH, adrRbx := aVar + io.actSize, size := io.cycSize);		
-		112:	fRW := FileWriteRbx	(hFile := fH, adrRbx := aVar + io.actSize, size := io.cycSize);		
+		102:	fRW := FileReadRbx	(hFile := fH, adrRbx := aVar , size := io.cycSize);		
+		112:	
+		fRW:=0;
+	rb := _NhSysLogMsg(msg:='1. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW),noTime:=0) ;
+		fRW := FileWriteRbx	(hFile := fH, adrRbx := aVar , size := io.cycSize);		
+	rb := _NhSysLogMsg(msg:='2. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW),noTime:=0) ;
 
 		103:	// file->mObr->DBX
 				io.cycSize 	:= MIN(io.cycSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,SIZEOF(mObr)));
 				fRW := FileRead		(hFile := fH, adrBuf := PTR_TO_UDINT(ADR(mObr)), size := io.cycSize);
-				IF WriteToDBx	(dataBoxAddress := aVar + io.actSize, varAddress := aVar + io.actSize,length := fRW) = FALSE THEN		
+				IF WriteToDBx	(dataBoxAddress := aVar , varAddress := aVar,length := fRW) = FALSE THEN		
 					fRW := 0;		
 				END_IF;		
 		113:	// DBX->mObr->file
 				io.cycSize 	:= MIN(io.cycSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,SIZEOF(mObr)));
 				fRW := 0;
-				IF ReadFromDBx	(dataBoxAddress := aVar + io.actSize, varAddress := PTR_TO_UDINT(ADR(mObr)),length := io.cycSize) THEN		
+				IF ReadFromDBx	(dataBoxAddress := aVar , varAddress := PTR_TO_UDINT(ADR(mObr)),length := io.cycSize) THEN		
 					fRW := FileWrite	(hFile := fH, adrBuf := PTR_TO_UDINT(ADR(mObr)), size := io.cycSize);		
+				ELSE
+					rb:=_NhSysLogMsg(msg:='-> ReadFromDBx = false, avar:= ');
 				END_IF;
 		99:	// cancel
 				io.busy := FALSE; io.exec := FALSE; io.done := TRUE;
@@ -2255,7 +2327,8 @@ FUNCTION_BLOCK _Nh_File_RW // zapisuje/cita zo suboru do premennej. Premenna moz
 	IF io.exec THEN	io.exec := FALSE;		
 		// exec,busy:  already=TRUE from ou:=_eIoDone;
 		IF line  THEN	
-			mode := F_READ;															// read line after line
+			mode := F_READ; 															// read line after line
+			full := TRUE;																// all file	
 		END_IF;
 		IF mode = F_READ THEN ;
 		ELSIF append THEN
@@ -2263,9 +2336,9 @@ FUNCTION_BLOCK _Nh_File_RW // zapisuje/cita zo suboru do premennej. Premenna moz
 		ELSE
 			mode := F_WRITE;															// read line after line
 		END_IF;
-		IF _NhFopen(fN := yTx0, fH := fH , mode := mode, log:=0 ) = FALSE THEN	 // (DBX W/R), close file
+		IF _NhFopen(fN := fN, fH := fH , mode := mode, log:=0 ) = FALSE THEN	 // (DBX W/R), close file
 			rb	:= _Nh_Ou_Err(sysLog:=0, io:=io, msg:='{'+yTx0+'}', errTyp:=2, ErrID:=1002);
-     	ELSIF Line OR full THEN
+     	ELSIF full THEN
       	io.reqSize := fS; 		// the file size is in the variable fS after opening. The full size is loaded
      	END_IF;
 		io.cycSize 	:= MIN(io.reqSize - io.actSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,_NH_CLUSTER));
@@ -2276,7 +2349,11 @@ FUNCTION_BLOCK _Nh_File_RW // zapisuje/cita zo suboru do premennej. Premenna moz
 		END_IF;
 	ELSIF io.busy THEN
 		io.actSize	:=	io.actSize + fRW;
-     	IF fRW <> io.cycSize THEN 			// the request did not proceed correctly
+		IF line = FALSE THEN					// line is the same Var	
+			aVar := aVar + io.actSize;		// mext data 
+		END_IF;
+
+	  	IF fRW <> io.cycSize THEN 			// the request did not proceed correctly
 			rb	:= _Nh_Ou_Err(sysLog:=0,io:=io, msg:='; fRW: '+UDINT_TO_STRING(fRW)+' cycSize: '+UDINT_TO_STRING(io.cycSize), errTyp := 2, ErrID := 1004);
 		ELSIF io.reqSize > io.actSize THEN
 			io.cycSize 	:= MIN(io.reqSize - io.actSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,_NH_CLUSTER));
@@ -2285,231 +2362,145 @@ FUNCTION_BLOCK _Nh_File_RW // zapisuje/cita zo suboru do premennej. Premenna moz
 		END_IF;
 	END_IF;
 	IF io.done THEN	io.busy := FALSE;
+aa:=0;bb:=0;cc:=0;xx:=0;yy:=0;zz:=0;   
       rb 	:= _NhFclose(fH := fH);
+zz:=UDINT_TO_REAL(fS);
 		io.go := 0;
 	END_IF;
 END_FUNCTION_BLOCK
+*)
 
-(*
-FUNCTION_BLOCK _Nh_File_RWo // zapisuje/cita zo suboru do premennej. Premenna moze byt v MEM,RAM,DBX
+FUNCTION_BLOCK _Nh_File_RW // zapisuje/cita zo suboru do premennej. Premenna moze byt v MEM,RAM,DBX
+	(*
+	- call 2x, 1.init+open, 2.run
+	- init: go 1 .. 13 , in yTx0:=fN must be !! 
+	 *)
    VAR_INPUT
-		go :			USINT;
       io :     	NH_IO_BUSY;
 		aVar :		UDINT;	// adresss  from/to read
       Line : 		BOOL; 	// reads 255b and looks for CRLF and sets position to the next line
       Full :		BOOL; 	// Load the full size of the file detected after opening. Only read from file. {mode:=0}
+		append :		BOOL;
+//		syslog :		BOOL;		// TRUE=write error to log and leave the error message in yTx0,  FALSE= not write onle leave in yTx0 
    END_VAR
-   VAR_IN_OUT
-      fN : 			STRING; // file name
-   END_VAR
-   VAR
+	VAR_IN_OUT
+		fN : 			STRING;
+	END_VAR
+   VAR_OUTPUT
+		fRW :			UDINT;
       fH : 			HANDLE;
     	mode : 		TF_MODE; 			// 0=F_READ,1=F_WRITE,2=F_APPEND {ak je seek=0 => append na koniec, seek>0..zapise na pozociu seek}
    END_VAR
-	CASE go OF
+	io.done := FALSE; io.found := FALSE;
+	
+	CASE io.go OF
 		0: 	RETURN;
-		1:		// MEM
-				IF io.mode = F_READ OR line  THEN // <- file	
-					io.go := 10;
-				ELSE 								// -> file	
-					io.go := 11;
-				END_IF;		
-		2:		// RBx
-				IF io.mode = F_READ THEN	// <- file	
-					io.go := 20;
-				ELSE 								// -> file	
-					io.go := 21;
-				END_IF;		
-		3:		// DBX
-				IF io.mode = F_READ THEN	// <- file	
-					io.go := 30;
-				ELSE 								// -> file	
-					io.go := 31;
-				END_IF;		
+		// MEM
+		1:		io.go := 101; mode:=0; 	// <- file		
+		11:	io.go := 111; mode:=1;	// -> file	
+		// RBx
+		2:		io.go := 102; mode:=0; 	// <- file		
+		12:	io.go := 112; mode:=1;	// -> file	
+		// DBX
+		3:		io.go := 103; mode:=0; 	// <- file		
+		13:	io.go := 113; mode:=1;	// -> file	
 
-		10:	IF line THEN
+		101:	IF line THEN
                xTx2 	:= UDINT_TO_PTR(aVar);
   	            fRW 	:= FileRead(hFile := fH, adrBuf := aVar , size := 255); // start at position actSize
-					aSys.RWtoFileCycle := aSys.RWtoFileCycle + fRW / 2;
+					aSys.RWtoFileCycle := aSys.RWtoFileCycle + fRW ;
         	      IF fRW > 0 THEN // 1 4 6
-           	      io.cycSize := FIND(xTx2^, _NH_CRLF); // 'abcCRxyz'
-              	   IF io.cycSize > 0 THEN // cycSize:=4
-                 	   xTx2^ := LEFT(xTx2^, io.cycSize - 1); // 'abc' (4-1=3)
-                    	io.found    := TRUE; // Out impulz
-                     io.cycSize  := io.cycSize + 1;
-  	                  fRW         := io.cycSize; // '...CRxzy'
+           	      io.cycSize := FIND(xTx2^, _NH_CRLF); 					// 'abcCR...'
+              	   IF io.cycSize > 0 THEN 										// cycSize:=4
+                 	   xTx2^ 		:= LEFT(xTx2^, io.cycSize - 1); 		// 'abc' (4-1=3)
+                    	io.found    := TRUE; 									// Out impulz
+                     io.cycSize  := io.cycSize + 1;						// 'abcCR'		-> next line
+  	                  fRW         := io.cycSize; 							// '...CR'
      	               rb          := FileSetPos(hFile := fH, offset := io.actSize + fRW ); // next line position 'xyz' ( 4+2{CRLF}=6)
         	         ELSE
-           	         io.cycSize  := fRW; // actual position = next line
+           	         io.cycSize  := fRW; 										// actual position = next line
              		END_IF;
             	END_IF;
-				ELSE fRW := FileRead		(hFile := fH, adrBuf := aVar + io.actSize, size := io.cycSize);
+				ELSE fRW := FileRead		(hFile := fH, adrBuf := aVar , size := io.cycSize);
 				END_IF;	
-		11:	fRW := FileWrite		(hFile := fH, adrBuf := aVar + io.actSize, size := io.cycSize);		
+		111:	fRW := FileWrite		(hFile := fH, adrBuf := aVar , size := io.cycSize);		
 
-		20:	fRW := FileReadRbx	(hFile := fH, adrRbx := aVar + io.actSize, size := io.cycSize);		
-		21:	fRW := FileWriteRbx	(hFile := fH, adrRbx := aVar + io.actSize, size := io.cycSize);		
+		102:	fRW := FileReadRbx	(hFile := fH, adrRbx := aVar , size := io.cycSize);		
+		112:	
+		fRW:=0;
+	rb := _NhSysLogMsg(msg:='1. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW)+' fc: '+UINT_TO_STRING(OpenFilesCount()),noTime:=0) ;
+		fRW := FileWriteRbx	(hFile := fH, adrRbx := aVar , size := io.cycSize);		
+	rb := _NhSysLogMsg(msg:='2. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW)+' fc: '+UINT_TO_STRING(OpenFilesCount()),noTime:=0) ;
 
-		30:	// file->mObr->DBX
+		103:	// file->mObr->DBX
 				io.cycSize 	:= MIN(io.cycSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,SIZEOF(mObr)));
 				fRW := FileRead		(hFile := fH, adrBuf := PTR_TO_UDINT(ADR(mObr)), size := io.cycSize);
-				IF WriteToDBx	(dataBoxAddress := aVar + io.actSize, varAddress := aVar + io.actSize,length := fRW) = FALSE THEN		
+				IF WriteToDBx	(dataBoxAddress := aVar , varAddress := aVar,length := fRW) = FALSE THEN		
 					fRW := 0;		
 				END_IF;		
-		31:	// DBX->mObr->file
+		113:	// DBX->mObr->file
 				io.cycSize 	:= MIN(io.cycSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,SIZEOF(mObr)));
 				fRW := 0;
-				IF ReadFromDBx	(dataBoxAddress := aVar + io.actSize, varAddress := PTR_TO_UDINT(ADR(mObr)),length := io.cycSize) THEN		
+				IF ReadFromDBx	(dataBoxAddress := aVar , varAddress := PTR_TO_UDINT(ADR(mObr)),length := io.cycSize) THEN		
 					fRW := FileWrite	(hFile := fH, adrBuf := PTR_TO_UDINT(ADR(mObr)), size := io.cycSize);		
+				ELSE
+					rb:=_NhSysLogMsg(msg:='-> ReadFromDBx = false, avar:= ');
 				END_IF;
-
 		99:	// cancel
-				io.Go := 0;		
-				io.exec := FALSE; io.busy := FALSE;						// block
-
+				io.busy := FALSE; io.exec := FALSE; io.done := TRUE;
 	ELSE 		// unknown command
 				io.go := 0;
 				RETURN;
 	END_CASE;
 	io.cyc := io.cyc + 1;
-
-
-
-
-
 	IF io.exec THEN	io.exec := FALSE;		
 		// exec,busy:  already=TRUE from ou:=_eIoDone;
 		IF line  THEN	
-			io.mode := F_READ;															// read line after line
+			mode := F_READ; 															// read line after line
+			full := TRUE;																// all file	
 		END_IF;
-		IF _NhFopen(fN := fN, fH := fH , mode := io.mode, log:=0 ) = FALSE THEN	 // (DBX W/R), close file
-			rb	:= _Nh_Ou_Err(io:=io, msg:=fN, errTyp:=2, ErrID:=1002);
-     	ELSIF Line OR full THEN
+		IF mode = F_READ THEN ;
+		ELSIF append THEN
+			mode := F_APPEND;															// read line after line
+		ELSE
+			mode := F_WRITE;															// read line after line
+		END_IF;
+		rb := _NhSysLogMsg(msg:='A, fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW)+' fc: '+UINT_TO_STRING(OpenFilesCount()),noTime:=0) ;
+
+		IF _NhFopen(fN := fN, fH := fH , mode := mode, log:=0 ) = FALSE THEN	 // (DBX W/R), close file
+			rb	:= _Nh_Ou_Err(sysLog:=0, io:=io, msg:='{'+yTx0+'}', errTyp:=2, ErrID:=1002);
+     	ELSIF full THEN
       	io.reqSize := fS; 		// the file size is in the variable fS after opening. The full size is loaded
      	END_IF;
 		io.cycSize 	:= MIN(io.reqSize - io.actSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,_NH_CLUSTER));
 		IF io.err THEN	
-			io.busy := FALSE; io.done := TRUE;
+//		rb := _NhSysLogMsg(msg:='C. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW)+' fc: '+UINT_TO_STRING(OpenFilesCount()),noTime:=0) ;
+			io.done := TRUE;
 		ELSE
+//		rb := _NhSysLogMsg(msg:='D. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW)+' fc: '+UINT_TO_STRING(OpenFilesCount()),noTime:=0) ;
 			RETURN;			
 		END_IF;
-	END_IF;
-	IF io.busy THEN	
+	ELSIF io.busy THEN
 		io.actSize	:=	io.actSize + fRW;
-      IF fRW <> io.cycSize THEN 			// the request did not proceed correctly
-			rb	:= _Nh_Ou_Err(io:=io, msg:='; fRW: '+UDINT_TO_STRING(fRW)+' cycSize: '+UDINT_TO_STRING(io.cycSize), errTyp := 2, ErrID := 1004);
+		IF line = FALSE THEN					// line is the same Var	
+			aVar := aVar + io.actSize;		// mext data 
+		END_IF;
+		rb := _NhSysLogMsg(msg:='3. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW)+' fc: '+UINT_TO_STRING(OpenFilesCount()),noTime:=0) ;
+	  	IF fRW <> io.cycSize THEN 			// the request did not proceed correctly
+		rb := _NhSysLogMsg(msg:='4. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW)+' fc: '+UINT_TO_STRING(OpenFilesCount()),noTime:=0) ;
+			rb	:= _Nh_Ou_Err(sysLog:=1,io:=io, msg:='; fRW: '+UDINT_TO_STRING(fRW)+' cycSize: '+UDINT_TO_STRING(io.cycSize), errTyp := 2, ErrID := 1004);
 		ELSIF io.reqSize > io.actSize THEN
-			io.cycSize 	:= io.reqSize - io.actSize;			
+			io.cycSize 	:= MIN(io.reqSize - io.actSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,_NH_CLUSTER));
 		ELSE
 			io.done		:=	TRUE;
 		END_IF;
-		io.cycSize 	:= MIN(io.cycSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,_NH_CLUSTER));
 	END_IF;
 	IF io.done THEN	io.busy := FALSE;
-      rb := _NhFclose(fH := fH);
+      rb 	:= _NhFclose(fH := fH);
+		rb := _NhSysLogMsg(msg:='5. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(aVar)+'; S/W:'+UDINT_TO_STRING(io.cycSize)+'='+ UDINT_TO_STRING(fRW)+' fc: '+UINT_TO_STRING(OpenFilesCount()),noTime:=0) ;
 		io.go := 0;
 	END_IF;
 END_FUNCTION_BLOCK
-*)
-
-(*
-FUNCTION_BLOCK _Nh_File_RWo // zapisuje/cita zo suboru do premennej. Premenna moze byt v MEM,RAM,DBX
-	// moze nacitat aj riadok ukonceny CRLF, pricom nie je pevna dlzka riadka
-	// Copy data from/to variable/RamBox to/from file.
-   // If file does not exist new file is created.
-   // If file exists file content is overwitten.
-   // these global variables that must exist are overwritten: fS,fP,fRW
-   VAR_INPUT
-      io :     	NH_IO_BUSY;
-		// io.start  		// only init and back from FB
-		// io.seek 			// adresss vas from/to read
-		// io.what			// what is in adrVar 0=MEM, 1=RamBox, 2=DataBox
-      Line: 		BOOL; 	// reads 255b and looks for CRLF and sets position to the next line
-      AllFile :	BOOL; 	// Load the full size of the file detected after opening. Only read from file. {mode:=0}
-//      adrVar: 	UDINT; 	// adress: variable/Ram/Dbx address {it is entered at the beginning and cannot be changed after that !!!}
-//		size: 	UDINT;	// total required data size
-//      seek: 	UDINT; 	// data offset in file {it is only taken over at the beginning, after that it has no effect}
-//      whatVar: USINT; 	
-      mode : 		TF_MODE; // 0=F_READ,1=F_WRITE,2=F_APPEND {ak je seek=0 => append na koniec, seek>0..zapise na pozociu seek}
-   END_VAR
-   VAR_IN_OUT
-      fN : 			STRING; // file name
-   END_VAR
-   VAR
-      fH : 			HANDLE;
-   END_VAR
-   io.done := FALSE; //io.found := FALSE;
-    // open file and seek position
-	IF io.exec THEN io.exec := FALSE;
-//		exec := FALSE; io := _eIOBusy;  //busy := TRUE; actSize := 0; cyc := 0; errID := 0; errOwn := FALSE;
-      IF line THEN
-         mode := F_READ;															// read line after line
-      END_IF;
-//		io.go :=	io.what;
-		IF _NhFopen(fN := fN, fH := fH , mode := mode, log:=0 ) = FALSE THEN	 // (DBX W/R), close file
-			rb	:= _Nh_Ou_Err(io:=io, msg:=fN, errTyp:=2, ErrID:=1002);
-      ELSIF Line OR allFile THEN
-         io.reqSize := fS; 		// the file size is in the variable fS after opening. The full size is loaded
-      END_IF;
-		IF io.start THEN io.start := FALSE; 
-			RETURN;
-		END_IF;	
-	ELSIF io.cancel	THEN
-		rb	:= _Nh_Ou_Err(io:=io, errTyp:=1, ErrID:=1003);
-   END_IF;
-	IF io.busy THEN
-		io.cycSize 	:= MIN(io.reqSize - io.actSize, _Nh_D12(aSys.mSecMax > aSys.mSecLimit,512,_NH_CLUSTER));
-		CASE io.what OF
-			// Mem 1=write, 11:=read
-         1:	 	fRW 	:= FileWrite( hFile := fH, adrBuf := io.seek + io.actSize, size := io.cycSize); 
-			11: 	IF Line THEN	// read
-	               xTx2 	:= UDINT_TO_PTR(io.seek);
-   	            fRW 	:= FileRead(hFile := fH, adrBuf := io.seek , size := 255); // start at position actSize
-						aSys.RWtoFileCycle := aSys.RWtoFileCycle + fRW / 2;
-         	      IF fRW > 0 THEN // 1 4 6
-            	      io.cycSize := FIND(xTx2^, _NH_CRLF); // 'abcCRxyz'
-               	   IF io.cycSize > 0 THEN // cycSize:=4
-                  	   xTx2^ := LEFT(xTx2^, io.cycSize - 1); // 'abc' (4-1=3)
-                     	io.found    := TRUE; // Out impulz
-	                     io.cycSize  := io.cycSize + 1;
-   	                  fRW         := io.cycSize; // '...CRxzy'
-      	               rb          := FileSetPos(hFile := fH, offset := io.actSize + fRW ); // next line position 'xyz' ( 4+2{CRLF}=6)
-         	         ELSE
-            	         io.cycSize  := fRW; // actual position = next line
-               		END_IF;
-	            	END_IF;
-
-   	         ELSE fRW 	:= FileRead(hFile := fH, adrBuf := io.seek + io.actSize, size := io.cycSize);
-					END_IF;
-         // RamBox
-			2: 	fRW := FileWriteRbx(hFile := fH, adrRbx := io.seek + io.actSize, size := io.cycSize);
-         12: 	fRW := FileReadRbx( hFile := fH, adrRbx := io.seek + io.actSize, size := io.cycSize);
-        // DataBox
-			3: ;
-         13: ;
-		ELSE 	
-			rb	:= _Nh_Ou_Err(io:=io, errTyp:=99);					
-			fRW:=0; io.cycSize:=0; 
-		END_CASE;
-		io.actSize	:=	io.actSize + fRW;
-      IF fRW <> io.cycSize THEN 			// the request did not proceed correctly
-			rb	:= _Nh_Ou_Err(io:=io, msg:='; fRW: '+UDINT_TO_STRING(fRW)+' cycSize: '+UDINT_TO_STRING(io.cycSize), errTyp := 2, ErrID := 1004);
-		ELSIF io.reqSize > io.actSize THEN
-			io.cycSize 	:= io.reqSize - io.actSize;			
-		ELSE
-			io.done		:=	TRUE;
-		END_IF;
-	END_IF;
-
-	io.cyc := io.cyc + 1;
-   IF io.done THEN
-//		rb		:= _Nh_Ou_Err(ou:=ou, msg:=eTxt, sysLog:=FALSE);   // insert errtextMessage into yTx0, no Write to Log
-      rb 			:= _NhFclose(fH := fH);
-      io.cancel	:=FALSE;	
-		io.busy		:=FALSE;
-   END_IF;
-END_FUNCTION_BLOCK
-*)
 
 FUNCTION_BLOCK _Nh_TONF {HIDDEN} 	// opozdenie v [sec/Min/Hour] In->Out po zapnuti aj vypnuti s autoresetom
   	VAR_INPUT
@@ -3403,15 +3394,15 @@ FUNCTION_BLOCK _Nh_Click_FB {HIDDEN}
 	END_IF;
 END_FUNCTION_BLOCK
 
-FUNCTION _Nh_Go_MemToDBX    : BOOL    		// ulozi do dbx celu RAM alebo len DBX
+FUNCTION _Nh_Mem_To_DBX    : BOOL    		// ulozi do dbx celu RAM alebo len DBX
 	VAR_INPUT
 		DBX	: BOOL;
 	END_VAR
 	IF DBX OR aSys.UseRBx = false THEN
-	   _Nh_Go_MemToDBX	:= WriteToDBx( dataBoxAddress := aDbx.ver.Dbx0, length := MIN(aSys.Size_DBx,aDbx.vRam), varAddress := PTR_TO_UDINT(ADR(mRam)) ) ;		
+	   _Nh_Mem_To_DBX	:= WriteToDBx( dataBoxAddress := aDbx.ver.Dbx0, length := MIN(aSys.Size_DBx,aDbx.vRam), varAddress := PTR_TO_UDINT(ADR(mRam)) ) ;		
 	   aSys.nMemToDbx    := aSys.nMemToDbx + 1;
 	ELSE //aSys.UseRBxTHEN
-   	_Nh_Go_MemToDBX	:= WriteToRBx ( ramBoxAddress := aDbx.ver.Dbx0, length := aDbx.vRam, varAddress := PTR_TO_UDINT(ADR(mRam)) ) ;
+   	_Nh_Mem_To_DBX	:= WriteToRBx ( ramBoxAddress := aDbx.ver.Dbx0, length := aDbx.vRam, varAddress := PTR_TO_UDINT(ADR(mRam)) ) ;
 	   aSys.nMemToRBx    := aSys.nMemToRBx + 1;
 	END_IF;
    aSys.CfgDbxOk  	:= true;
@@ -3589,39 +3580,53 @@ END_FUNCTION_BLOCK
 FUNCTION_BLOCK _Nh_Backup		// backup MEM/RAM/DBX -> File or Restore File -> MEM/RAM/DBX
 	VAR_INPUT
       go :			USINT;
-//		goWeb :		USINT;
-		IniEnd : 	USINT:=255;
-		IniErr : 	USINT:=255;
-		IniRun : 	USINT:=255;	
+		IniEnd : 	USINT;
+		IniErr : 	USINT;
+		IniRun : 	USINT;	
 	END_VAR                        	
 	VAR_OUTPUT
-		cyc : 		UINT;
+		busy :		BOOL;
+		done :		BOOL;
+		err :			BOOL;
 	END_VAR
 	VAR
 		fbRW		   : _Nh_File_RW;
       logTxt      : STRING[3];
 	END_VAR
+	done := FALSE;
 	CASE go OF
 		0:		IF aSys.UpdFile < 100 THEN						// save MEM->RBx->file
       			RETURN;
-				END_IF;
-				IF go > 0 THEN	;							// goWeb	priority
-				ELSIF aSys.UpdFile > 253 THEN			
-					IF aSys.UpdFile = 254 THEN			// save MEM->RBx->file
-						go := 10;
-					END_IF;
-					IF aSys.UseRBx THEN
-						go := go + 2;								// RBx -> file
-					ELSIF aSys.IS_DBX THEN 		
-						go := go + 3;
-					ELSE
-						go := go + 1;
-					END_IF;
+				ELSIF aSys.UpdFile = 255 THEN					// restore from <- file
+				ELSE 	go := 10;									// save to -> file
 				END_IF;	
-//				_NhOulog(msg:='-> start ',io:=fbRW.io);
+				IF aSys.UseRBx THEN
+					go := go + 2;									// RBx 	2/12
+				ELSIF aSys.IS_DBX THEN 							
+					go := go + 3;									// DBx  	3/13
+				ELSE
+					go := go + 1;									// MEM	1/11
+				END_IF;
+				IniRun := aSys.ini;								// reset ini to actualy cycle
+				IniErr := aSys.ini;	
+				IniEnd := aSys.ini;	
+				_NhOulog(go:=go, ms:='-> init-Start ',io:=fbRW.io);
+		
+		1:		;	//	Mem <- read from file
+		2:		;	//	RBx <- read from file
+		3:		;	//	DBX <- read from file
+		11:	;	//	Mem -> write file			
+		12:	;	//	RBx -> write file			
+		13:	;	//	DBx -> write file			
+		
+		99:	// iniRun,iniEnd,iniErr
+				go 	:= 0;
+				busy 	:= TRUE;
+		 		RETURN;
 		100:	// run
-				fbRW(); 
-				IF fbRW.io.done THEN
+				fbRW(fN:=yTx1); 
+				done := fbRW.io.done ; busy := fbRW.io.busy; err := fbRW.io.err;
+				IF done THEN	
 					Go 			:= 0;	
 			  		aSys.Ini		:= IniEnd;
       			IF fbRW.io.err THEN
@@ -3644,32 +3649,32 @@ FUNCTION_BLOCK _Nh_Backup		// backup MEM/RAM/DBX -> File or Restore File -> MEM/
       203:  RETURN;
 //	ELSE 		go := 0; RETURN;
 	END_CASE;
-	fbRW.io 				:= _eIoBusy; 
-	cyc 					:= 1;		
 	aSys.UpdFile 		:= 0;
    aSys.Ini				:= IniRun;
+	busy 					:= TRUE;
+	// fbRW
+	fbRW.io 				:= _eIoBusy; 
 	fbRW.io.reqSize 	:= aDbx.vRam;
 	fbRW.io.go 			:= go;
 	IF go > 10 THEN
-			go := go - 10;
-			fbRW.full := FALSE;   // write -> file
+		go := go - 10;
+		fbRW.full := FALSE;   // write -> file
 	ELSE
-			fbRW.full := TRUE;   // write -> file
+		fbRW.full := TRUE;   //  read <- file 
 	END_IF;		
 	CASE go OF
 		1:	logTxt := 'MEM'; fbRW.aVar	:= PTR_TO_UDINT(ADR(mRam)); 
-		2:	logTxt := 'RBx'; fbRW.aVar	:= PTR_TO_UDINT(ADR(aDbx.ver.Dbx0));	// <-> file	 
-		3:	logTxt := 'DBx'; fbRW.aVar	:= PTR_TO_UDINT(ADR(aDbx.ver.Dbx0));	// <-> file	 
+		2:	logTxt := 'RBx'; fbRW.aVar	:= aDbx.ver.Dbx0;	
+		3:	logTxt := 'DBx'; fbRW.aVar	:= aDbx.ver.Dbx0;	
 	END_CASE;
-   fbRW.line   := FALSE;
-   go 	:= 100;
-	IF fbRW.full = FALSE THEN					 			// -> write file
+   fbRW.line 	:= FALSE;
+   go 			:= 100;
+	IF fbRW.full = FALSE THEN					 			// XXX -> write to file
       rb 	:=_Nh_Log_Path(wh:=22, frm:=1, wh2:=2);
 		yTx0 	:= CONCAT('{',yTx1,'}{',yTx2,'}');
 		IF rb THEN // yTx1 := 'dbx.wrk'; yTx2:='NH2/V21//DBX/YYYY_MM/DD_hhmm.DBX' (yTx2->dbx.wrk)
  			rb		:=_NhSysLogMsg(msg:='2.Rbx->file: '+yTx0,debug:=true);
-         yTx0  := yTx2;
-         fbRW();
+         fbRW(fN:=yTx2);
 		ELSE
    		rb		:= _Nh_Ou_Err(io:=fbRW.io, msg:=yTx0, errTyp:=2, ErrID:=1010);
          go 	:= 201;
@@ -3679,163 +3684,26 @@ FUNCTION_BLOCK _Nh_Backup		// backup MEM/RAM/DBX -> File or Restore File -> MEM/
 		yTx0 	:= CONCAT('{',yTx1,'}{',yTx2,'}');
 		IF rb THEN
    		rb	   :=_NhSysLogMsg(msg:='3.file->RBx: '+yTx0,debug:=true);
-			yTx0 := yTx2;
-         fbRW();
+         fbRW(fN:=yTx2);
    	ELSE
    		rb		:= _Nh_Ou_Err(io:=fbRW.io, msg:=yTx0, errTyp:=2, ErrID:=1011);
          go 	:= 202;
       END_IF;
    END_IF;
+
+	_NhOulog(go:=go, ms:='-> init-End  ',io:=fbRW.io);
+		rb := _NhSysLogMsg(msg:='E. fH: '+UDINT_TO_STRING(fH)+'; aVar:'+ UDINT_TO_STRING(fbRW.aVar)+'; S/W:'+UDINT_TO_STRING(fbRW.io.cycSize)+'='+ UDINT_TO_STRING(fbRW.fRW)+' fc: '+UINT_TO_STRING(OpenFilesCount()),noTime:=0) ;
+
 END_FUNCTION_BLOCK
-
-
-
-(*
-FUNCTION_BLOCK _Nh_Cfg_Backup		// backup MEM/RAM/DBX -> File or Restore File -> MEM/RAM/DBX
-	VAR_INPUT
-      Go :			USINT;
-      write :     BOOL;
-		IniEnd		: USINT;
-		IniErr		: USINT;
-		IniRun		: USINT;	
-//		logRst		: BOOL:=TRUE;		// loguje akciu do _NhRest,LOG
-	END_VAR                        	
-	VAR
-		fbRW		   : _Nh_File_RW;
-      logTxt      : STRING[3];
-	END_VAR
-//	done	:= false;		
-	CASE Go OF
-		0:		IF aSys.UpdFile < 100 THEN						// save MEM->RBx->file
-					;
-				ELSIF aSys.UseRBx THEN
-					Go := 2; write := TRUE; 
-				ELSIF aSys.IS_DBX THEN 		
-					Go := 3; write := TRUE;
-				ELSE ;
-				END_IF;	
-				RETURN;
-
-		1:		go:= 1; fbRW.full := TRUE;
-		11:	go:= 1; fbRW.full := FALSE;
-		2:		go:= 2; fbRW.full := TRUE;
-		12:	go:= 2; fbRW.full := FALSE;
-
-		100: ;
-	// start
-	fbRW.io := _eIoBusy; 
-	fbRW.io.reqSize := aDbx.vRam;
-	CASE go OF
-		0: 
-		1:	logTxt := 'MEM'; fbRW.aVar	:= PTR_TO_UDINT(ADR(mRam)); 
-		2:	logTxt := 'RBx'; fbRW.aVar	:= PTR_TO_UDINT(ADR(aDbx.ver.Dbx0));	// <-> file	 
-		3:	logTxt := 'DBx'; fbRW.aVar	:= PTR_TO_UDINT(ADR(aDbx.ver.Dbx0));	// <-> file	 
-	ELSE
-		
-	END_CASE;
-	
-	
-	
-	go := 100;
-
-
-		1:		logTxt 		:= 'MEM';
-            fbRW.io 		:= _eIoBusy;
-            fbRW.aVar	:= PTR_TO_UDINT(ADR(mRam)); 				// <-> file	
-            IF write THEN	// -> file
-               fbRW.io.reqSize	:= aDbx.vRam;
-            END_IF;
-
-		2:		logTxt 		:= 'RBx';
-            fbRW.io 		:= _eIoBusy;
-            fbRW.aVar	:= PTR_TO_UDINT(ADR(aDbx.ver.Dbx0));	// <-> file	
-            IF write THEN	// -> file
-           		rb 					:= _Nh_Go_MemToDBX();
-               fbRW.io.reqSize	:= aDbx.vRam;
-            END_IF;
-
-		3:		logTxt 		:= 'DBx';
-            fbRW.io 		:= _eIoBusy;
-            fbRW.aVar	:= PTR_TO_UDINT(ADR(aDbx.ver.Dbx0));	// <-> file	
-            IF write THEN	// -> file
-           		rb 					:= _Nh_Go_MemToDBX(dbx:=TRUE);
-               fbRW.io.reqSize	:= MIN(aSys.Size_DBx, aDbx.vRam);
-            END_IF;
-		100:	// busy
-		101:	// busy
-		103:	// err
-   ELSE	   go:=0;
-            RETURN;
-	END_CASE;
-	IF Go < 20 THEN 							//
-
-		aSys.UpdFile := 0;
-   	aSys.Ini		:= IniRun;
-
-
-
-	IF Go < 20 THEN 							//
-		aSys.UpdFile := 0;
-   	aSys.Ini		:= IniRun;
-      fbRW.io.go  := go;
-      fbRW.line   := FALSE;
-		IF write THEN					 						// -> write file
-			fbRW.io.mode := F_WRITE;
-			IF _Nh_Log_Path(wh:=22, frm:=1, wh2:=2) THEN 	// insert path to yTx2 + suffix and write to dbx.wrk {'NH2/002/2025_01/25_1030.DBX' -> dbx.wrk}
- 				rb		:=_NhSysLogMsg(msg:='2.Rbx->file: {'+yTx1+'}{'+yTx2+'}',debug:=true);
-				yTx1	:=yTx2;																	// yTx1:='dbx.wrk', yTx2:=full path
-            write := TRUE;
-				Go		:= 100;
-            fbRW(fN:=yTx2,full:=FALSE);
-//				fbRW.io.exec:=1; fbRW.mode:=1; fbRW.allFile:=0; fbRW.Line:=0;
-			ELSE
-	 			rb		:=_NhSysLogMsg(msg:='FALSE: Write to:  {'+yTx1+'}{'+yTx2+'}',debug:=true);
-				Go		:= 101;
-			END_IF;				
-		ELSIF	_Nh_Log_Path(wh:=21, frm:=2) THEN									// load last backup file from dbx.mem into yTx2
-			rb	   :=_NhSysLogMsg(msg:='TRUE : Read from: {'+yTx1+'}{'+yTx2+'}',debug:=true);
-         fbRW(fN:=yTx1,full:=TRUE);
-//			fbRW.io.exec:=1; fbRW.mode:=0; fbRW.allFile:=1; fbRW.Line:=0;;
-		ELSE
-			rb:=_NhSysLogMsg(msg:='FALSE: Read from: {'+yTx1+'}{'+yTx2+'}',debug:=true);
-			Go		:= 103;
-         fbRW.io.busy := FALSE; fbRW.io.done := TRUE;
-		END_IF;
-	END_IF;
-
-	fbRW(fN:=yTx1);		
-
-//	cyc := cyc + 1;	
-
-   IF fbRW.io.done THEN
-  		aSys.Ini			:= IniEnd;
-      IF fbRW.io.errID > 0 THEN
-   		aSys.Ini	:= IniErr;
-		ELSIF write THEN
-			rb := _Nh_Log_Path(wh:=21, frm:=3);							// rename dbx.wrk -> dbx.mem, and load actual backup into yTx2 from dbx.mem
- 			yTx2 	:= CONCAT('New Bakup {',logTxt,'}->{',yTx2,'}' );
-		ELSE
-			rb 	:= _Nh_Log_Path(wh:=21, frm:=2);						// read path from dbx.mem to yTx2
- 			yTx2 	:= CONCAT('Restore {',yTx2,'}->{',logTxt,'}' );
-		END_IF;
-//		IF logRst THEN
-			rb:=_NhSysLogMsg(msg:='->'+yTx2+' sz:{'+UDINT_TO_STRING(fbRW.io.actSize)+'}'); //,cyc:'+UINT_TO_STRING(cycleCnt));
-//		END_IF;	
-		Go := 0;
-	END_IF;
-END_FUNCTION_BLOCK
-
-
-*)
 
 FUNCTION_BLOCK _Nh_Copy_DIR // copy file or directory
 	VAR_INPUT
 		go: 		   USINT;			// 1=copy file, 2=copy dir and next case run 
 		srcName :	STRING;			// source DIR or fileName
 		dstName :	STRING;			// destination DIR or fileName 
-		seek :		UDINT;			// from start position in source file
+//		seek :		UDINT;			// from start position in source file
 		file : 		BOOL;				// frag for file (TRUE) or DIR (FALSE)
-		append :		BOOL;				// apped to destinantion file
+//		append :		BOOL;				// apped to destinantion file
 		delFile : 	BOOL;			   // delete after copy (move)
 		delDir:		BOOL;
 	END_VAR
@@ -3995,7 +3863,7 @@ END_FUNCTION_BLOCK
 
 VAR_GLOBAL
 	fbFileRWa				: _Nh_File_RW;
- 	fb_Nh_Create_DIR	     : _Nh_Create_DIR;
+ 	fb_Nh_Create_DIR		: _Nh_Create_DIR;
  	fb_Nh_Backup		   : _Nh_Backup;
 	fb_Nh_Copy_DIR			: _Nh_Copy_DIR;
 	fbLine					: _Nh_File_Line;
@@ -4003,7 +3871,7 @@ END_VAR
 
 FUNCTION _NhSysUpd {HIDDEN} : BOOL	
    VAR_INPUT
-      file  : USINT;          // + file
+      file  : USINT :=1;          // + file
    END_VAR
 	_NhSysUpd	:= TRUE;
 	IF aSys.UpdFile < 253 THEN                                  // 0..234 write. 255 = restore

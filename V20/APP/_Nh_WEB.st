@@ -38,7 +38,7 @@ FUNCTION _NhTchObjOK   {HIDDEN} : BOOL                                     // do
    _NhTchObjOK       := true;
 
 
- 	_Nh_Log_Evn_ADD(tsk := 200);
+// 	_Nh_Log_Evn_ADD(tsk := 200);
 
 
 END_FUNCTION
@@ -583,13 +583,17 @@ FUNCTION_BLOCK _NhWebAcces   {HIDDEN}
    END_IF;
 END_FUNCTION_BLOCK
 
+//VAR_GLOBAL
+//      fbNhWebAcces : _NhWebAcces;
+//END_VAR
+
 FUNCTION_BLOCK _NhWebControl    {HIDDEN}
   	VAR
       fbNhWebAcces : _NhWebAcces;
   	END_VAR
       fbNhWebAcces();                                                // riadenie pristupu na webserver
       // prechadza nadefinovane stranky
-      FOR aWeb.nbr := 1 TO _Nh_WEB_M DO
+      FOR aWeb.nbr := 1 TO 1 DO //_Nh_WEB_M DO
 //         IF aAcc.pgN.pg[aWeb.nbr].usage > 0 THEN                   // aktivna stranka
          xA       := ADR( aWeb.A[ aWeb.nbr ] );                      // dotk,canvas..
          IF xA^.usr > 0 THEN                                         // aktivna stranka
@@ -830,7 +834,7 @@ FUNCTION_BLOCK _NhWebControl    {HIDDEN}
                END_IF;
 
                _Nh_Web_CMD();               
-               
+
                aWeb.nrf := aWeb.nrf  + 1;
                aWeb.Go  := false;
             END_IF;

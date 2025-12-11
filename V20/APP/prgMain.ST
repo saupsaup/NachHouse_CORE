@@ -36,6 +36,7 @@ PROGRAM prgMain
 //    	webPush      	: fbWebPushService;
 
    END_VAR
+
 //	rb 							:= 1;
 	aSys.RWtoFileCycle		:= 0;																	// how many writes to all files in cyc
 	aSys.NhTime    			:= GetTime();
@@ -120,6 +121,8 @@ PROGRAM prgMain
 	aSys.RestCyc   	:= aSys.RestCyc + 1;
 
 
+	// fbNhWebAcces();
+   //  fbWebControl();
 
 	CASE aSys.ini OF
        0:	// riadna prevadzka
@@ -166,7 +169,9 @@ PROGRAM prgMain
 				END_IF;
 *)
             { $ IFDEF __NH_WEB }
+//IF fb_Nh_Backup.busy = false THEN
                fbWebControl();
+//END_IF;
             { $ END_IF }                      // zobrazenie nastavenych DEV - za DEV. Ak sa nieco prestavi vo web v dalej otocke sa to prejavi v DEV
             { $ IFDEF __NH_WRK }
                _NhDataWrk();
@@ -226,7 +231,7 @@ PROGRAM prgMain
      	
 
      	50:    // upravena ram do DBX
-            _Nh_Go_MemToDBX();
+            _Nh_Mem_To_DBX();
             yTx2  := 'Na zaver upravena  RAM->DBX';
             rb             := _Nh1RowTxt(logRst := 1);
 				aSys.ini       := 10;
@@ -320,14 +325,12 @@ PROGRAM prgMain
 
     	220:    // dorobi default vety + CAT,USR,FAV,HET ...,
             _Nh_Ini_DEFAUL_CFG();    							// dorobi default data					
-
-//				aSys.ini := 217;
-//RETURN;
-
-
+				aSys.UseRBx	   := aSys.IS_RBx; 					// now it is important for next work
             aSys.CfgRamOk  := true;
-            _Nh_Go_MemToDBX();                           // ulozi aktualnu RAM do DBX
+            _Nh_Mem_To_DBX();                           // ulozi aktualnu RAM do DBX
 				aSys.ini := 222;
+
+
 
 	 	222:    // START Import dev+HW address CIB
 				yTx2 		:= '->START Import CIB';
@@ -348,9 +351,6 @@ PROGRAM prgMain
    			END_IF;
 
     	225:    // skontroluje konzistenciu ROM,SBJ ....., nastartuje parametre
-
-
-
             _Nh_Ini_DEV_Test();
 				aSys.exp			:= 0;
            	aSys.ini       := 213;
@@ -374,78 +374,62 @@ PROGRAM prgMain
 	213-214 	_Nh_Ini_PAR_Test();	- testy PAR + prida nove PAR
 	200		_NhIniVAZ(); 			- konzistenia vazieb
 	190		_Nh_POI_INI();      	- skontroluje a prida POI
-	100-50	 _Nh_Go_MemToDBX(); 	- 'Na zaver upravena  RAM->DBX';
+	100-50	 _Nh_Mem_To_DBX(); 	- 'Na zaver upravena  RAM->DBX';
 	10			_Nh_DEV_RESTART(),_NhCloseAllFiles();	- pozatvara vsetky subory na SDC a otvori _NhLangTxt
 *)            			
 		
 
-	 	230:    // find CFG (aMem) in RamBox/DataBox/SDC, then copy to RamBox and then RBx->Mem
-//			 	IF aSys.NewDBX THEN
-			 	IF true THEN
-               aSys.NewDBX    := FALSE;
-					aSys.CfgBckOk	:=	false;
-					aSys.UseRBx	   := aSys.IS_RBx;
-					rb:=_NhSysLogMsg(msg:='NEW Cfg requested !');
-					aSys.Ini			:= 220;
-				ELSE
-(*
-					fb_Nh_Cfg_Backup.IniEnd:=230; fb_Nh_Cfg_Backup.IniErr:=239; fb_Nh_Cfg_Backup.IniRun:=255;	// predbezne
-					IF aSys.IS_RBx  THEN																			// from RamBox
-						IF _NhIsDBxCfgOk(RBx:=true) THEN                      						// v RBx je obraz mem
-    						yTx2  		:= '->RamBOX OK.';
-							aSys.UseRBx	:= true;
-							aSys.Ini 	:= 231;				
-						ELSIF aSys.CfgBckOk THEN      															// na zaciatku je 0, potom nastavi
-    						yTx2  			:= '...No-RBx,but File.Ok.{File->RBx}';
-							fb_Nh_Cfg_Backup.Go	:= 2;  fb_Nh_Cfg_Backup.write	:= FALSE;																		// file->RAM, next back here
-						ELSIF _NhIsDBxCfgOk(RBx:=false) THEN                      					// v DBX je obraz mem
-    						yTx2  		:= '..DBX-Ok.{DBX->File}';						
-							fb_Nh_Cfg_Backup.Go	:= 3;  fb_Nh_Cfg_Backup.write	:= FALSE;																		// file->RAM, next back here
-//							fb_Nh_Cfg_Backup.Go	:= 3;	   																// DBX->File
-						ELSE
-   	 					yTx2  			:= '...No RBx/DBx/File -> {Go empty: NewDBX=true}';						
-							aSys.NewDBX    := true;
-						END_IF;
-  					ELSIF aSys.CfgBckOk THEN																	// after
-  						yTx2  := '...CPU has no RamBox,but File from DBx.Ok.{now File->Mem}';
-						fb_Nh_Cfg_Backup.Go	:= 2;  fb_Nh_Cfg_Backup.write	:= FALSE; fb_Nh_Cfg_Backup.IniEnd:=220;	
 
-//						fb_Nh_Cfg_Backup.Go:=11; fb_Nh_Cfg_Backup.IniEnd:=220;												// file->Mem
-						aSys.UseRBx	:= false;
-					ELSIF _NhIsDBxCfgOk(RBx:=false) THEN                      						// v DBX je obraz mem
-  						yTx2  		:= '..CPU has no RamBox,but DBX-Ok.{DBX->File}';						
-						fb_Nh_Cfg_Backup.Go	:= 3;  fb_Nh_Cfg_Backup.write	:= FALSE;
-//						fb_Nh_Cfg_Backup.Go	:= 3;	   																	// DBX->File, next back here
-						aSys.UseRBx	:= true;
-					ELSE
-						yTx2 			:= 'CPU has no RamBox, and NOT DBX. {Go empty: NewDBX=true}';
-						aSys.NewDBX := true;
+	 	230:   // RESTORE CFG from RamBox/DataBox/SDC, then load to Mem or copy from file to to RamBox and then RBx->Mem
+				fb_Nh_Backup( go:=99, IniEnd:=231, IniRun:=232, IniErr:=233 ); 
+				rb := _NhSysLogMsg(msg:='-> Restore CFG-START');
+				aSys.Ini := 231;
+	 	231:  // runing RESTORE
+				aSys.Ini		:= 220;															// DEFAULT next task. (change in file section)
+			 	IF aSys.NewDBX THEN 		aSys.NewDBX := FALSE;
+					aSys.UseRBx	:= aSys.IS_RBx;
+					yTx2  		:= '-> NEW Cfg requested !';
+//					aSys.Ini		:= 220;
+				ELSIF _NhIsDBxCfgOk(what:=1) THEN               					// v RBx je obraz mem
+					yTx2  		:= '-> RamBOX OK.';
+					aSys.UseRBx	:= TRUE;
+//					aSys.Ini		:= 220;
+				ELSIF _NhIsDBxCfgOk(what:=3) THEN                      			// find BACKUP file			
+					yTx2 := ' .. file OK. Load -> ';
+					IF aSys.IS_RBx THEN			yTx2 := CONCAT(yTx2,' RBx.');
+						fb_Nh_Backup( go:=2 );						
+					ELSIF aSys.IS_DBx THEN		yTx2 := CONCAT(yTx2,' DBx.');
+						fb_Nh_Backup( go:=3 );						// DBx <- file
+					ELSE 								yTx2 := CONCAT(yTx2,' MEM directly, not Convert,append.');
+						fb_Nh_Backup( go:=1, IniEnd:=220 );		// MEM <- file  ... not load old CFG
 					END_IF;
-					rb:=_NhSysLogMsg(msg:=yTx2);
-*)
+				ELSIF _NhIsDBxCfgOk(what:=2) THEN                      			// v DBX je obraz mem
+					yTx2  		:= '-> DataBOX OK.';
+					aSys.UseRBx	:= FALSE;													// only temporary for first load from DBX, IF exist RBx then = TRUE
+//					aSys.Ini		:= 220;
+				ELSE yTx2 := ' .. No found RBx/Dbx/file -> Go to New CFG.';
+					aSys.NewDBX  := TRUE;
 				END_IF;					
-//				aSys.Ini := 226;
+				rb := _NhSysLogMsg(msg:=yTx2);
 
+	 	232:  ;	// running fb_Nh_Backup
+	 	233:  ;	// error fb_Nh_Backup
 
-	 	231:    // START 1.Import CFG DBX->Mem
-				yTx2 		:= CONCAT('START Load & Convert Old CFG: ',BOOL_TO_STRINGF(aSys.UseRBx,'%b{Rbx^DBX}'),'->Mem.',BOOL_TO_STRINGF(xDbx^.FromDBx128,' DBx128: %b{Y^N}') );
+		235:    // START 1.Import CFG DBX->Mem
+				yTx2 		:= CONCAT('-> START Load & Convert Old CFG: ',BOOL_TO_STRINGF(aSys.UseRBx,'%b{Rbx^DBX}'),'->Mem.',BOOL_TO_STRINGF(xDbx^.FromDBx128,' DBx128: %b{Y^N}') );
 				_Nh1RowTxt(logRst:=1); //,EmpRow:=1);
 	         fb_Nh_Cfg_Restart(init:=1, wh:=0, cx:=1);
-				aSys.Ini 		:= 232;
-
-	 	232:    // Running Load Old CFG
+				aSys.Ini 		:= 236;
+	 	236:    // Running Load Old CFG
             fb_Nh_Cfg_Restart();
 				IF fb_Nh_Cfg_Restart.done THEN
-					yTx2 	:= 'END Load Old CFG';
+					yTx2 	:= '-> END Load Old CFG';
 					_Nh1RowTxt(logRst:=1);
 					aSys.Ini 	:= 220;
    			END_IF;
 
 		238:    ;	//Error section 230
 		239:    ;	//Error section 230
-				;
-
-
 
 	 	240:    // aktualne formulare -> NH2/200/FRM
             { $ IFDEF __NH_FRM }
@@ -473,9 +457,10 @@ PROGRAM prgMain
             IF fb_Nh_Copy_Dir.io.err THEN
                aSys.Ini := 249;
             ELSIF fb_Nh_Copy_Dir.io.Done THEN
-//         		aSys.Ini := 230;
-         		aSys.Ini := 254;
+         		aSys.Ini := 230;
+//         		aSys.Ini := 254;
             END_IF;
+
 	 	243:  ;// End Copy
 	 	249: 	// Err Copy Dir
 				;
@@ -486,8 +471,9 @@ PROGRAM prgMain
 					rb 					:= ResizeRamBox( newSize := 16*1024);   	// 16MB*1024 = 16384 kByte
 					aSys.Size_RBx 		:= UINT_TO_UDINT( SizeOfRamBox() ) * 1024;   							// 128 kb   (128*1024=131072 Byte)
 					aSys.IS_RBx			:= aSys.Size_RBx >= 16777216;
+					aSys.UseRBx			:= aSys.IS_RBx;
 				ELSE
-					aSys.IS_RBx			:= false;
+					aSys.IS_RBx			:= FALSE;
 					aSys.Size_RBx 		:= 0;
 //					yTx1					:= 'WWW/LOGS/';
 			  	END_IF;
@@ -495,7 +481,7 @@ PROGRAM prgMain
 				rb							:=	DirCreate( dirName := yTx1 );							// create default LOG adr
 				aSys.Restart     		:= TRUE;
 				aSys.RefCyc				:=	1;
-				aSys.CfgBckOk			:=	FALSE;														// flag, that BckFile no-Exiat
+//				aSys.CfgBckOk			:=	FALSE;														// flag, that BckFile no-Exiat
 				aSys.Size_DBx 			:= UINT_TO_UDINT( SizeOfDataBox()) * 1024;   		// 128 kb   (128*1024=131072 Byte)
 				aSys.IS_DBX				:= aSys.Size_DBx >= 131072;
 				aDbx.aCfx[0]   := _cfg0;
@@ -510,7 +496,7 @@ PROGRAM prgMain
      				aPar[i].ofs   := aPar[i-1].ofs + aPar[i-1].siz ;
      			END_FOR;
 				RandomU(seed := _NhSeed, init:=true);
-				rb	:= SetValueToRamBox(ramBoxAddress:=0, length:=_NH_RAM, value := 0);
+//				rb	:= SetValueToRamBox(ramBoxAddress:=0, length:=_NH_RAM, value := 0);
 //				_Nh_CUST_RESTART();                          											// nejake vlasne veci po restarte
 				IF IS_COLD_RESTART_PLC 		THEN	yTx0:='COLD';
 				ELSIF IS_HOT_RESTART_PLC   THEN  yTx0:='HOT';
@@ -527,6 +513,9 @@ PROGRAM prgMain
 				rb:=_NhSysLogMsg(noIni:=TRUE,noTime:=TRUE,eRowAfter:=1,msg:=yTx2);
 				SYSTEM_S.F_EDGE_1DAY 	:= true;												// simulate new day for refresh day in room/het	
             aSys.Ini 					:= 241;
+
+            DISABLE_WEB_DEL_BUTTONS := FALSE;
+
 
     	251: 	// 2.cyc After restart - create dir OK
 //				_Nh_Log_Dbx_ADD(ev:='AL1',src:='PIR',key:='Pir-1',val:='On',subj:=1,rom:=101);
@@ -560,9 +549,9 @@ PROGRAM prgMain
 //		_NhSysUpd(file:=255);															// Mem->RBx, ked bude file > 10 aj RBx->file
 	ELSIF aSys.RestartBck = false THEN										// este nebol urobeny backup po restarte		
 		IF  aSys.ini = 0 AND SYSTEM_S.COUNTER_1SEC > 4 THEN     						// 1min after restart, create backup file
-//			IF _NhSysUpd(file:=255) THEN												// Mem->RBx, ked bude file > 10 aj RBx->file
-//				aSys.RestartBck 	:= true;
-//			END_IF;
+			IF _NhSysUpd(file:=254) THEN												// Mem->RBx, ked bude file > 10 aj RBx->file
+				aSys.RestartBck 	:= true;
+			END_IF;
 		END_IF
 	END_IF;
 
