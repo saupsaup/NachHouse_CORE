@@ -7,4 +7,10 @@
 	//	"mosaic.shareRoot": "\\\\Mac\\NachHouse",
 	"mosaic.makPathWin": "N:\\CORE\\V20\\APP\\APP.mak",
 	"mosaic.projectDir": "M:\\CORE\\V20\\APP",
+
+	  "favorites.resources": [
+    { "filePath": "APP.ST", "group": "APP order" },
+    { "filePath": "_Nh_01_SYS.st", "group": "APP order" },
+    { "filePath": "prgMain.ST", "group": "APP order" }
+  ]
 }
