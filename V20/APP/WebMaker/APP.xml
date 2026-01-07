@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="windows-1250" ?>
-<web version="8.1" propfont="true" foot="" dwMode="0" flat="true" MaxUid="20772" height="1219" width="610" menu="false" title="false" border="false" flatcolor="16771043" top="0" left="0" iniScale="100" maxScale="100" useIniScale="false" useMaxScale="false" userScale="true" webApp="true" bgdupl="true" bgcolor="16777215" icon="" id18="0" author="© Au Media, s.r.o." encoding="windows-1250">
+<web version="8.1" propfont="true" foot="" dwMode="0" flat="true" MaxUid="20774" height="1219" width="610" menu="false" title="false" border="false" flatcolor="16771043" top="0" left="0" iniScale="100" maxScale="100" useIniScale="false" useMaxScale="false" userScale="true" webApp="true" bgdupl="true" bgcolor="16777215" icon="" id18="0" author="© Au Media, s.r.o." encoding="windows-1250">
 	<panels></panels>
 	<Grid Enable="1" X="5" Y="5" />
 	<globalset newdim="1" maxvar="0" />
@@ -14,7 +14,8 @@
 		</page>
 	</group>
 	<group caption="M" level="1" locked="0" altdim="false" notforid="true" Uid="20544">
-		<page caption="003_NHM" name="003_NHM.XML" background="" bgcolor="3548178" repeat="false" hidden="true" jsonmap="true" ajax="true" pause="100" level="1" ucid="1764018814" width="590" height="1199" Uid="20545" default="true">
+		<placeholders></placeholders>
+		<page caption="003_NHM" name="003_NHM.XML" background="" bgcolor="3548178" repeat="false" hidden="true" jsonmap="true" ajax="true" pause="100" level="1" default="true" Uid="20545" ucid="1767609093" width="590" height="1199">
 			<placeholders>
 				<alias name="web" type="NH_M" description="">aWeb.M[3]</alias>
 				<alias name="can" type="NH_CAN" description="">aWeb.A[3].can</alias>
@@ -794,7 +795,7 @@
 				<image optcap="" variable="SYSTEM_S.S2_2" type="BOOL" on="ERR_PNG.PNG" off="ERR_PNG.PNG" />
 			</object>
 		</page>
-		<page caption="001_NHM" name="001_NHM.XML" background="" bgcolor="3548178" repeat="false" hidden="true" jsonmap="true" ajax="true" pause="100" level="1" ucid="1764018888" width="590" height="1199" Uid="20552">
+		<page caption="001_NHM" name="001_NHM.XML" background="" bgcolor="3548178" repeat="false" hidden="true" jsonmap="true" ajax="true" pause="100" level="1" Uid="20552" ucid="1767610264" width="590" height="1199">
 			<placeholders>
 				<alias name="web" type="NH_M" description="">aWeb.M[1]</alias>
 				<alias name="can" type="NH_CAN" description="">aWeb.A[1].can</alias>

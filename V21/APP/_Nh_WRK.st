@@ -114,10 +114,10 @@ VAR_GLOBAL                                            // len pre ladenie
 
 //	yDor			{HIDDEN} : ARRAY[1..10]  OF NH_DOR;
 
-//	yFav			{HIDDEN} : ARRAY[1..10]  OF NH_FAV;
-//   yZas 			{HIDDEN} : ARRAY[1..15]  OF NH_SVD;
-//   pZas 			{HIDDEN} : ARRAY[1..10]  OF NH_SVD_PAR;
-//	yyUsr			{HIDDEN} : ARRAY[1..7]   OF NH_USR;
+	yFav			{HIDDEN} : ARRAY[1..10]  OF NH_FAV;
+   yZas 			{HIDDEN} : ARRAY[1..15]  OF NH_SVD;
+   pZas 			{HIDDEN} : ARRAY[1..10]  OF NH_SVD_PAR;
+	yyUsr			{HIDDEN} : ARRAY[1..7]   OF NH_USR;
 
 //	ySmw			{HIDDEN} : ARRAY[1..10]  OF NH_SMW;
 

@@ -1,7 +1,10 @@
 {
 	"folders": [
+		//{
+		//	"path": "../CORE/V20/APP/"
+		//},
 		{
-			"path": "../CORE/V20/APP"
+			"path": "V22/NH2"
 		}
 	],
 	"settings": {
@@ -144,7 +147,7 @@
 			"Default",
 			"APP order",
 		],
-		"favorites.currentGroup": "APP order",
+		"favorites.currentGroup": "Default",
 
 		"favorites.resources": [
 			{

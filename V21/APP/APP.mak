@@ -1,7 +1,7 @@
 ﻿;# Varování: Tento soubor je spravován vývojovým prostredím Mosaic.
 ;# Nedoporucuje se upravovat ho rucne!
 
-#program APP , V2.1.0.0
+#program NH2 , V2.1.0.0
 ;**************************************
 #libname "_NH", 20251128
 ;<ActionName/>

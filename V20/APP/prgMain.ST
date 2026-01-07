@@ -170,7 +170,8 @@ PROGRAM prgMain
 *)
             { $ IFDEF __NH_WEB }
 //IF fb_Nh_Backup.busy = false THEN
-               fbWebControl();
+
+			      fbWebControl();
 //END_IF;
             { $ END_IF }                      // zobrazenie nastavenych DEV - za DEV. Ak sa nieco prestavi vo web v dalej otocke sa to prejavi v DEV
             { $ IFDEF __NH_WRK }
@@ -178,8 +179,8 @@ PROGRAM prgMain
 			{ $ END_IF }
 
 //         _NhDevControl();           // fyzicke nastavenie DEV, malo buy byt prve
-			fbNotify();
-			fbWebPush();
+//			fbNotify();
+//			fbWebPush();
             
 			aSys.F_EDGE_1MIN		:= FALSE;		// vynuluje sa edge
 			aSys.F_EDGE_1HOUR		:= FALSE;		// vynuluje sa edge			
@@ -546,9 +547,9 @@ PROGRAM prgMain
 //		_NhSysUpd(file:=255);															// Mem->RBx, ked bude file > 10 aj RBx->file
 	ELSIF aSys.RestartBck = false THEN										// este nebol urobeny backup po restarte		
 		IF  aSys.ini = 0 AND SYSTEM_S.COUNTER_1SEC > 4 THEN     						// 1min after restart, create backup file
-//			IF _NhSysUpd(file:=254) THEN												// Mem->RBx, ked bude file > 10 aj RBx->file
+			IF _NhSysUpd(file:=254) THEN												// Mem->RBx, ked bude file > 10 aj RBx->file
 				aSys.RestartBck 	:= true;
-//			END_IF;
+			END_IF;
 		END_IF
 	END_IF;
 

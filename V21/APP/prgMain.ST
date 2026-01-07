@@ -473,8 +473,8 @@ PROGRAM prgMain
             IF fb_Nh_Copy_Dir.io.err THEN
                aSys.Ini := 249;
             ELSIF fb_Nh_Copy_Dir.io.Done THEN
-//         		aSys.Ini := 230;
-         		aSys.Ini := 254;
+         		aSys.Ini := 230;
+//         		aSys.Ini := 254;
             END_IF;
 	 	243:  ;// End Copy
 	 	249: 	// Err Copy Dir

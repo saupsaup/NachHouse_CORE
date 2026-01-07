@@ -3618,7 +3618,7 @@ FUNCTION_BLOCK _Nh_Backup		// backup MEM/RAM/DBX -> File or Restore File -> MEM/
 						go := go + 1;
 					END_IF;
 				END_IF;	
-				_NhOulog(msg:='-> start ',io:=io);
+//				_NhOulog(msg:='-> start ',io:=io);
 		100:	// run
 				fbRW(); 
 				IF fbRW.io.done THEN

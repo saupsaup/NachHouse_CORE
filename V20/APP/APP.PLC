@@ -172,7 +172,7 @@ vartemp=1
 [/compileropts]
 
 [filesystem]
-autofiletransfer=0
+autofiletransfer=1
 sendpux=0
 sendexp=1
 sendpub=0
@@ -185,7 +185,7 @@ ttrpckgpass=""
 ttrpckgpasswarn=1
 ttrpckgpswtxt=1
 ttrpckgolcmapr=0
-ttrpckgolcname=0
+ttrpckgolcname=1
 genpuxver=0
 puxutf8=0
 geniecexp=1

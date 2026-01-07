@@ -14,7 +14,7 @@ dirs=""
 
 [plcselection]
 connection=2
-openchannel=1
+openchannel=0
 chanel=0
 speed=9
 tout=500

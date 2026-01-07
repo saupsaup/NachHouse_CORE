@@ -99,9 +99,11 @@ watchobj0="fb_Nh_Backup",1,0,0,""
 [Watch2Bank5]
 bankname="DATA"
 shortcut=7
-watchcnt=1
+watchcnt=2
 bindfile=""
 watchobjEx0=0,"yRom|"
 watchobj0="yRom",1,0,0,""
+watchobjEx1=0,"yTve|{+}"
+watchobj1="yTve",1,0,0,""
 [/Watch2Bank5]
 

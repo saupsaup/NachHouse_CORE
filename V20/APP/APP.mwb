@@ -10,9 +10,9 @@ watchcnt=11
 bindfile=""
 watchobjEx0=0,"aWeb.M[1].lvl|"
 watchobj0="aWeb.M[1].lvl",1,0,0,""
-watchobjEx1=0,"aWeb.M[1].lvd|"
+watchobjEx1=0,"aWeb.M[1].lvd|{+}"
 watchobj1="aWeb.M[1].lvd",1,0,0,""
-watchobjEx2=0,"aWeb.M[1].brw.r|{+[1]{+o{+ob{+[10]{+}}}}}"
+watchobjEx2=0,"aWeb.M[1].brw.r|"
 watchobj2="aWeb.M[1].brw.r",1,0,0,""
 watchobjEx3=0,"aWeb.M[1].mnu|"
 watchobj3="aWeb.M[1].mnu",1,0,0,""
@@ -35,7 +35,7 @@ watchobj10="CustomizedLoginPage",1,0,0,""
 [Watch2Bank1]
 bankname="xxx"
 shortcut=3
-watchcnt=11
+watchcnt=12
 bindfile=""
 watchobjEx0=0,"aWht.t|"
 watchobj0="aWht.t",1,0,0,""
@@ -59,6 +59,8 @@ watchobjEx9=0,"yFrmData|"
 watchobj9="yFrmData",1,0,0,""
 watchobjEx10=0,"yImp|"
 watchobj10="yImp",1,0,0,""
+watchobjEx11=0,"i|"
+watchobj11="i",1,0,0,""
 [/Watch2Bank1]
 
 [Watch2Bank2]
@@ -70,9 +72,9 @@ watchobjEx0=0,"aSys|"
 watchobj0="aSys",1,0,0,""
 watchobjEx1=0,"SYSTEM_S|"
 watchobj1="SYSTEM_S",1,0,0,""
-watchobjEx2=0,"aCfg|{+}"
+watchobjEx2=0,"aCfg|"
 watchobj2="aCfg",1,0,0,""
-watchobjEx3=0,"aDbx|"
+watchobjEx3=0,"aDbx|{+}"
 watchobj3="aDbx",1,0,0,""
 watchobjEx4=0,"yFrmName|"
 watchobj4="yFrmName",1,0,0,""
@@ -95,11 +97,11 @@ watchobjEx4=0,"fS|"
 watchobj4="fS",1,0,0,""
 watchobjEx5=0,"aSys.OpenFilesCount|"
 watchobj5="aSys.OpenFilesCount",1,0,0,""
-watchobjEx6=0,"yFrm_012|{+}"
+watchobjEx6=0,"yFrm_012|"
 watchobj6="yFrm_012",1,0,0,""
-watchobjEx7=0,"yyFrm_012|{+r0{+ob{+}}}"
+watchobjEx7=0,"yyFrm_012|"
 watchobj7="yyFrm_012",1,0,0,""
-watchobjEx8=0,"yFrm_246|{+hed{+}}"
+watchobjEx8=0,"yFrm_246|"
 watchobj8="yFrm_246",1,0,0,""
 [/Watch2Bank3]
 
@@ -117,8 +119,8 @@ bankname="VAZ"
 shortcut=1
 watchcnt=1
 bindfile=""
-watchobjEx0=0,"yVaz1|{+}"
-watchobj0="yVaz1",1,0,0,""
+watchobjEx0=0,"yImp|{+}"
+watchobj0="yImp",1,0,0,""
 [/Watch2Bank5]
 
 [Watch2Bank6]
